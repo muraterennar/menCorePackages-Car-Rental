@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using FluentValidation;
+using MenCore.Application.Pipelines.Transaction;
 using MenCore.Application.Pipelines.Validation;
 using MenCore.Application.Rules;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,6 +21,7 @@ public static class ApplicationServiceRegistration
         {
             configuration.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly());
             configuration.AddOpenBehavior(typeof(RequestValidationBehavior<,>));
+            configuration.AddOpenBehavior(typeof(TransactionScopeBehavior<,>));
         });
 
         return services;
