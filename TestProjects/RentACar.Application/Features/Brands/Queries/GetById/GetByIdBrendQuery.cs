@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
-using RentACar.Application.Services.Repositories.BrandRepositories;
+using RentACar.Application.Services.Repositories;
 using RentACar.Domaim.Entities;
 
 namespace RentACar.Application.Features.Brands.Queries.GetById;

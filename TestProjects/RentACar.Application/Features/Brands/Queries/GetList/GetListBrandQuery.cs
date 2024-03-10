@@ -3,7 +3,7 @@ using MediatR;
 using MenCore.Application.Request;
 using MenCore.Application.Responses;
 using MenCore.Persistence.Paging;
-using RentACar.Application.Services.Repositories.BrandRepositories;
+using RentACar.Application.Services.Repositories;
 using RentACar.Domaim.Entities;
 
 namespace RentACar.Application.Features.Brands.Queries.GetList;

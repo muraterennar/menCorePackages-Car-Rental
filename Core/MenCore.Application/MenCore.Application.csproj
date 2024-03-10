@@ -9,12 +9,25 @@
   <ItemGroup>
     <None Remove="Request\" />
     <None Remove="Responses\" />
+    <None Remove="Rules\" />
+    <None Remove="Pipelines\" />
+    <None Remove="Pipelines\Validation\" />
+    <None Remove="Pipelines\Transaction\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Request\" />
     <Folder Include="Responses\" />
+    <Folder Include="Rules\" />
+    <Folder Include="Pipelines\" />
+    <Folder Include="Pipelines\Validation\" />
+    <Folder Include="Pipelines\Transaction\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MenCore.Persistence\MenCore.Persistence.csproj" />
+    <ProjectReference Include="..\MenCore.CrossCuttingConserns\MenCore.CrossCuttingConserns.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="12.2.0" />
+    <PackageReference Include="FluentValidation" Version="11.9.0" />
   </ItemGroup>
 </Project>

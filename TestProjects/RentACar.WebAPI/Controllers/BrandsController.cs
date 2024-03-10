@@ -2,10 +2,11 @@
 using MenCore.Application.Responses;
 using Microsoft.AspNetCore.Mvc;
 using RentACar.Application.Features.Brands.Commands.Create;
+using RentACar.Application.Features.Brands.Commands.Delete;
 using RentACar.Application.Features.Brands.Commands.Update;
 using RentACar.Application.Features.Brands.Queries.GetById;
 using RentACar.Application.Features.Brands.Queries.GetList;
-using RentACar.Application.Services.Repositories.BrandRepositories;
+using RentACar.Application.Services.Repositories;
 using RentACar.Domaim.Entities;
 
 namespace RentACar.WebAPI.Controllers;
@@ -48,6 +49,12 @@ public class BrandsController : BaseController
     {
         UpdateBrandResponse response = await Mediator.Send(updateBrandCommand);
         return Ok(response);
+    }
 
+    [HttpDelete("delete")]
+    public async Task<IActionResult> Delete ([FromBody] DeletedBrandCommand deletedBrandCommand)
+    {
+        DeletedBrandResponse response = await Mediator.Send<DeletedBrandResponse>(deletedBrandCommand);
+        return Ok(response);
     }
 }
