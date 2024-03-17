@@ -21,6 +21,9 @@ public class BaseDatabaseContext : DbContext
     {
         if (!optionsBuilder.IsConfigured)
         {
+            //TODO: Transaction İşleminde Sorun Çıkarıyor => EnableRetryOnFailure()
+            //optionsBuilder.UseSqlServer("Server=localhost;Database=TestCarRentalDb;user id=SA;password=MyPass@word;TrustServerCertificate=true", options => options.EnableRetryOnFailure());
+
             optionsBuilder.UseSqlServer("Server=localhost;Database=TestCarRentalDb;user id=SA;password=MyPass@word;TrustServerCertificate=true");
         }
     }

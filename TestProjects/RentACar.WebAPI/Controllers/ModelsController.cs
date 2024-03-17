@@ -21,7 +21,6 @@ public class ModelsController : BaseController
     public async Task<IActionResult> GetListByDynamic ([FromQuery] PageRequest pageRequest, [FromBody] DynamicQuery dynamicQuery)
     {
         //TODO: Arama yöntemi İlişkili Tablolarda "Brand.brandName" veya "Fuel.FuelName" şeklinde olmalıdır
-
         GetListByDynamicModelQuery getListByDynamicModelQuery = new() { PageRequest = pageRequest, DynamicQuery = dynamicQuery };
         GetListResponse<GetListByDynamicModelListItemDto> response = await Mediator.Send(getListByDynamicModelQuery);
         return Ok(response);
