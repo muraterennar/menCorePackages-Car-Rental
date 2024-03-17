@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using FluentValidation;
+using MenCore.Application.Pipelines.Caching;
 using MenCore.Application.Pipelines.Transaction;
 using MenCore.Application.Pipelines.Validation;
 using MenCore.Application.Rules;
@@ -9,7 +10,7 @@ namespace RentACar.Application;
 
 public static class ApplicationServiceRegistration
 {
-    public static IServiceCollection AddApplicationServices (this IServiceCollection services)
+    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
@@ -22,13 +23,15 @@ public static class ApplicationServiceRegistration
             configuration.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly());
             configuration.AddOpenBehavior(typeof(RequestValidationBehavior<,>));
             configuration.AddOpenBehavior(typeof(TransactionScopeBehavior<,>));
+            configuration.AddOpenBehavior(typeof(CachingBehavior<,>));
+            configuration.AddOpenBehavior(typeof(CacheRemovingBehavier<,>));
         });
 
         return services;
     }
 
     #region Tipi Verilen Türde Olan Herşeyi IoC ye Ekleyen Method
-    public static IServiceCollection AddSubClassessOfType (this IServiceCollection services, Assembly assembly, Type type, Func<IServiceCollection, Type, IServiceCollection>? addWithLifeCycle = null)
+    public static IServiceCollection AddSubClassessOfType(this IServiceCollection services, Assembly assembly, Type type, Func<IServiceCollection, Type, IServiceCollection>? addWithLifeCycle = null)
     {
         // Verilen derleme içindeki tüm tipleri alır
         var types = assembly.GetTypes().Where(t => t.IsSubclassOf(type) && type != t).ToList();

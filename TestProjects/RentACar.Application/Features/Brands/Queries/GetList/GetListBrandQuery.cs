@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using MenCore.Application.Pipelines.Caching;
 using MenCore.Application.Request;
 using MenCore.Application.Responses;
 using MenCore.Persistence.Paging;
@@ -8,9 +9,17 @@ using RentACar.Domaim.Entities;
 
 namespace RentACar.Application.Features.Brands.Queries.GetList;
 
-public class GetListBrandQuery : IRequest<GetListResponse<GetListBrandListItemDto>>
+public class GetListBrandQuery : IRequest<GetListResponse<GetListBrandListItemDto>>, ICachableRequest
 {
     public PageRequest PageRequest { get; set; }
+
+    public string CacheGroupKey => "GetBrands";
+
+    public string CacheKey => $"GetListBrandQuery({PageRequest.PageIndex}, {PageRequest.PageSize})";
+
+    public bool BypassCache { get; }
+
+    public TimeSpan? SlidingExpiration { get; }
 
     public class GetListBrandQueryHandler : IRequestHandler<GetListBrandQuery, GetListResponse<GetListBrandListItemDto>>
     {

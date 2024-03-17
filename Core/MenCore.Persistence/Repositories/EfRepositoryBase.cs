@@ -21,20 +21,20 @@ public class EfRepositoryBase<TEntity, TEntityId, TContext> : IAsyncRepository<T
     protected readonly TContext _context;
 
     // Dependency Injection ile veritabanı bağlamını alır.
-    public EfRepositoryBase (TContext context)
+    public EfRepositoryBase(TContext context)
     {
         _context = context;
     }
 
     // Veritabanı sorgusunu temsil eden IQueryable nesnesini döndürür.
-    public IQueryable<TEntity> Query ()
+    public IQueryable<TEntity> Query()
     {
         return _context.Set<TEntity>();
     }
 
     #region ------------- Async Operations -------------
     // Asenkron olarak filtrelenmiş, sıralanmış, ilişkilendirilmiş ve sayfalı bir liste döndürür.
-    public async Task<Paginate<TEntity>> GetListAsync (Expression<Func<TEntity, bool>> predicate = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null, int index = 0, int size = 10, bool withDeleted = false, bool enableTracking = true, CancellationToken cancellationToken = default)
+    public async Task<Paginate<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> predicate = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null, int index = 0, int size = 10, bool withDeleted = false, bool enableTracking = true, CancellationToken cancellationToken = default)
     {
         IQueryable<TEntity> queryable = Query();
         if (!enableTracking)
@@ -51,7 +51,7 @@ public class EfRepositoryBase<TEntity, TEntityId, TContext> : IAsyncRepository<T
     }
 
     // Dinamik sorgu kullanarak asenkron olarak filtrelenmiş, ilişkilendirilmiş ve sayfalı bir liste döndürür.
-    public async Task<Paginate<TEntity>> GetListByDynamicAsync (DynamicQuery dynamic, Expression<Func<TEntity, bool>> predicate = null, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null, int index = 0, int size = 10, bool withDeleted = false, bool enableTracking = true, CancellationToken cancellationToken = default)
+    public async Task<Paginate<TEntity>> GetListByDynamicAsync(DynamicQuery dynamic, Expression<Func<TEntity, bool>> predicate = null, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null, int index = 0, int size = 10, bool withDeleted = false, bool enableTracking = true, CancellationToken cancellationToken = default)
     {
         IQueryable<TEntity> queryable = Query().ToDynamic(dynamic);
         if (!enableTracking)
@@ -66,7 +66,7 @@ public class EfRepositoryBase<TEntity, TEntityId, TContext> : IAsyncRepository<T
     }
 
     // Asenkron olarak belirli bir ölçüt ile varlık alır.
-    public async Task<TEntity> GetAsync (Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null, bool withDeleted = false, bool enableTracking = true, CancellationToken cancellationToken = default)
+    public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null, bool withDeleted = false, bool enableTracking = true, CancellationToken cancellationToken = default)
     {
         IQueryable<TEntity> queryable = Query();
         if (!enableTracking)
@@ -79,7 +79,7 @@ public class EfRepositoryBase<TEntity, TEntityId, TContext> : IAsyncRepository<T
     }
 
     // Asenkron olarak belirli bir ölçüte göre varlık var mı kontrol eder.
-    public async Task<bool> AnyAsync (Expression<Func<TEntity, bool>> predicate = null, bool withDeleted = false, bool enableTracking = true, CancellationToken cancellationToken = default)
+    public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate = null, bool withDeleted = false, bool enableTracking = true, CancellationToken cancellationToken = default)
     {
         IQueryable<TEntity> queryable = Query();
         if (!enableTracking)
@@ -92,7 +92,7 @@ public class EfRepositoryBase<TEntity, TEntityId, TContext> : IAsyncRepository<T
     }
 
     // Asenkron olarak bir varlık ekler.
-    public async Task<TEntity> AddAsync (TEntity entity)
+    public async Task<TEntity> AddAsync(TEntity entity)
     {
         entity.CreatedDate = DateTime.UtcNow;
         await _context.AddAsync(entity);
@@ -101,7 +101,7 @@ public class EfRepositoryBase<TEntity, TEntityId, TContext> : IAsyncRepository<T
     }
 
     // Asenkron olarak bir koleksiyon varlık ekler.
-    public async Task<ICollection<TEntity>> AddRangeAsync (ICollection<TEntity> entities)
+    public async Task<ICollection<TEntity>> AddRangeAsync(ICollection<TEntity> entities)
     {
         foreach (TEntity entity in entities)
             entity.CreatedDate = DateTime.UtcNow;
@@ -112,7 +112,7 @@ public class EfRepositoryBase<TEntity, TEntityId, TContext> : IAsyncRepository<T
     }
 
     // Asenkron olarak bir varlık günceller.
-    public async Task<TEntity> UpdateAsync (TEntity entity)
+    public async Task<TEntity> UpdateAsync(TEntity entity)
     {
         entity.UpdatedDate = DateTime.UtcNow;
         _context.Update(entity);
@@ -121,7 +121,7 @@ public class EfRepositoryBase<TEntity, TEntityId, TContext> : IAsyncRepository<T
     }
 
     // Asenkron olarak bir koleksiyon varlık günceller.
-    public async Task<ICollection<TEntity>> UpdateRangeAsync (ICollection<TEntity> entities)
+    public async Task<ICollection<TEntity>> UpdateRangeAsync(ICollection<TEntity> entities)
     {
         foreach (TEntity entity in entities)
             entity.UpdatedDate = DateTime.UtcNow;
@@ -131,7 +131,7 @@ public class EfRepositoryBase<TEntity, TEntityId, TContext> : IAsyncRepository<T
     }
 
     // Asenkron olarak bir varlık siler.
-    public async Task<TEntity> DeleteAsync (TEntity entity, bool permanent = false)
+    public async Task<TEntity> DeleteAsync(TEntity entity, bool permanent = false)
     {
         await SetEntityAsDeletedAsync(entity, permanent);
         await _context.SaveChangesAsync();
@@ -139,7 +139,7 @@ public class EfRepositoryBase<TEntity, TEntityId, TContext> : IAsyncRepository<T
     }
 
     // Asenkron olarak bir koleksiyon varlık siler.
-    public async Task<ICollection<TEntity>> DeleteRangeAsync (ICollection<TEntity> entities, bool permanent = false)
+    public async Task<ICollection<TEntity>> DeleteRangeAsync(ICollection<TEntity> entities, bool permanent = false)
     {
         foreach (TEntity entity in entities)
             await SetEntityAsDeletedAsync(entity, permanent);
@@ -150,7 +150,7 @@ public class EfRepositoryBase<TEntity, TEntityId, TContext> : IAsyncRepository<T
 
     #region ------------- Sync Operations -------------
     // Senkron olarak filtrelenmiş, sıralanmış, ilişkilendirilmiş ve sayfalı bir liste döndürür.
-    public Paginate<TEntity> GetList (Expression<Func<TEntity, bool>> predicate = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null, int index = 0, int size = 10, bool withDeleted = false, bool enableTracking = true)
+    public Paginate<TEntity> GetList(Expression<Func<TEntity, bool>> predicate = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null, int index = 0, int size = 10, bool withDeleted = false, bool enableTracking = true)
     {
         IQueryable<TEntity> queryable = Query();
         if (!enableTracking)
@@ -167,7 +167,7 @@ public class EfRepositoryBase<TEntity, TEntityId, TContext> : IAsyncRepository<T
     }
 
     // Senkron olarak dinamik sorgu kullanarak filtrelenmiş, ilişkilendirilmiş ve sayfalı bir liste döndürür.
-    public Paginate<TEntity> GetListByDynamic (DynamicQuery dynamic, Expression<Func<TEntity, bool>> predicate = null, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null, int index = 0, int size = 10, bool withDeleted = false, bool enableTracking = true)
+    public Paginate<TEntity> GetListByDynamic(DynamicQuery dynamic, Expression<Func<TEntity, bool>> predicate = null, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null, int index = 0, int size = 10, bool withDeleted = false, bool enableTracking = true)
     {
         IQueryable<TEntity> queryable = Query().ToDynamic(dynamic);
         if (!enableTracking)
@@ -182,7 +182,7 @@ public class EfRepositoryBase<TEntity, TEntityId, TContext> : IAsyncRepository<T
     }
 
     // Senkron olarak belirli bir ölçüt ile varlık alır.
-    public TEntity Get (Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null, bool withDeleted = false, bool enableTracking = true)
+    public TEntity Get(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null, bool withDeleted = false, bool enableTracking = true)
     {
         IQueryable<TEntity> queryable = Query();
         if (!enableTracking)
@@ -195,7 +195,7 @@ public class EfRepositoryBase<TEntity, TEntityId, TContext> : IAsyncRepository<T
     }
 
     // Senkron olarak belirli bir ölçüte göre varlık var mı kontrol eder.
-    public bool Any (Expression<Func<TEntity, bool>> predicate = null, bool withDeleted = false, bool enableTracking = true)
+    public bool Any(Expression<Func<TEntity, bool>> predicate = null, bool withDeleted = false, bool enableTracking = true)
     {
         IQueryable<TEntity> queryable = Query();
         if (!enableTracking)
@@ -208,7 +208,7 @@ public class EfRepositoryBase<TEntity, TEntityId, TContext> : IAsyncRepository<T
     }
 
     // Senkron olarak bir varlık ekler.
-    public TEntity Add (TEntity entity)
+    public TEntity Add(TEntity entity)
     {
         entity.CreatedDate = DateTime.UtcNow;
         _context.Add(entity);
@@ -217,7 +217,7 @@ public class EfRepositoryBase<TEntity, TEntityId, TContext> : IAsyncRepository<T
     }
 
     // Senkron olarak bir koleksiyon varlık ekler.
-    public ICollection<TEntity> AddRange (ICollection<TEntity> entities)
+    public ICollection<TEntity> AddRange(ICollection<TEntity> entities)
     {
         foreach (TEntity entity in entities)
             entity.CreatedDate = DateTime.UtcNow;
@@ -227,7 +227,7 @@ public class EfRepositoryBase<TEntity, TEntityId, TContext> : IAsyncRepository<T
     }
 
     // Senkron olarak bir varlık günceller.
-    public TEntity Update (TEntity entity)
+    public TEntity Update(TEntity entity)
     {
         entity.UpdatedDate = DateTime.UtcNow;
         _context.Update(entity);
@@ -236,7 +236,7 @@ public class EfRepositoryBase<TEntity, TEntityId, TContext> : IAsyncRepository<T
     }
 
     // Senkron olarak bir koleksiyon varlık günceller.
-    public ICollection<TEntity> UpdateRange (ICollection<TEntity> entities)
+    public ICollection<TEntity> UpdateRange(ICollection<TEntity> entities)
     {
         foreach (TEntity entity in entities)
             entity.UpdatedDate = DateTime.UtcNow;
@@ -246,7 +246,7 @@ public class EfRepositoryBase<TEntity, TEntityId, TContext> : IAsyncRepository<T
     }
 
     // Senkron olarak bir varlık siler.
-    public TEntity Delete (TEntity entity, bool permanent = false)
+    public TEntity Delete(TEntity entity, bool permanent = false)
     {
         SetEntityAsDeleted(entity, permanent);
         _context.SaveChanges();
@@ -254,7 +254,7 @@ public class EfRepositoryBase<TEntity, TEntityId, TContext> : IAsyncRepository<T
     }
 
     // Senkron olarak bir koleksiyon varlık siler.
-    public ICollection<TEntity> DeleteRange (ICollection<TEntity> entities, bool permanent = false)
+    public ICollection<TEntity> DeleteRange(ICollection<TEntity> entities, bool permanent = false)
     {
         SetEntityAsDeleted(entities, permanent);
         _context.SaveChanges();
@@ -264,7 +264,7 @@ public class EfRepositoryBase<TEntity, TEntityId, TContext> : IAsyncRepository<T
 
     #region ------------- Helper Methods -------------
     // Varlığı silmek için bir yöntem çağrısında çağrılmak üzere ayarlanmış, bu işlem veritabanı bağlamı tarafından yapılır.
-    protected async Task SetEntityAsDeletedAsync (TEntity entity, bool permanent)
+    protected async Task SetEntityAsDeletedAsync(TEntity entity, bool permanent)
     {
         if (!permanent)
         {
@@ -276,14 +276,14 @@ public class EfRepositoryBase<TEntity, TEntityId, TContext> : IAsyncRepository<T
     }
 
     // Bir varlık koleksiyonunu silmek için bir yöntem çağrısında çağrılmak üzere ayarlanmış, bu işlem veritabanı bağlamı tarafından yapılır.
-    protected async Task SetEntityAsDeletedAsync (IEnumerable<TEntity> entities, bool permanent)
+    protected async Task SetEntityAsDeletedAsync(IEnumerable<TEntity> entities, bool permanent)
     {
         foreach (TEntity entity in entities)
             await SetEntityAsDeletedAsync(entity, permanent);
     }
 
     // Varlığı silmek için bir yöntem çağrısında çağrılmak üzere ayarlanmış, bu işlem veritabanı bağlamı tarafından yapılır.
-    protected void SetEntityAsDeleted (TEntity entity, bool permanent)
+    protected void SetEntityAsDeleted(TEntity entity, bool permanent)
     {
         if (!permanent)
         {
@@ -295,14 +295,14 @@ public class EfRepositoryBase<TEntity, TEntityId, TContext> : IAsyncRepository<T
     }
 
     // Bir varlık koleksiyonunu silmek için bir yöntem çağrısında çağrılmak üzere ayarlanmış, bu işlem veritabanı bağlamı tarafından yapılır.
-    protected void SetEntityAsDeleted (IEnumerable<TEntity> entities, bool permanent)
+    protected void SetEntityAsDeleted(IEnumerable<TEntity> entities, bool permanent)
     {
         foreach (TEntity entity in entities)
             SetEntityAsDeleted(entity, permanent);
     }
 
     // Bir ilişkisel yükleyici sorgusu oluşturmak için yardımcı bir yöntem.
-    protected IQueryable<object> GetRelationLoaderQuery (IQueryable query, Type navigationPropertyType)
+    protected IQueryable<object> GetRelationLoaderQuery(IQueryable query, Type navigationPropertyType)
     {
         Type queryProviderType = query.Provider.GetType();
         MethodInfo createQueryMethod =
@@ -312,12 +312,12 @@ public class EfRepositoryBase<TEntity, TEntityId, TContext> : IAsyncRepository<T
                 ?.MakeGenericMethod(navigationPropertyType)
             ?? throw new InvalidOperationException("CreateQuery<TElement> method is not found in IQueryProvider.");
         var queryProviderQuery =
-            (IQueryable<object>) createQueryMethod.Invoke(query.Provider, parameters: new object[] { query.Expression })!;
-        return queryProviderQuery.Where(x => !((IEntityTimeStamps) x).DeletedDate.HasValue);
+            (IQueryable<object>)createQueryMethod.Invoke(query.Provider, parameters: new object[] { query.Expression })!;
+        return queryProviderQuery.Where(x => !((IEntityTimeStamps)x).DeletedDate.HasValue);
     }
 
     // Varlığın tek bir ilişkisi olduğunda, silme işlemi sırasında problemler oluşturabilecek bir yöntem.
-    protected void CheckHasEntityHaveOneToOneRelation (TEntity entity)
+    protected void CheckHasEntityHaveOneToOneRelation(TEntity entity)
     {
         IEnumerable<IForeignKey> foreignKeys = _context.Entry(entity).Metadata.GetForeignKeys();
         bool hasEntityHaveOneToOneRelation =
@@ -334,7 +334,7 @@ public class EfRepositoryBase<TEntity, TEntityId, TContext> : IAsyncRepository<T
     }
 
     // Bir varlığı soft delete (kalıcı olmayan silme) olarak işaretlemek için asenkron bir yöntem.
-    private async Task setEntityAsSoftDeletedAsync (IEntityTimeStamps entity)
+    private async Task setEntityAsSoftDeletedAsync(IEntityTimeStamps entity)
     {
         if (entity.DeletedDate.HasValue)
             return;
@@ -366,7 +366,7 @@ public class EfRepositoryBase<TEntity, TEntityId, TContext> : IAsyncRepository<T
                         continue;
                 }
 
-                foreach (IEntityTimeStamps navValueItem in (IEnumerable) navValue)
+                foreach (IEntityTimeStamps navValueItem in (IEnumerable)navValue)
                     await setEntityAsSoftDeletedAsync(navValueItem);
             }
             else
@@ -380,7 +380,7 @@ public class EfRepositoryBase<TEntity, TEntityId, TContext> : IAsyncRepository<T
                         continue;
                 }
 
-                await setEntityAsSoftDeletedAsync((IEntityTimeStamps) navValue);
+                await setEntityAsSoftDeletedAsync((IEntityTimeStamps)navValue);
             }
         }
 
@@ -388,7 +388,7 @@ public class EfRepositoryBase<TEntity, TEntityId, TContext> : IAsyncRepository<T
     }
 
     // Bir varlığı soft delete (kalıcı olmayan silme) olarak işaretlemek için senkron bir yöntem.
-    private void setEntityAsSoftDeleted (IEntityTimeStamps entity)
+    private void setEntityAsSoftDeleted(IEntityTimeStamps entity)
     {
         if (entity.DeletedDate.HasValue)
             return;
@@ -419,7 +419,7 @@ public class EfRepositoryBase<TEntity, TEntityId, TContext> : IAsyncRepository<T
                         continue;
                 }
 
-                foreach (IEntityTimeStamps navValueItem in (IEnumerable) navValue)
+                foreach (IEntityTimeStamps navValueItem in (IEnumerable)navValue)
                     setEntityAsSoftDeleted(navValueItem);
             }
             else
@@ -433,7 +433,7 @@ public class EfRepositoryBase<TEntity, TEntityId, TContext> : IAsyncRepository<T
                         continue;
                 }
 
-                setEntityAsSoftDeleted((IEntityTimeStamps) navValue);
+                setEntityAsSoftDeleted((IEntityTimeStamps)navValue);
             }
         }
 

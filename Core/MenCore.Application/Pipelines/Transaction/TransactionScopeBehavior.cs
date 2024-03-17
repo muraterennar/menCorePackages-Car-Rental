@@ -7,7 +7,7 @@ public class TransactionScopeBehavior<TRequest, TResponse> : IPipelineBehavior<T
     where TRequest : IRequest<TResponse>, ITransactionalRequest
 {
     #region İstek işlenirken bir işlem kapsamı kullanarak işlemi yöneten metot
-    public async Task<TResponse> Handle (TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
         using TransactionScope transactionScope = new(TransactionScopeAsyncFlowOption.Enabled); // Yeni bir işlem kapsamı oluşturulur ve otomatik olarak yönetilir
 
@@ -27,5 +27,4 @@ public class TransactionScopeBehavior<TRequest, TResponse> : IPipelineBehavior<T
         return response; // İşlem sonucu döndürülür
     }
     #endregion
-
 }

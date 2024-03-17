@@ -7,17 +7,17 @@ namespace RentACar.Persistence.Contexts;
 
 public class BaseDatabaseContext : DbContext
 {
-    public BaseDatabaseContext ()
+    public BaseDatabaseContext()
     {
 
     }
 
-    public BaseDatabaseContext (DbContextOptions options) : base(options)
+    public BaseDatabaseContext(DbContextOptions options) : base(options)
     {
 
     }
 
-    protected override void OnConfiguring (DbContextOptionsBuilder optionsBuilder)
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured)
         {
@@ -31,7 +31,7 @@ public class BaseDatabaseContext : DbContext
     public DbSet<Fuel> Fuels { get; set; }
     public DbSet<Transmission> Transmissions { get; set; }
 
-    protected override void OnModelCreating (ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }

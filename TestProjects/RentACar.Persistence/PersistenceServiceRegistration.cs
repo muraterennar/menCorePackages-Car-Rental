@@ -11,7 +11,7 @@ public static class PersistenceServiceRegistration
 {
     public static IServiceCollection AddPersistenceServices (this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<BaseDatabaseContext>(options => options.UseSqlServer(configuration["ConnectionStrings:mssqlserverTest"], opt => opt.EnableRetryOnFailure()));
+        services.AddDbContext<BaseDatabaseContext>(options => options.UseSqlServer(configuration["ConnectionStrings:mssqlserverTest"]));
         services.AddScoped<IBrandRepository, BrandRepository>();
         services.AddScoped<IModelRepository, ModelRepository>();
         services.AddScoped<ICarRepository, CarRepository>();
