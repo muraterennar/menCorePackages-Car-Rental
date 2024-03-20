@@ -7,18 +7,18 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services
 builder.Services.AddApplicationServices();
 builder.Services.AddPersistenceServices(builder.Configuration);
+builder.Services.AddHttpContextAccessor();
 
 // --> InMemoryCache
-builder.Services.AddDistributedMemoryCache();
+//builder.Services.AddDistributedMemoryCache();
 
 // --> RedisCaches
-//builder.Services.AddStackExchangeRedisCache(options =>
-//{
-//    options.Configuration = builder.Configuration["CacheSettings:CacheUri"];
-//});
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration["CacheSettings:CacheUri"];
+});
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -29,8 +29,8 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-if (app.Environment.IsProduction())
-app.ConfigureCustomExceptionMiddleware();
+//if (app.Environment.IsProduction())
+    app.ConfigureCustomExceptionMiddleware();
 
 app.UseHttpsRedirection();
 

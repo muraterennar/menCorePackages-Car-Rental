@@ -1,9 +1,12 @@
 ﻿using System.Reflection;
 using FluentValidation;
 using MenCore.Application.Pipelines.Caching;
+using MenCore.Application.Pipelines.Logging;
 using MenCore.Application.Pipelines.Transaction;
 using MenCore.Application.Pipelines.Validation;
 using MenCore.Application.Rules;
+using MenCore.CrossCuttingConserns.Serilog;
+using MenCore.CrossCuttingConserns.Serilog.Loggers;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace RentACar.Application;
@@ -18,6 +21,8 @@ public static class ApplicationServiceRegistration
 
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
+        services.AddSingleton<LoggerServiceBase, FileLogger>();
+
         services.AddMediatR(configuration =>
         {
             configuration.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly());
@@ -25,6 +30,7 @@ public static class ApplicationServiceRegistration
             configuration.AddOpenBehavior(typeof(TransactionScopeBehavior<,>));
             configuration.AddOpenBehavior(typeof(CachingBehavior<,>));
             configuration.AddOpenBehavior(typeof(CacheRemovingBehavier<,>));
+            configuration.AddOpenBehavior(typeof(LoggingBehavior<,>));
         });
 
         return services;
