@@ -22,6 +22,7 @@ public static class ApplicationServiceRegistration
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
         services.AddSingleton<LoggerServiceBase, FileLogger>();
+        services.AddSingleton<LoggerServiceBase, MsSqlServerLogger>();
 
         services.AddMediatR(configuration =>
         {
