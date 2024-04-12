@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Core.Security.Encryption
+namespace MenCore.Security.Encryption
 {
     // SecurityKeyHelper sınıfı
     public static class SecurityKeyHelper

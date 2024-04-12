@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MenCore.Security.Entities;
+using MenCore.Security.Hashing;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using RentACar.Domaim.Entities;
 
@@ -6,7 +8,7 @@ namespace RentACar.Persistence.Contexts;
 
 public class SeedDatas
 {
-    private List<Brand> SeedBrands ()
+    private List<Brand> SeedBrands()
     {
         List<Brand> brands = new()
         {
@@ -24,7 +26,7 @@ public class SeedDatas
         return brands;
     }
 
-    private List<Fuel> SeedFuels ()
+    private List<Fuel> SeedFuels()
     {
         List<Fuel> fuels = new()
         {
@@ -36,7 +38,7 @@ public class SeedDatas
         return fuels;
     }
 
-    private List<Transmission> SeedTransmissions ()
+    private List<Transmission> SeedTransmissions()
     {
         List<Transmission> transmissions = new()
         {
@@ -48,7 +50,7 @@ public class SeedDatas
         return transmissions;
     }
 
-    private List<Model> SeedModels ()
+    private List<Model> SeedModels()
     {
         List<Model> models = new()
         {
@@ -59,7 +61,7 @@ public class SeedDatas
         return models;
     }
 
-    private List<Car> SeedCars ()
+    private List<Car> SeedCars()
     {
         List<Car> cars = new()
         {
@@ -71,7 +73,34 @@ public class SeedDatas
         return cars;
     }
 
-    public async Task SeedDataAsync (IConfiguration configuration)
+    private List<User> SeedUsers()
+    {
+        List<User> users = new();
+
+        HashingHelper.CreatePasswordHash(
+            password: "Deneme1234!",
+            passwordHash: out byte[] passwordHash,
+            passwordSalt: out byte[] passwordSalt
+            );
+
+        User adminUser = new()
+        {
+            Id = 1,
+            FirstName = "admin",
+            LastName = "mencoretech",
+            Email = "admin.@admin.com",
+            Username = "admin",
+            Status = true,
+            PasswordHash = passwordHash,
+            PasswordSalt = passwordSalt
+        };
+
+        users.Add(adminUser);
+
+        return users.ToList();
+    }
+
+    public async Task SeedDataAsync(IConfiguration configuration)
     {
         var dbContextBuiler = new DbContextOptionsBuilder();
 
@@ -121,6 +150,15 @@ public class SeedDatas
 
             var seedCar = SeedCars();
             await context.Cars.AddRangeAsync(seedCar);
+            await context.SaveChangesAsync();
+        }
+
+        if (!context.Users.Any())
+        {
+            // Sisteme Admin Ekleme
+
+            var seedUser = SeedUsers();
+            await context.Users.AddRangeAsync(seedUser);
             await context.SaveChangesAsync();
         }
 

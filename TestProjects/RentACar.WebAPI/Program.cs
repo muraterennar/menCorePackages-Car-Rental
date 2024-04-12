@@ -1,4 +1,5 @@
 ﻿using MenCore.CrossCuttingConserns.Exceptions.Extensions;
+using MenCore.Security;
 using RentACar.Application;
 using RentACar.Persistence;
 
@@ -8,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddApplicationServices();
 builder.Services.AddPersistenceServices(builder.Configuration);
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddSecurityService();
 
 // --> InMemoryCache
 //builder.Services.AddDistributedMemoryCache();
@@ -30,7 +32,7 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 //if (app.Environment.IsProduction())
-    app.ConfigureCustomExceptionMiddleware();
+app.ConfigureCustomExceptionMiddleware();
 
 app.UseHttpsRedirection();
 

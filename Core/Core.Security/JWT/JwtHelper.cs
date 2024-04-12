@@ -1,13 +1,13 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
-using Core.Security.Encryption;
-using Core.Security.Entities;
-using Core.Security.Extensions;
+using MenCore.Security.Encryption;
+using MenCore.Security.Entities;
+using MenCore.Security.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Core.Security.JWT;
+namespace MenCore.Security.JWT;
 
 public class JwtHelper : ITokenHelper
 {

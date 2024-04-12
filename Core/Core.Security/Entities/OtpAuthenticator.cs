@@ -1,6 +1,6 @@
 ﻿using MenCore.Persistence.Repositories;
 
-namespace Core.Security.Entities
+namespace MenCore.Security.Entities
 {
     // OtpAuthenticator sınıfı, Entity<int> sınıfından türetiliyor
     public class OtpAuthenticator : Entity<int>
@@ -13,6 +13,8 @@ namespace Core.Security.Entities
 
         // Doğrulama durumu
         public bool IsVerified { get; set; }
+
+        public virtual User User { get; set; }
 
         // Varsayılan yapılandırıcı
         public OtpAuthenticator()

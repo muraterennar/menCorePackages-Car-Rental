@@ -1,6 +1,6 @@
 ﻿using MenCore.Persistence.Repositories;
 
-namespace Core.Security.Entities
+namespace MenCore.Security.Entities
 {
     // OperationClaim sınıfı, Entity<int> sınıfından türetiliyor
     public class OperationClaim : Entity<int>

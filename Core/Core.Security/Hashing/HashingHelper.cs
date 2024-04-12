@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace Core.Security.Hashing
+namespace MenCore.Security.Hashing
 {
     // HashingHelper sınıfı
     public static class HashingHelper

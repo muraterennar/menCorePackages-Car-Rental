@@ -1,4 +1,4 @@
-﻿namespace Core.Security.JWT;
+﻿namespace MenCore.Security.JWT;
 
 public class AccessToken
 {

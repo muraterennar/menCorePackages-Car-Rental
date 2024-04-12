@@ -1,6 +1,7 @@
 ﻿using MenCore.Persistence.Repositories; // MenCore içinde bulunan Persistence.Repositories isim alanı kullanılıyor
+using MenCore.Security.Enums;
 
-namespace Core.Security.Entities
+namespace MenCore.Security.Entities
 {
     // User sınıfı, Entity<int> sınıfından türetiliyor
     public class User : Entity<int>
@@ -15,7 +16,7 @@ namespace Core.Security.Entities
         public string FullName => $"{FirstName} {LastName}";
 
         // Kullanıcının kullanıcı adı (küçük harfe dönüştürülmüş ad ve soyadın birleşimi)
-        public string Username => $"{FirstName.ToLower()}{LastName.ToLower()}";
+        public string Username { get; set; }
 
         // Kullanıcının kimlik numarası
         public string IdentityNumber { get; set; }
@@ -34,6 +35,9 @@ namespace Core.Security.Entities
 
         // Kullanıcının durumu (aktif veya pasif)
         public bool Status { get; set; }
+
+        // Kullanıcının Authentication tipi
+        public AuthenticatorType AuthenticatorType { get; set; }
 
         // Kullanıcının işlem yetkileri
         public virtual ICollection<UserOperationClaim> UserOperationClaims { get; set; } = null!;

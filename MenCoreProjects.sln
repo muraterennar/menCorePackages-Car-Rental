@@ -23,7 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MenCore.Application", "Core
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MenCore.CrossCuttingConserns", "Core\MenCore.CrossCuttingConserns\MenCore.CrossCuttingConserns.csproj", "{D1DB8E05-C6B7-4AF6-98FF-7B4D82D67963}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Security", "Core\Core.Security\Core.Security.csproj", "{F80380F0-CBD9-4AC1-96F5-EBF93C201678}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MenCore.Security", "Core\Core.Security\MenCore.Security.csproj", "{F80380F0-CBD9-4AC1-96F5-EBF93C201678}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,6 +1,6 @@
 ﻿using MenCore.Persistence.Repositories;
 
-namespace Core.Security.Entities
+namespace MenCore.Security.Entities
 {
     // EmailAuthenticator sınıfı, Entity<int> sınıfından türetiliyor
     public class EmailAuthenticator : Entity<int>

@@ -1,6 +1,6 @@
-﻿using Core.Security.Entities;
+﻿using MenCore.Security.Entities;
 
-namespace Core.Security.JWT;
+namespace MenCore.Security.JWT;
 
 public interface ITokenHelper
 {

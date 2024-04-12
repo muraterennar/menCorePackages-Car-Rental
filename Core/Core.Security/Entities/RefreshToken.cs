@@ -1,6 +1,6 @@
 ﻿using MenCore.Persistence.Repositories;
 
-namespace Core.Security.Entities
+namespace MenCore.Security.Entities
 {
     // RefreshToken sınıfı, Entity<int> sınıfından türetiliyor
     public class RefreshToken : Entity<int>

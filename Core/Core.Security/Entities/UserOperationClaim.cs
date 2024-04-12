@@ -1,6 +1,6 @@
 ﻿using MenCore.Persistence.Repositories;
 
-namespace Core.Security.Entities
+namespace MenCore.Security.Entities
 {
     // UserOperationClaim sınıfı, Entity<int> sınıfından türetiliyor
     public class UserOperationClaim : Entity<int>
@@ -15,7 +15,7 @@ namespace Core.Security.Entities
         public virtual User User { get; set; }
 
         // Operasyon talebi referansı
-        public virtual OperationClaim OperationClaims { get; set; }
+        public virtual OperationClaim OperationClaim { get; set; }
 
         // Varsayılan yapılandırıcı
         public UserOperationClaim()

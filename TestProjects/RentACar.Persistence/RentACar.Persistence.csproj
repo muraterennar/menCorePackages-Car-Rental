@@ -34,5 +34,6 @@
   <ItemGroup>
     <ProjectReference Include="..\RentACar.Domaim\RentACar.Domaim.csproj" />
     <ProjectReference Include="..\RentACar.Application\RentACar.Application.csproj" />
+    <ProjectReference Include="..\..\Core\Core.Security\MenCore.Security.csproj" />
   </ItemGroup>
 </Project>
