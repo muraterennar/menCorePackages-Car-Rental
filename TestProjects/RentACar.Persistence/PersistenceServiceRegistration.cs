@@ -9,7 +9,7 @@ namespace RentACar.Persistence;
 
 public static class PersistenceServiceRegistration
 {
-    public static IServiceCollection AddPersistenceServices (this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddPersistenceServices(this IServiceCollection services, IConfiguration configuration)
     {
         // --- Database InMemory
         //services.AddDbContext<BaseDatabaseContext>(opt => opt.UseInMemoryDatabase("InMemoryDatabase"));
@@ -21,6 +21,7 @@ public static class PersistenceServiceRegistration
         services.AddScoped<ICarRepository, CarRepository>();
         services.AddScoped<IFuelRepository, FuelRepository>();
         services.AddScoped<ITransmissionRepository, TransmissionRepository>();
+        services.AddScoped<IUserRepository, UserRepoistory>();
 
 
         // --- Data Seeding -----
@@ -32,7 +33,7 @@ public static class PersistenceServiceRegistration
         var dbContext = serviceProvider.GetRequiredService<BaseDatabaseContext>();
 
         // Eğer DbContext InMemory veritabanı sağlayıcısını kullanmıyorsa
-        if(!dbContext.Database.IsInMemory())
+        if (!dbContext.Database.IsInMemory())
         {
             // SeedDataAsync metodunu kullanarak verileri ekle
             var seedData = new SeedDatas();

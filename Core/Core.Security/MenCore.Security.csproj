@@ -15,6 +15,7 @@
     <None Remove="OtpAuthenticator\" />
     <None Remove="OtpAuthenticator\OtpNet\" />
     <None Remove="Enums\" />
+    <None Remove="Constants\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Entities\" />
@@ -25,6 +26,7 @@
     <Folder Include="OtpAuthenticator\" />
     <Folder Include="OtpAuthenticator\OtpNet\" />
     <Folder Include="Enums\" />
+    <Folder Include="Constants\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MenCore.Persistence\MenCore.Persistence.csproj" />

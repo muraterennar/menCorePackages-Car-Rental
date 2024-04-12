@@ -2,6 +2,7 @@
 using MenCore.Security.Hashing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using RentACar.Application.Features.Users.Constants;
 using RentACar.Domaim.Entities;
 
 namespace RentACar.Persistence.Contexts;
@@ -73,6 +74,21 @@ public class SeedDatas
         return cars;
     }
 
+    private List<OperationClaim> SeedOperationClaims()
+    {
+        List<OperationClaim> operationClaims = new()
+        {
+            new OperationClaim { Id = 1, Name = UserOperationClaims.Admin, CreatedDate = DateTime.UtcNow },
+            new OperationClaim { Id = 2, Name = UserOperationClaims.Read, CreatedDate = DateTime.UtcNow },
+            new OperationClaim { Id = 3, Name = UserOperationClaims.Write, CreatedDate = DateTime.UtcNow },
+            new OperationClaim { Id = 4, Name = UserOperationClaims.Add, CreatedDate = DateTime.UtcNow },
+            new OperationClaim { Id = 5, Name = UserOperationClaims.Update, CreatedDate = DateTime.UtcNow },
+            new OperationClaim { Id = 6, Name = UserOperationClaims.Delete, CreatedDate = DateTime.UtcNow }
+        };
+
+        return operationClaims;
+    }
+
     private List<User> SeedUsers()
     {
         List<User> users = new();
@@ -98,6 +114,17 @@ public class SeedDatas
         users.Add(adminUser);
 
         return users.ToList();
+    }
+
+    private List<UserOperationClaim> SeedUserOperationClaims()
+    {
+        List<UserOperationClaim> userOperationClaims = new()
+        {
+            new UserOperationClaim{Id = 1, OperationClaimId = 1, UserId = 1, CreatedDate = DateTime.UtcNow}
+        };
+
+        return userOperationClaims;
+
     }
 
     public async Task SeedDataAsync(IConfiguration configuration)
@@ -153,12 +180,26 @@ public class SeedDatas
             await context.SaveChangesAsync();
         }
 
+        if (!context.OperationClaims.Any())
+        {
+            var seedOperationCliams = SeedOperationClaims();
+            await context.OperationClaims.AddRangeAsync(seedOperationCliams);
+            await context.SaveChangesAsync();
+        }
+
         if (!context.Users.Any())
         {
             // Sisteme Admin Ekleme
 
             var seedUser = SeedUsers();
             await context.Users.AddRangeAsync(seedUser);
+            await context.SaveChangesAsync();
+        }
+
+        if (!context.UserOperationClaims.Any())
+        {
+            var seedUserOperationClaims = SeedUserOperationClaims();
+            await context.UserOperationClaims.AddRangeAsync(seedUserOperationClaims);
             await context.SaveChangesAsync();
         }
 

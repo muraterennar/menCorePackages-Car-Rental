@@ -15,6 +15,7 @@
     <None Remove="Pipelines\Transaction\" />
     <None Remove="Pipelines\Caching\" />
     <None Remove="Pipelines\Logging\" />
+    <None Remove="Pipelines\Authorization\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Request\" />
@@ -25,10 +26,12 @@
     <Folder Include="Pipelines\Transaction\" />
     <Folder Include="Pipelines\Caching\" />
     <Folder Include="Pipelines\Logging\" />
+    <Folder Include="Pipelines\Authorization\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MenCore.Persistence\MenCore.Persistence.csproj" />
     <ProjectReference Include="..\MenCore.CrossCuttingConserns\MenCore.CrossCuttingConserns.csproj" />
+    <ProjectReference Include="..\Core.Security\MenCore.Security.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="12.2.0" />
