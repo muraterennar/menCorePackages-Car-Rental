@@ -19,11 +19,12 @@ public class JwtHelper : ITokenHelper
     {
         Configuration = configuration;
         const string configurationSection = "TokenOptions";
+        // Konfigürasyon dosyasından token seçeneklerini alır veya hata fırlatır.
         _tokenOptions = Configuration.GetSection(configurationSection).Get<TokenOptions>()
             ?? throw new NullReferenceException($"\"{configurationSection}\" section cannot found in configuration.");
-
     }
 
+    // Kullanıcıya dayalı olarak ve bir IP adresi ile birlikte bir yenileme Token oluşturur.
     public RefreshToken CreateRefreshToken(User user, string ipAddress)
     {
         RefreshToken refreshToken = new()
@@ -37,25 +38,42 @@ public class JwtHelper : ITokenHelper
         return refreshToken;
     }
 
+    // Kullanıcıya ve yetkilendirme taleplerine dayanarak bir erişim Token oluşturur.
     public AccessToken CreateToken(User user, IList<OperationClaim> operationClaims)
     {
+        // Erişim belirtecinin son kullanma tarihini hesaplar.
         _accessTokenExpiration = DateTime.Now.AddMinutes(_tokenOptions.AccessTokenExpiration);
+
+        // Güvenlik anahtarını oluşturur.
         SecurityKey security = SecurityKeyHelper.CreateSecurityKey(_tokenOptions.SecurityKey);
+
+        // İmzalama kimlik bilgilerini oluşturur.
         SigningCredentials signingCredentials = SigningCredentialsHelper.CreateSigningCredentials(security);
+
+        // JWT'yi oluşturur.
         JwtSecurityToken jwt = CreateJwtSecurityToken(_tokenOptions, user, signingCredentials, operationClaims);
+
+        // JWT'yi işleyen nesneyi oluşturur.
         JwtSecurityTokenHandler jwtSecurityTokenHandler = new();
+
+        // JWT'yi bir dize olarak yazarak erişim belirteci oluşturur ve döndürür.
         string? token = jwtSecurityTokenHandler.WriteToken(jwt);
+
+        // Oluşturulan erişim belirtecini ve son kullanma tarihini içeren bir AccessToken nesnesi döndürür.
         return new AccessToken { Token = token, Expiration = _accessTokenExpiration };
     }
 
+
+    // JWT oluşturur.
     public JwtSecurityToken CreateJwtSecurityToken(TokenOptions tokenOptions, User user, SigningCredentials signingCredentials, IList<OperationClaim> operationClaims)
     {
-        JwtSecurityToken jwt = new(tokenOptions.Issuer, tokenOptions.Audience, expires: _accessTokenExpiration, notBefore: DateTime.Now, claims: SetCliams(user, operationClaims), signingCredentials: signingCredentials);
+        JwtSecurityToken jwt = new(tokenOptions.Issuer, tokenOptions.Audience, expires: _accessTokenExpiration, notBefore: DateTime.Now, claims: SetClaims(user, operationClaims), signingCredentials: signingCredentials);
 
         return jwt;
     }
 
-    private IEnumerable<Claim> SetCliams(User user, IList<OperationClaim> operationClaims)
+    // JWT için talepleri ayarlar.
+    private IEnumerable<Claim> SetClaims(User user, IList<OperationClaim> operationClaims)
     {
         List<Claim> claims = new();
         claims.AddNameIdentifier(user.Id.ToString());
@@ -65,6 +83,7 @@ public class JwtHelper : ITokenHelper
         return claims;
     }
 
+    // Rastgele bir yenileme Token oluşturur.
     private string RandomRefreshToken()
     {
         byte[] numberByte = new byte[32];
