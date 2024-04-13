@@ -13,16 +13,16 @@ namespace MenCore.Security.Entities
         public string LastName { get; set; }
 
         // Kullanıcının tam adı (ad + soyad)
-        public string FullName => $"{FirstName} {LastName}";
+        public string? FullName { get; set; }
 
         // Kullanıcının kullanıcı adı (küçük harfe dönüştürülmüş ad ve soyadın birleşimi)
         public string Username { get; set; }
 
         // Kullanıcının kimlik numarası
-        public string IdentityNumber { get; set; }
+        public string? IdentityNumber { get; set; }
 
         // Kullanıcının doğum yılı
-        public short BirthYear { get; set; }
+        public short? BirthYear { get; set; }
 
         // Kullanıcının e-posta adresi
         public string Email { get; set; }
@@ -57,6 +57,7 @@ namespace MenCore.Security.Entities
             FirstName = string.Empty;
             LastName = string.Empty;
             IdentityNumber = string.Empty;
+            FullName = string.Empty;
             Email = string.Empty;
             Status = false;
             PasswordHash = Array.Empty<byte>();
@@ -64,10 +65,11 @@ namespace MenCore.Security.Entities
         }
 
         // Parametreleri kullanarak kullanıcı oluşturur
-        public User(string firstName, string lastName, string identityNumber, short birthYear, string email, byte[] passwordSalt, byte[] passwordHash, bool status)
+        public User(string firstName, string lastName, string fullName, string identityNumber, short birthYear, string email, byte[] passwordSalt, byte[] passwordHash, bool status)
         {
             FirstName = firstName;
             LastName = lastName;
+            FullName = fullName;
             IdentityNumber = identityNumber;
             BirthYear = birthYear;
             Email = email;
@@ -77,11 +79,12 @@ namespace MenCore.Security.Entities
         }
 
         // Tüm özelliklerin yanı sıra tarih bilgilerini de içeren parametreleri kullanarak kullanıcı oluşturur
-        public User(int id, string firstName, string lastName, string identityNumber, short birthYear, string email, byte[] passwordSalt, byte[] passwordHash, bool status, DateTime createdDate, DateTime updatedDate, DateTime deletedDate)
+        public User(int id, string firstName, string lastName, string fullName, string identityNumber, short birthYear, string email, byte[] passwordSalt, byte[] passwordHash, bool status, DateTime createdDate, DateTime updatedDate, DateTime deletedDate)
         {
             Id = id;
             FirstName = firstName;
             LastName = lastName;
+            FullName = fullName;
             IdentityNumber = identityNumber;
             BirthYear = birthYear;
             Email = email;

@@ -78,12 +78,12 @@ public class SeedDatas
     {
         List<OperationClaim> operationClaims = new()
         {
-            new OperationClaim { Id = 1, Name = UserOperationClaims.Admin, CreatedDate = DateTime.UtcNow },
-            new OperationClaim { Id = 2, Name = UserOperationClaims.Read, CreatedDate = DateTime.UtcNow },
-            new OperationClaim { Id = 3, Name = UserOperationClaims.Write, CreatedDate = DateTime.UtcNow },
-            new OperationClaim { Id = 4, Name = UserOperationClaims.Add, CreatedDate = DateTime.UtcNow },
-            new OperationClaim { Id = 5, Name = UserOperationClaims.Update, CreatedDate = DateTime.UtcNow },
-            new OperationClaim { Id = 6, Name = UserOperationClaims.Delete, CreatedDate = DateTime.UtcNow }
+            new OperationClaim { Name = UserOperationClaims.Admin, CreatedDate = DateTime.UtcNow },
+            new OperationClaim { Name = UserOperationClaims.Read, CreatedDate = DateTime.UtcNow },
+            new OperationClaim { Name = UserOperationClaims.Write, CreatedDate = DateTime.UtcNow },
+            new OperationClaim { Name = UserOperationClaims.Add, CreatedDate = DateTime.UtcNow },
+            new OperationClaim { Name = UserOperationClaims.Update, CreatedDate = DateTime.UtcNow },
+            new OperationClaim { Name = UserOperationClaims.Delete, CreatedDate = DateTime.UtcNow }
         };
 
         return operationClaims;
@@ -91,36 +91,33 @@ public class SeedDatas
 
     private List<User> SeedUsers()
     {
-        List<User> users = new();
-
         HashingHelper.CreatePasswordHash(
-            password: "Deneme1234!",
-            passwordHash: out byte[] passwordHash,
-            passwordSalt: out byte[] passwordSalt
-            );
+        password: "Deneme1234!",
+        passwordHash: out byte[] passwordHash,
+        passwordSalt: out byte[] passwordSalt
+        );
 
-        User adminUser = new()
+        List<User> users = new()
         {
-            Id = 1,
-            FirstName = "admin",
-            LastName = "mencoretech",
-            Email = "admin.@admin.com",
-            Username = "admin",
-            Status = true,
-            PasswordHash = passwordHash,
-            PasswordSalt = passwordSalt
+            new User {
+                FirstName = "admin",
+                LastName = "mencoretech",
+                Email = "admin.@admin.com",
+                Username = "admin",
+                Status = true,
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt
+            }
         };
 
-        users.Add(adminUser);
-
-        return users.ToList();
+        return users;
     }
 
     private List<UserOperationClaim> SeedUserOperationClaims()
     {
         List<UserOperationClaim> userOperationClaims = new()
         {
-            new UserOperationClaim{Id = 1, OperationClaimId = 1, UserId = 1, CreatedDate = DateTime.UtcNow}
+            new UserOperationClaim{OperationClaimId = 1, UserId = 1, CreatedDate = DateTime.UtcNow}
         };
 
         return userOperationClaims;
@@ -156,7 +153,6 @@ public class SeedDatas
         if (!context.Fuels.Any())
         {
             // fuel ekleme operasyonları
-
             var seedFuel = SeedFuels();
             await context.Fuels.AddRangeAsync(seedFuel);
             await context.SaveChangesAsync();
@@ -180,19 +176,19 @@ public class SeedDatas
             await context.SaveChangesAsync();
         }
 
-        if (!context.OperationClaims.Any())
-        {
-            var seedOperationCliams = SeedOperationClaims();
-            await context.OperationClaims.AddRangeAsync(seedOperationCliams);
-            await context.SaveChangesAsync();
-        }
-
         if (!context.Users.Any())
         {
             // Sisteme Admin Ekleme
 
             var seedUser = SeedUsers();
             await context.Users.AddRangeAsync(seedUser);
+            await context.SaveChangesAsync();
+        }
+
+        if (!context.OperationClaims.Any())
+        {
+            var seedOperationCliams = SeedOperationClaims();
+            await context.OperationClaims.AddRangeAsync(seedOperationCliams);
             await context.SaveChangesAsync();
         }
 
