@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System.Security.Claims;
+using MediatR;
 using MenCore.CrossCuttingConserns.Exceptions.Types;
 using MenCore.Security.Constants;
 using MenCore.Security.Extensions;
@@ -24,7 +25,7 @@ public class AuthorizationBehavior<TRequest, TResponse> : IPipelineBehavior<TReq
         List<string>? userRoleClaims = _httpContextAccessor.HttpContext.User.ClaimRoles();
 
         // Eğer kullanıcı rol talepleri yoksa yetkilendirme istisnası fırlatılır.
-        if (userRoleClaims == null)
+        if (userRoleClaims == null || userRoleClaims.Count == 0)
             throw new AuthorizationException("You are not authenticated.");
 
         // Kullanıcı taleplerinin, istek rolleri ile eşleşip eşleşmediğini kontrol eder.

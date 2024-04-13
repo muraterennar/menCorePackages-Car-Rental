@@ -81,7 +81,7 @@ namespace RentACar.Persistence.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IdentityNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BirthYear = table.Column<short>(type: "smallint", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),

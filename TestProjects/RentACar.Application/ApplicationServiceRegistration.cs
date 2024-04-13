@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using FluentValidation;
+using MenCore.Application.Pipelines.Authorization;
 using MenCore.Application.Pipelines.Caching;
 using MenCore.Application.Pipelines.Logging;
 using MenCore.Application.Pipelines.Transaction;
@@ -32,6 +33,7 @@ public static class ApplicationServiceRegistration
             configuration.AddOpenBehavior(typeof(CachingBehavior<,>));
             configuration.AddOpenBehavior(typeof(CacheRemovingBehavier<,>));
             configuration.AddOpenBehavior(typeof(LoggingBehavior<,>));
+            configuration.AddOpenBehavior(typeof(AuthorizationBehavior<,>));
         });
 
         return services;

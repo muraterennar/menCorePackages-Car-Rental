@@ -12,7 +12,7 @@ using RentACar.Persistence.Contexts;
 namespace RentACar.Persistence.Migrations
 {
     [DbContext(typeof(BaseDatabaseContext))]
-    [Migration("20240413123759_mig_1")]
+    [Migration("20240413154302_mig_1")]
     partial class mig_1
     {
         /// <inheritdoc />
@@ -259,7 +259,6 @@ namespace RentACar.Persistence.Migrations
                         .HasColumnName("UpdatedDate");
 
                     b.Property<string>("Username")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Username");
 

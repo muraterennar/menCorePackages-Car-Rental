@@ -256,7 +256,6 @@ namespace RentACar.Persistence.Migrations
                         .HasColumnName("UpdatedDate");
 
                     b.Property<string>("Username")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Username");
 

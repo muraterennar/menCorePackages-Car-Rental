@@ -40,6 +40,16 @@
     <None Remove="Features\Users\Commands\Delete\" />
     <None Remove="Features\Auth\" />
     <None Remove="Features\Auth\Constants\" />
+    <None Remove="Features\Auth\Commands\" />
+    <None Remove="Features\Auth\Profiles\" />
+    <None Remove="Features\Auth\Rules\" />
+    <None Remove="Features\Auth\Commands\Register\" />
+    <None Remove="Features\Auth\Commands\Login\" />
+    <None Remove="Features\OperationClaims\" />
+    <None Remove="Features\OperationClaims\Commands\" />
+    <None Remove="Features\OperationClaims\Rules\" />
+    <None Remove="Features\OperationClaims\Constants\" />
+    <None Remove="Features\OperationClaims\Profiles\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Features\" />
@@ -75,6 +85,16 @@
     <Folder Include="Features\Users\Commands\Delete\" />
     <Folder Include="Features\Auth\" />
     <Folder Include="Features\Auth\Constants\" />
+    <Folder Include="Features\Auth\Commands\" />
+    <Folder Include="Features\Auth\Profiles\" />
+    <Folder Include="Features\Auth\Rules\" />
+    <Folder Include="Features\Auth\Commands\Register\" />
+    <Folder Include="Features\Auth\Commands\Login\" />
+    <Folder Include="Features\OperationClaims\" />
+    <Folder Include="Features\OperationClaims\Commands\" />
+    <Folder Include="Features\OperationClaims\Rules\" />
+    <Folder Include="Features\OperationClaims\Constants\" />
+    <Folder Include="Features\OperationClaims\Profiles\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\MenCore.Persistence\MenCore.Persistence.csproj" />

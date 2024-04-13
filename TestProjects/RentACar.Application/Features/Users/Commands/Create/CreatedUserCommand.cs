@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using MenCore.Application.Pipelines.Authorization;
+using MenCore.Application.Pipelines.Transaction;
 using MenCore.Security.Entities;
 using MenCore.Security.Hashing;
 using RentACar.Application.Features.Users.Rules;
@@ -9,14 +10,14 @@ using static RentACar.Application.Features.Users.Constants.UserOperationClaims;
 
 namespace RentACar.Application.Features.Users.Commands.Create;
 
-public class CreatedUserCommand : IRequest<CreatedUserResponse>, ISecuredRequest
+public class CreatedUserCommand : IRequest<CreatedUserResponse>, ISecuredRequest, ITransactionalRequest
 {
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string Email { get; set; }
     public string Password { get; set; }
 
-    public string[] Roles => new[] { Admin, Write, Add };
+    public string[] Roles => new[] { Admin, Write };
 
     public CreatedUserCommand()
     {

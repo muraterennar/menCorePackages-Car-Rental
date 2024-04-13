@@ -22,6 +22,8 @@ public static class PersistenceServiceRegistration
         services.AddScoped<IFuelRepository, FuelRepository>();
         services.AddScoped<ITransmissionRepository, TransmissionRepository>();
         services.AddScoped<IUserRepository, UserRepoistory>();
+        services.AddScoped<IOperationClaimRepository, OperationClaimRepository>();
+        services.AddScoped<IUserOperationClaimRepository, UserOperationClaimRepository>();
 
 
         // --- Data Seeding -----
