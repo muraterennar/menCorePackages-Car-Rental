@@ -1,6 +1,6 @@
 ﻿namespace MenCore.Security.OtpAuthenticator;
 
-public interface IOtpAuthenticator
+public interface IOtpAuthenticatorHelper
 {
     public Task<byte[]> GenerateSecretKey();
     public Task<string> ConvertSecretKeyToString(byte[] secretKey);

@@ -36,7 +36,7 @@ public class UserBusinessRules : BaseBusinessRules
     // Kullanıcı şifresinin eşleşip eşleşmediğini kontrol eder.
     public Task UserPasswordShouldBeMatched(User user, string password)
     {
-        if (!HashingHelper.VerifyPassswordHash(password, user.PasswordHash, user.PasswordSalt))
+        if (!HashingHelper.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
             throw new BusinessException(AuthMessages.PasswordDontMatch);
         return Task.CompletedTask;
     }

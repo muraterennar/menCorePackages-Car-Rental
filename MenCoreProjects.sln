@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MenCore.CrossCuttingConsern
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MenCore.Security", "Core\Core.Security\MenCore.Security.csproj", "{F80380F0-CBD9-4AC1-96F5-EBF93C201678}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MenCore.Mailing", "Core\MenCore.Mailing\MenCore.Mailing.csproj", "{CDEE4AA7-7954-489E-9C72-33FE5FAB923A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +69,10 @@ Global
 		{F80380F0-CBD9-4AC1-96F5-EBF93C201678}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F80380F0-CBD9-4AC1-96F5-EBF93C201678}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F80380F0-CBD9-4AC1-96F5-EBF93C201678}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDEE4AA7-7954-489E-9C72-33FE5FAB923A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDEE4AA7-7954-489E-9C72-33FE5FAB923A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDEE4AA7-7954-489E-9C72-33FE5FAB923A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDEE4AA7-7954-489E-9C72-33FE5FAB923A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -84,5 +90,6 @@ Global
 		{332B0176-1F86-426C-B4DB-37BC5E7DD5F3} = {FD342DF1-D29B-4D47-85FC-EB2F9E6E2BED}
 		{D1DB8E05-C6B7-4AF6-98FF-7B4D82D67963} = {FD342DF1-D29B-4D47-85FC-EB2F9E6E2BED}
 		{F80380F0-CBD9-4AC1-96F5-EBF93C201678} = {FD342DF1-D29B-4D47-85FC-EB2F9E6E2BED}
+		{CDEE4AA7-7954-489E-9C72-33FE5FAB923A} = {FD342DF1-D29B-4D47-85FC-EB2F9E6E2BED}
 	EndGlobalSection
 EndGlobal

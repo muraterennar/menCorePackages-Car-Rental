@@ -16,6 +16,7 @@
     <None Remove="Pipelines\Caching\" />
     <None Remove="Pipelines\Logging\" />
     <None Remove="Pipelines\Authorization\" />
+    <None Remove="Dtos\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Request\" />
@@ -27,6 +28,7 @@
     <Folder Include="Pipelines\Caching\" />
     <Folder Include="Pipelines\Logging\" />
     <Folder Include="Pipelines\Authorization\" />
+    <Folder Include="Dtos\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MenCore.Persistence\MenCore.Persistence.csproj" />

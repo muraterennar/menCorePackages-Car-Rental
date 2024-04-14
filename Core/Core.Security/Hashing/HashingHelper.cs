@@ -20,7 +20,7 @@ namespace MenCore.Security.Hashing
         }
 
         // Verilen parolanın doğruluğunu kontrol eden metot
-        public static bool VerifyPassswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
+        public static bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
             // HMACSHA512 kullanarak bir hash oluşturuluyor ve salt ile başlatılıyor
             using HMACSHA512 hmac = new HMACSHA512(passwordSalt);

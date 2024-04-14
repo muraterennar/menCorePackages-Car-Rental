@@ -50,6 +50,15 @@
     <None Remove="Features\OperationClaims\Rules\" />
     <None Remove="Features\OperationClaims\Constants\" />
     <None Remove="Features\OperationClaims\Profiles\" />
+    <None Remove="Services\AuthServices\" />
+    <None Remove="Features\Auth\Commands\RevokeToken\" />
+    <None Remove="Features\Auth\Commands\RefleshToken\" />
+    <None Remove="Services\UserServices\" />
+    <None Remove="Services\AuthenticatorServices\" />
+    <None Remove="Features\Auth\Commands\EnableEmailAuthenticator\" />
+    <None Remove="Features\Auth\Commands\EnableOtpAuthenticator\" />
+    <None Remove="Features\Auth\Commands\VerifyEmailAuthenticator\" />
+    <None Remove="Features\Auth\Commands\VerifyOtpAuthenticator\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Features\" />
@@ -95,12 +104,22 @@
     <Folder Include="Features\OperationClaims\Rules\" />
     <Folder Include="Features\OperationClaims\Constants\" />
     <Folder Include="Features\OperationClaims\Profiles\" />
+    <Folder Include="Services\AuthServices\" />
+    <Folder Include="Features\Auth\Commands\RevokeToken\" />
+    <Folder Include="Features\Auth\Commands\RefleshToken\" />
+    <Folder Include="Services\UserServices\" />
+    <Folder Include="Services\AuthenticatorServices\" />
+    <Folder Include="Features\Auth\Commands\EnableEmailAuthenticator\" />
+    <Folder Include="Features\Auth\Commands\EnableOtpAuthenticator\" />
+    <Folder Include="Features\Auth\Commands\VerifyEmailAuthenticator\" />
+    <Folder Include="Features\Auth\Commands\VerifyOtpAuthenticator\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\MenCore.Persistence\MenCore.Persistence.csproj" />
     <ProjectReference Include="..\RentACar.Domaim\RentACar.Domaim.csproj" />
     <ProjectReference Include="..\..\Core\MenCore.Application\MenCore.Application.csproj" />
     <ProjectReference Include="..\..\Core\MenCore.CrossCuttingConserns\MenCore.CrossCuttingConserns.csproj" />
+    <ProjectReference Include="..\..\Core\MenCore.Mailing\MenCore.Mailing.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="12.2.0" />

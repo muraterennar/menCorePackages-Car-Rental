@@ -1,4 +1,5 @@
-﻿using MenCore.Security.JWT;
+﻿using MenCore.Security.EmailAuthenticator;
+using MenCore.Security.JWT;
 using MenCore.Security.OtpAuthenticator;
 using MenCore.Security.OtpAuthenticator.OtpNet;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,8 +11,8 @@ public static class SecurityServiceRegistration
     public static IServiceCollection AddSecurityService(this IServiceCollection services)
     {
         services.AddScoped<ITokenHelper, JwtHelper>();
-        //services.AddScoped<IEmailAuthenticator, EmailAuthenticatorHelper>();
-        services.AddScoped<IOtpAuthenticator, OtpNetOtpAuthenticatorHelper>();
+        services.AddScoped<IEmailAuthenticatorHelper, EmailAuthenticatorHelper>();
+        services.AddScoped<IOtpAuthenticatorHelper, OtpNetOtpAuthenticatorHelper>();
 
         return services;
     }

@@ -2,14 +2,38 @@
 using MenCore.Security;
 using RentACar.Application;
 using RentACar.Persistence;
+using MenCore.Mailing;
+using MenCore.Security.JWT;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using MenCore.Security.Encryption;
+using RentACar.WebAPI;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services
 builder.Services.AddApplicationServices();
 builder.Services.AddPersistenceServices(builder.Configuration);
-builder.Services.AddHttpContextAccessor();
 builder.Services.AddSecurityService();
+builder.Services.AddMailingService();
+builder.Services.AddHttpContextAccessor();
+
+TokenOptions? tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidIssuer = tokenOptions.Issuer,
+            ValidAudience = tokenOptions.Audience,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey)
+        };
+    });
 
 // --> InMemoryCache
 //builder.Services.AddDistributedMemoryCache();
@@ -21,6 +45,7 @@ builder.Services.AddStackExchangeRedisCache(options =>
 });
 
 // CORS Politikalarının belirlendiği alan
+var originUrls = builder.Configuration.GetSection("WebAPIConfiguration").Get<WebAPIConfiguration>().AllowedOrigins;
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("DevelopmentPolicy", builder =>
@@ -29,10 +54,9 @@ builder.Services.AddCors(options =>
                .AllowAnyHeader()
                .AllowAnyMethod();
     });
-
     options.AddPolicy("ProductionPolicy", builder =>
     {
-        builder.WithOrigins("https://example.com") // Üretim sunucusunun URL'sini ekleyin
+        builder.WithOrigins(originUrls) // Üretim sunucusunun URL'sini ekleyin
                .AllowAnyHeader()
                .AllowAnyMethod();
     });
@@ -51,7 +75,6 @@ if (app.Environment.IsProduction())
     app.ConfigureCustomExceptionMiddleware();
 
 app.UseHttpsRedirection();
-
 if (app.Environment.IsDevelopment())
     app.UseCors("DevelopmentPolicy");
 else

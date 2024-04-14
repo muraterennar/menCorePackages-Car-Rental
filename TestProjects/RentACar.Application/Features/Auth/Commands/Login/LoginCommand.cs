@@ -1,82 +1,88 @@
-﻿using AutoMapper;
-using MediatR;
-using MenCore.Application.Pipelines.Logging;
+﻿using MediatR;
+using MenCore.Application.Dtos;
 using MenCore.Security.Entities;
+using MenCore.Security.Enums;
 using MenCore.Security.JWT;
-using Microsoft.Extensions.Configuration;
 using RentACar.Application.Features.Auth.Rules;
-using RentACar.Application.Services.Repositories;
-using static RentACar.Application.Features.Users.Constants.UserOperationClaims;
+using RentACar.Application.Services.AuthenticatorServices;
+using RentACar.Application.Services.AuthServices;
+using RentACar.Application.Services.UserServices;
 
 namespace RentACar.Application.Features.Auth.Commands.Login;
 
-public class LoginCommand : IRequest<LoginResponse>, ILoggableRequest
+public class LoginCommand : IRequest<LoginResponse>
 {
-    public string? EmailOrUsername { get; set; }
-    public string Password { get; set; }
-
-    public LoginCommand()
-    {
-        EmailOrUsername = string.Empty;
-        Password = string.Empty;
-    }
-
-    public LoginCommand(string? emailOrUsername, string password)
-    {
-        EmailOrUsername = emailOrUsername;
-        Password = password;
-    }
+    public UserForLoginDto UserForLoginDto { get; set; }
+    public string IPAddress { get; set; }
 
     public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginResponse>
     {
-        private readonly IUserRepository _userRepository;
-        private readonly IUserOperationClaimRepository _userOperationClaimRepository;
-        private readonly IOperationClaimRepository _operationClaimRepository;
-        private readonly IMapper _mapper;
-        private readonly LoginBusinessRules _loginBusinessRules;
-        private readonly IConfiguration _configuration;
+        private readonly IUserService _userService;
+        private readonly IAuthService _authService;
+        private readonly AuthBusinessRules _authBusinessRules;
+        private readonly IAuthenticatorService _authenticatorService;
 
-        public LoginCommandHandler(IUserRepository userRepository, IMapper mapper, LoginBusinessRules loginBusinessRules, IConfiguration configuration, IUserOperationClaimRepository userOperationClaimRepository, IOperationClaimRepository operationClaimRepository)
+        public LoginCommandHandler(IUserService userService, IAuthService authService, AuthBusinessRules authBusinessRules, IAuthenticatorService authenticatorService)
         {
-            _userRepository = userRepository;
-            _mapper = mapper;
-            _loginBusinessRules = loginBusinessRules;
-            _configuration = configuration;
-            _userOperationClaimRepository = userOperationClaimRepository;
-            _operationClaimRepository = operationClaimRepository;
+            _userService = userService;
+            _authService = authService;
+            _authBusinessRules = authBusinessRules;
+            _authenticatorService = authenticatorService;
         }
 
+        // Kullanıcı giriş işlemini yönetir
         public async Task<LoginResponse> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
-            User? user = await _userRepository.GetAsync(u => u.Username == request.EmailOrUsername);
+            // Kullanıcıyı e-posta veya kullanıcı adına göre alır
+            User? user = await _userService.GetByEmail(request.UserForLoginDto.EmailOrUsername);
 
-            List<OperationClaim> operationClaims = new();
-            OperationClaim? adminClaim = await _operationClaimRepository.GetAsync(o => o.Name == Admin);
-            OperationClaim? writerCliam = await _operationClaimRepository.GetAsync(o => o.Name == Write);
-
-            operationClaims.Add(adminClaim);
-            operationClaims.Add(writerCliam);
-
+            // Eğer kullanıcı e-posta ile bulunamazsa, kullanıcı adına göre tekrar arar
             if (user == null)
             {
-                await _loginBusinessRules.UserEmailShouldBeMatched(request.EmailOrUsername);
-                user = await _userRepository.GetAsync(u => u.Email == request.EmailOrUsername);
-            }
-            else
-            {
-                await _loginBusinessRules.UserUsernameShouldBeMatched(request.EmailOrUsername);
+                user = await _userService.GetByUsername(request.UserForLoginDto.EmailOrUsername);
             }
 
-            await _loginBusinessRules.IsPasswordVerified(user, request.Password);
+            // Kullanıcının varlığını kontrol eder
+            await _authBusinessRules.UserShouldBeExists(user);
 
-            JwtHelper jwtHelper = new(_configuration);
-            AccessToken accessToken = jwtHelper.CreateToken(user, operationClaims);
+            // Kullanıcının parolasının eşleştiğini doğrular
+            await _authBusinessRules.UserPasswordShouldBeMatch(user.Id, request.UserForLoginDto.Password);
 
-            return new LoginResponse
+            // Giriş yanıtını oluşturur
+            LoginResponse loginResponse = new();
+
+            // Kullanıcının kimlik doğrulayıcısı varsa
+            if (user.AuthenticatorType is not AuthenticatorType.None)
             {
-                Token = accessToken.Token,
-                ExpirationDate = accessToken.Expiration
-            };
+                // Eğer kullanıcı doğrulayıcı kodu sağlamadıysa
+                if (request.UserForLoginDto.AuthenticatorCode is null)
+                {
+                    // Doğrulayıcı kodu kullanıcıya gönderir ve yanıtı döndürür
+                    await _authenticatorService.SendAuthenticatorCode(user);
+                    loginResponse.RequiredAuthenticatorType = user.AuthenticatorType;
+                    return loginResponse;
+                }
+
+                // Kullanıcının doğrulayıcı kodunu doğrular
+                await _authenticatorService.VerifyAuthenticatorCode(user, request.UserForLoginDto.AuthenticatorCode);
+            }
+
+            // Kullanıcı için erişim belirteci oluşturur
+            AccessToken? createdAccessToken = await _authService.CreateAccessToken(user);
+
+            // Kullanıcı için yenileme belirteci oluşturur ve ekler
+            RefreshToken? createdRefreshToken = await _authService.CreateRefreshToken(user, request.IPAddress);
+            RefreshToken? addedRefreshToken = await _authService.AddRefreshToken(createdRefreshToken);
+
+            // Kullanıcının eski yenileme belirtecini siler
+            await _authService.DeleteOldRefreshTokens(user.Id);
+
+            // Giriş yanıtını ayarlar ve döndürür
+            loginResponse.AccessToken = createdAccessToken;
+            loginResponse.RefreshToken = addedRefreshToken;
+            return loginResponse;
         }
+
     }
 }
+

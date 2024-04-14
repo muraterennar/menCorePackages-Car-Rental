@@ -6,7 +6,7 @@ namespace MenCore.CrossCuttingConserns.Exceptions.Handlers;
 public abstract class ExceptionHandler
 {
     // Asenkron olarak bir istisnayı işler.
-    public Task HandleExceptionAsync (Exception exception) =>
+    public Task HandleExceptionAsync(Exception exception) =>
         // Gelen istisna türüne göre uygun işleme metodu çağrılır.
         exception switch
         {
@@ -18,6 +18,10 @@ public abstract class ExceptionHandler
             // HandleException metodu ile işlenir.
             ValidationException validationException => HandleException(validationException),
 
+            NotFoundException notFoundException => HandleException(notFoundException),
+
+            AuthorizationException authorizationException => HandleException(authorizationException),
+
             // Diğer durumlarda gelen istisna, genel Exception
             // türünde olduğu kabul edilir ve HandleException
             // metodu ile işlenir.
@@ -26,14 +30,18 @@ public abstract class ExceptionHandler
 
     // Türetilmiş sınıflar tarafından uygulanmalıdır. Bir ValidationException
     // istisnasını işler.
-    protected abstract Task HandleException (BusinessException businessException);
+    protected abstract Task HandleException(BusinessException businessException);
 
     // Türetilmiş sınıflar tarafından uygulanmalıdır. Bir BusinessException
     // istisnasını işler.
-    protected abstract Task HandleException (ValidationException validationException);
+    protected abstract Task HandleException(ValidationException validationException);
+
+    protected abstract Task HandleException(NotFoundException notFoundException);
+
+    protected abstract Task HandleException(AuthorizationException authorizationException);
 
     // Türetilmiş sınıflar tarafından uygulanmalıdır. Bir genel Exception
     // istisnasını işler.
-    protected abstract Task HandleException (Exception exception);
+    protected abstract Task HandleException(Exception exception);
 }
 #endregion

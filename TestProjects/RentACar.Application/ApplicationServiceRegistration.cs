@@ -9,6 +9,9 @@ using MenCore.Application.Rules;
 using MenCore.CrossCuttingConserns.Serilog;
 using MenCore.CrossCuttingConserns.Serilog.Loggers;
 using Microsoft.Extensions.DependencyInjection;
+using RentACar.Application.Services.AuthenticatorServices;
+using RentACar.Application.Services.AuthServices;
+using RentACar.Application.Services.UserServices;
 
 namespace RentACar.Application;
 
@@ -24,6 +27,11 @@ public static class ApplicationServiceRegistration
 
         services.AddSingleton<LoggerServiceBase, FileLogger>();
         services.AddSingleton<LoggerServiceBase, MsSqlServerLogger>();
+
+        // Added Manager Classes
+        services.AddScoped<IAuthService, AuthManager>();
+        services.AddScoped<IUserService, UserManager>();
+        services.AddScoped<IAuthenticatorService, AuthenticatorManager>();
 
         services.AddMediatR(configuration =>
         {

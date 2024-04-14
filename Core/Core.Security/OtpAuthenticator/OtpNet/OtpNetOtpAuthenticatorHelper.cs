@@ -2,7 +2,7 @@
 
 namespace MenCore.Security.OtpAuthenticator.OtpNet;
 
-public class OtpNetOtpAuthenticatorHelper : IOtpAuthenticator
+public class OtpNetOtpAuthenticatorHelper : IOtpAuthenticatorHelper
 {
     public Task<byte[]> GenerateSecretKey()
     {
