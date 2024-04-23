@@ -9,13 +9,14 @@ namespace MenCore.CrossCuttingConserns.Exceptions;
 // HTTP istisnalarını işleyen bir middleware sınıfı
 public class ExceptionMiddleware
 {
-    private readonly RequestDelegate _next; // Bir sonraki middleware bileşeni
-    private readonly HttpExceptionHandler _httpExceptionHandler; // HTTP istisnalarını işleyen nesne
     private readonly IHttpContextAccessor _httpContextAccessor; // HTTP isteği bilgilerine erişim sağlayan nesne
+    private readonly HttpExceptionHandler _httpExceptionHandler; // HTTP istisnalarını işleyen nesne
     private readonly LoggerServiceBase _loggerServiceBase; // Loglama işlemlerini gerçekleştiren nesne
+    private readonly RequestDelegate _next; // Bir sonraki middleware bileşeni
 
     // ExceptionMiddleware sınıfının kurucu metodu, RequestDelegate, IHttpContextAccessor ve LoggerServiceBase örnekleri alır
-    public ExceptionMiddleware(RequestDelegate next, IHttpContextAccessor httpContextAccessor, LoggerServiceBase loggerServiceBase)
+    public ExceptionMiddleware(RequestDelegate next, IHttpContextAccessor httpContextAccessor,
+        LoggerServiceBase loggerServiceBase)
     {
         _next = next; // Bir sonraki middleware bileşeni atanır
         _httpExceptionHandler = new HttpExceptionHandler(); // HTTP istisnalarını işleyen nesne oluşturulur
@@ -38,15 +39,21 @@ public class ExceptionMiddleware
     }
 
     #region Oluşan istisnayı işleyen yardımcı metot
+
     private Task HandleExceptionAsync(HttpResponse response, Exception exception)
     {
         response.ContentType = "application/json"; // Yanıt içeriğinin JSON formatında olacağı belirtilir
         _httpExceptionHandler.Response = response; // HTTP yanıt nesnesi atanır
-        return _httpExceptionHandler.HandleExceptionAsync(exception); // HttpExceptionHandler aracılığıyla istisna işlenir ve yanıt döndürülür
+        return
+            _httpExceptionHandler
+                .HandleExceptionAsync(
+                    exception); // HttpExceptionHandler aracılığıyla istisna işlenir ve yanıt döndürülür
     }
+
     #endregion
 
     #region Oluşan istisnayı günlüğe kaydeden yardımcı metot
+
     private Task LogException(HttpContext context, Exception exception)
     {
         List<LogParameter> logParameters = new() // LogParameter listesi oluşturulur ve istisna türü ve değeri eklenir
@@ -62,9 +69,12 @@ public class ExceptionMiddleware
             ExceptionMessage = exception.Message
         };
 
-        _loggerServiceBase.Error(JsonSerializer.Serialize(logDetail)); // LogDetail nesnesi JSON formatına dönüştürülür ve hata seviyesinde loglanır
+        _loggerServiceBase.Error(
+            JsonSerializer
+                .Serialize(logDetail)); // LogDetail nesnesi JSON formatına dönüştürülür ve hata seviyesinde loglanır
 
         return Task.CompletedTask; // Görev tamamlandı olarak işaretlenir
     }
+
     #endregion
 }

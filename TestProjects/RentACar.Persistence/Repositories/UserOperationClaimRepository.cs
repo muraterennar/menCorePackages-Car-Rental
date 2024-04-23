@@ -5,7 +5,8 @@ using RentACar.Persistence.Contexts;
 
 namespace RentACar.Persistence.Repositories;
 
-public class UserOperationClaimRepository : EfRepositoryBase<UserOperationClaim, int, BaseDatabaseContext>, IUserOperationClaimRepository
+public class UserOperationClaimRepository : EfRepositoryBase<UserOperationClaim, int, BaseDatabaseContext>,
+    IUserOperationClaimRepository
 {
     public UserOperationClaimRepository(BaseDatabaseContext context) : base(context)
     {

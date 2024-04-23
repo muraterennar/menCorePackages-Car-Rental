@@ -3,10 +3,6 @@
 // LogParameter sınıfı, bir parametrenin adı, değeri ve türüyle ilgili bilgileri içerir
 public class LogParameter
 {
-    public string Name { get; set; } // Parametrenin adı
-    public object Value { get; set; } // Parametrenin değeri
-    public string Type { get; set; } // Parametrenin türü
-
     // Parametresiz kurucu metot, varsayılan değerler atanır
     public LogParameter()
     {
@@ -22,4 +18,8 @@ public class LogParameter
         Value = value; // Değer atanır
         Type = type; // Tür atanır
     }
+
+    public string Name { get; set; } // Parametrenin adı
+    public object Value { get; set; } // Parametrenin değeri
+    public string Type { get; set; } // Parametrenin türü
 }

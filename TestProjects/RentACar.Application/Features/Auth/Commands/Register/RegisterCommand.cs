@@ -2,7 +2,6 @@
 using MenCore.Application.Dtos;
 using MenCore.Security.Entities;
 using MenCore.Security.Hashing;
-using MenCore.Security.JWT;
 using RentACar.Application.Features.Auth.Rules;
 using RentACar.Application.Services.AuthServices;
 using RentACar.Application.Services.Repositories;
@@ -16,11 +15,12 @@ public class RegisterCommand : IRequest<RegisteredResponse>
 
     public class RegisterCommandHandler : IRequestHandler<RegisterCommand, RegisteredResponse>
     {
-        private readonly IUserRepository _userRepository;
-        private readonly IAuthService _authService;
         private readonly AuthBusinessRules _authBusinessRules;
+        private readonly IAuthService _authService;
+        private readonly IUserRepository _userRepository;
 
-        public RegisterCommandHandler(IUserRepository userRepository, IAuthService authService, AuthBusinessRules authBusinessRules)
+        public RegisterCommandHandler(IUserRepository userRepository, IAuthService authService,
+            AuthBusinessRules authBusinessRules)
         {
             _userRepository = userRepository;
             _authService = authService;
@@ -48,20 +48,20 @@ public class RegisterCommand : IRequest<RegisteredResponse>
             };
 
             // Yeni kullanıcıyı veritabanına ekler
-            User? createdUser = await _userRepository.AddAsync(newUser);
+            var createdUser = await _userRepository.AddAsync(newUser);
 
             // Yeni kullanıcı için erişim tokenı oluşturur
-            AccessToken? createdAccessToken = await _authService.CreateAccessToken(createdUser);
+            var createdAccessToken = await _authService.CreateAccessToken(createdUser);
 
             // Yeni kullanıcı için yenileme tokenı oluşturur ve veritabanına ekler
-            RefreshToken? createdResfreshToken = await _authService.CreateRefreshToken(createdUser, request.IPAddress);
-            RefreshToken? addedRefreshToken = await _authService.AddRefreshToken(createdResfreshToken);
+            var createdResfreshToken = await _authService.CreateRefreshToken(createdUser, request.IPAddress);
+            var addedRefreshToken = await _authService.AddRefreshToken(createdResfreshToken);
 
             // Kayıtlı kullanıcı cevabını oluşturur
-            RegisteredResponse? registeredResponse = new() { AccessToken = createdAccessToken, RefreshToken = addedRefreshToken };
+            RegisteredResponse? registeredResponse = new()
+                { AccessToken = createdAccessToken, RefreshToken = addedRefreshToken };
 
             return registeredResponse;
         }
-
     }
 }

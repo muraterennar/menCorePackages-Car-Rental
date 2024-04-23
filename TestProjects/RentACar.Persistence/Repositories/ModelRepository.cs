@@ -7,7 +7,7 @@ namespace RentACar.Persistence.Repositories;
 
 public class ModelRepository : EfRepositoryBase<Model, Guid, BaseDatabaseContext>, IModelRepository
 {
-    public ModelRepository (BaseDatabaseContext context) : base(context)
+    public ModelRepository(BaseDatabaseContext context) : base(context)
     {
     }
 }

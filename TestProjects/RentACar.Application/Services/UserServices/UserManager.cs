@@ -12,27 +12,40 @@ public class UserManager : IUserService
         _userRepository = userRepository;
     }
 
-    public async Task<User?> GetByEmail(string email)
+    public async Task<User?> GetByEmailAsync(string email)
     {
-        User? user = await _userRepository.GetAsync(u => u.Email == email);
+        var user = await _userRepository.GetAsync(u => u.Email == email);
         return user;
     }
 
-    public async Task<User> GetById(int id)
+    public async Task<User> GetByIdAsync(int id)
     {
-        User? user = await _userRepository.GetAsync(u => u.Id == id);
+        var user = await _userRepository.GetAsync(u => u.Id == id);
         return user ?? new User();
     }
 
-    public async Task<User?> GetByUsername(string username)
+
+    public async Task<User?> GetByUsernameAsync(string username)
     {
-        User? user = await _userRepository.GetAsync(u => u.Username == username);
+        var user = await _userRepository.GetAsync(u => u.Username == username);
         return user;
     }
 
-    public async Task<User> Update(User user)
+    public async Task<User> CreateAsync(User user)
     {
-        User? updatedUser = await _userRepository.UpdateAsync(user);
+        var createdUser = await _userRepository.AddAsync(user);
+        return createdUser;
+    }
+
+    public async Task<User> UpdateAsync(User user)
+    {
+        var updatedUser = await _userRepository.UpdateAsync(user);
         return updatedUser;
+    }
+
+    public async Task<User> DeleteAsync(User user)
+    {
+        var deletedUser = await _userRepository.DeleteAsync(user);
+        return deletedUser;
     }
 }

@@ -6,7 +6,7 @@ namespace RentACar.Persistence.EntityConfigurations;
 
 public class TransmissionConfiguration : IEntityTypeConfiguration<Transmission>
 {
-    public void Configure (EntityTypeBuilder<Transmission> builder)
+    public void Configure(EntityTypeBuilder<Transmission> builder)
     {
         builder.ToTable("Transmissions").HasKey(b => b.Id);
         builder.Property(b => b.Id).HasColumnName("Id").IsRequired();
@@ -15,7 +15,7 @@ public class TransmissionConfiguration : IEntityTypeConfiguration<Transmission>
         builder.Property(b => b.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(b => b.DeletedDate).HasColumnName("DeletedDate");
 
-        builder.HasIndex(indexExpression: b => b.TransmissionName, name: "UK_Transmissions_Name").IsUnique();
+        builder.HasIndex(b => b.TransmissionName, "UK_Transmissions_Name").IsUnique();
 
         builder.HasMany(f => f.Models);
 

@@ -6,7 +6,7 @@ namespace RentACar.Persistence.EntityConfigurations;
 
 public class BrandConfiguration : IEntityTypeConfiguration<Brand>
 {
-    public void Configure (EntityTypeBuilder<Brand> builder)
+    public void Configure(EntityTypeBuilder<Brand> builder)
     {
         builder.ToTable("Brands").HasKey(b => b.Id);
         builder.Property(b => b.Id).HasColumnName("Id").IsRequired();
@@ -15,7 +15,7 @@ public class BrandConfiguration : IEntityTypeConfiguration<Brand>
         builder.Property(b => b.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(b => b.DeletedDate).HasColumnName("DeletedDate");
 
-        builder.HasIndex(indexExpression: b => b.BrandName, name: "UK_Brands_Name").IsUnique();
+        builder.HasIndex(b => b.BrandName, "UK_Brands_Name").IsUnique();
 
         builder.HasMany(b => b.Models);
 

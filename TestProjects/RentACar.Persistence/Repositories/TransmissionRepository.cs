@@ -7,7 +7,7 @@ namespace RentACar.Persistence.Repositories;
 
 public class TransmissionRepository : EfRepositoryBase<Transmission, Guid, BaseDatabaseContext>, ITransmissionRepository
 {
-    public TransmissionRepository (BaseDatabaseContext context) : base(context)
+    public TransmissionRepository(BaseDatabaseContext context) : base(context)
     {
     }
 }

@@ -8,7 +8,7 @@ public class OtpAuthenticationConfiguration : IEntityTypeConfiguration<OtpAuthen
 {
     public void Configure(EntityTypeBuilder<OtpAuthenticator> builder)
     {
-        builder.ToTable("OtpAuthentiacators").HasKey(o=>o.Id);
+        builder.ToTable("OtpAuthentiacators").HasKey(o => o.Id);
 
         builder.Property(o => o.Id).HasColumnName("Id").IsRequired();
         builder.Property(o => o.UserId).HasColumnName("UserId").IsRequired();
@@ -18,8 +18,8 @@ public class OtpAuthenticationConfiguration : IEntityTypeConfiguration<OtpAuthen
         builder.Property(o => o.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(o => o.DeletedDate).HasColumnName("DeletedDate");
 
-        builder.HasQueryFilter(o=>!o.DeletedDate.HasValue);
+        builder.HasQueryFilter(o => !o.DeletedDate.HasValue);
 
-        builder.HasOne(o=>o.User);
+        builder.HasOne(o => o.User);
     }
 }

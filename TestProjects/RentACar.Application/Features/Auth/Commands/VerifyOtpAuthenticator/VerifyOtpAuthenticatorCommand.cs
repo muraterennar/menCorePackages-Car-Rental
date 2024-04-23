@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using MenCore.Security.Entities;
 using MenCore.Security.Enums;
 using RentACar.Application.Features.Auth.Rules;
 using RentACar.Application.Services.AuthenticatorServices;
@@ -22,7 +21,9 @@ public class VerifyOtpAuthenticatorCommand : IRequest
         private readonly IUserService _userService;
 
         // Bağımlılıkları enjekte ederek VerifyOtpAuthenticatorCommandHandler sınıfını oluşturur
-        public VerifyOtpAuthenticatorCommandHandler(AuthBusinessRules authBusinessRules, IAuthenticatorService authenticatorService, IOtpAuthenticatorRepository otpAuthenticatorRepository, IUserService userService)
+        public VerifyOtpAuthenticatorCommandHandler(AuthBusinessRules authBusinessRules,
+            IAuthenticatorService authenticatorService, IOtpAuthenticatorRepository otpAuthenticatorRepository,
+            IUserService userService)
         {
             _authBusinessRules = authBusinessRules;
             _authenticatorService = authenticatorService;
@@ -34,13 +35,13 @@ public class VerifyOtpAuthenticatorCommand : IRequest
         public async Task Handle(VerifyOtpAuthenticatorCommand request, CancellationToken cancellationToken)
         {
             // OTP doğrulayıcıyı kullanıcı kimliğine göre alır
-            OtpAuthenticator? otpAuthenticator = await _otpAuthenticatorRepository.GetAsync(e => e.UserId == request.UserId);
+            var otpAuthenticator = await _otpAuthenticatorRepository.GetAsync(e => e.UserId == request.UserId);
 
             // OTP doğrulayıcının var olması gerektiğini kontrol eder
             await _authBusinessRules.OtpAuthenticatorShouldBeExists(otpAuthenticator);
 
             // Kullanıcıyı kullanıcı kimliğine göre alır
-            User? user = await _userService.GetById(request.UserId);
+            var user = await _userService.GetByIdAsync(request.UserId);
 
             // OTP doğrulayıcının doğrulandığını işaretler
             otpAuthenticator.IsVerified = true;
@@ -55,7 +56,7 @@ public class VerifyOtpAuthenticatorCommand : IRequest
             await _otpAuthenticatorRepository.UpdateAsync(otpAuthenticator);
 
             // Kullanıcıyı günceller
-            await _userService.Update(user);
+            await _userService.UpdateAsync(user);
         }
     }
 }

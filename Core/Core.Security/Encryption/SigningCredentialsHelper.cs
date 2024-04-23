@@ -1,11 +1,13 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 
-namespace MenCore.Security.Encryption
+namespace MenCore.Security.Encryption;
+
+// SigningCredentialsHelper sınıfı
+public static class SigningCredentialsHelper
 {
-    // SigningCredentialsHelper sınıfı
-    public static class SigningCredentialsHelper
+    // Verilen güvenlik anahtarı ile bir SigningCredentials oluşturan metot
+    public static SigningCredentials CreateSigningCredentials(SecurityKey securityKey)
     {
-        // Verilen güvenlik anahtarı ile bir SigningCredentials oluşturan metot
-        public static SigningCredentials CreateSigningCredentials(SecurityKey securityKey) => new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha512Signature);
+        return new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha512Signature);
     }
 }

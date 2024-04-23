@@ -10,8 +10,11 @@ public class LoginResponse
     public RefreshToken? RefreshToken { get; set; }
     public AuthenticatorType? RequiredAuthenticatorType { get; set; }
 
-    public LoggedHttpResponse ToHttpResponse() =>
-    new() { AccessToken = AccessToken, RequiredAuthenticatorType = RequiredAuthenticatorType };
+    public LoggedHttpResponse ToHttpResponse()
+    {
+        return new LoggedHttpResponse
+            { AccessToken = AccessToken, RequiredAuthenticatorType = RequiredAuthenticatorType };
+    }
 
     public class LoggedHttpResponse
     {

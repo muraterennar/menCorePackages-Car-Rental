@@ -9,7 +9,8 @@ using RentACar.Domaim.Entities;
 
 namespace RentACar.Application.Features.Brands.Commands.Create;
 
-public class CreateBrandCommand : IRequest<CreateBrandResposne>, ICacheRemoverRequest, ITransactionalRequest, ILoggableRequest
+public class CreateBrandCommand : IRequest<CreateBrandResposne>, ICacheRemoverRequest, ITransactionalRequest,
+    ILoggableRequest
 {
     public string BrandName { get; set; }
 
@@ -21,11 +22,12 @@ public class CreateBrandCommand : IRequest<CreateBrandResposne>, ICacheRemoverRe
 
     public class CreatedBrandCommandController : IRequestHandler<CreateBrandCommand, CreateBrandResposne>
     {
+        private readonly BrandBusinessRules _brandBusinessRules;
         private readonly IBrandRepository _brandRepository;
         private readonly IMapper _mapper;
-        private readonly BrandBusinessRules _brandBusinessRules;
 
-        public CreatedBrandCommandController(IBrandRepository brandRepository, IMapper mapper, BrandBusinessRules brandBusinessRules)
+        public CreatedBrandCommandController(IBrandRepository brandRepository, IMapper mapper,
+            BrandBusinessRules brandBusinessRules)
         {
             _brandRepository = brandRepository;
             _mapper = mapper;
@@ -36,12 +38,12 @@ public class CreateBrandCommand : IRequest<CreateBrandResposne>, ICacheRemoverRe
         {
             await _brandBusinessRules.BrandNameCannotBeDuplicatedWhenInsertedAsync(request.BrandName);
 
-            Brand brand = _mapper.Map<Brand>(request);
+            var brand = _mapper.Map<Brand>(request);
             brand.Id = Guid.NewGuid();
 
             await _brandRepository.AddAsync(brand);
 
-            CreateBrandResposne createBrandResposne = _mapper.Map<CreateBrandResposne>(brand);
+            var createBrandResposne = _mapper.Map<CreateBrandResposne>(brand);
 
             return createBrandResposne;
         }

@@ -3,7 +3,7 @@ using MenCore.Security.Entities;
 
 namespace RentACar.Application.Services.Repositories;
 
-public interface IOtpAuthenticatorRepository:IAsyncRepository<OtpAuthenticator, int>, IRepository<OtpAuthenticator, int>
+public interface IOtpAuthenticatorRepository : IAsyncRepository<OtpAuthenticator, int>,
+    IRepository<OtpAuthenticator, int>
 {
-
 }

@@ -5,7 +5,8 @@ using RentACar.Persistence.Contexts;
 
 namespace RentACar.Persistence.Repositories;
 
-public class OtpAuthenticatorRepository : EfRepositoryBase<OtpAuthenticator, int, BaseDatabaseContext>, IOtpAuthenticatorRepository
+public class OtpAuthenticatorRepository : EfRepositoryBase<OtpAuthenticator, int, BaseDatabaseContext>,
+    IOtpAuthenticatorRepository
 {
     public OtpAuthenticatorRepository(BaseDatabaseContext context) : base(context)
     {

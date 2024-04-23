@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
 using MenCore.Security.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using RentACar.Domaim.Entities;
 
 namespace RentACar.Persistence.Contexts;
@@ -10,23 +9,10 @@ public class BaseDatabaseContext : DbContext
 {
     public BaseDatabaseContext()
     {
-
     }
 
     public BaseDatabaseContext(DbContextOptions options) : base(options)
     {
-
-    }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        if (!optionsBuilder.IsConfigured)
-        {
-            //TODO: Transaction İşleminde Sorun Çıkarıyor => EnableRetryOnFailure()
-            //optionsBuilder.UseSqlServer("Server=localhost;Database=TestCarRentalDb;user id=SA;password=MyPass@word;TrustServerCertificate=true", options => options.EnableRetryOnFailure());
-
-            optionsBuilder.UseSqlServer("Server=localhost;Database=TestCarRentalDb;user id=SA;password=MyPass@word;TrustServerCertificate=true");
-        }
     }
 
     public DbSet<Brand> Brands { get; set; }
@@ -42,9 +28,17 @@ public class BaseDatabaseContext : DbContext
     public DbSet<OtpAuthenticator> OtpAuthenticators { get; set; }
     public DbSet<EmailAuthenticator> EmailAuthenticators { get; set; }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        if (!optionsBuilder.IsConfigured)
+            //TODO: Transaction İşleminde Sorun Çıkarıyor => EnableRetryOnFailure()
+            //optionsBuilder.UseSqlServer("Server=localhost;Database=TestCarRentalDb;user id=SA;password=MyPass@word;TrustServerCertificate=true", options => options.EnableRetryOnFailure());
+            optionsBuilder.UseSqlServer(
+                "Server=localhost;Database=TestCarRentalDb;user id=SA;password=MyPass@word;TrustServerCertificate=true");
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 }
-

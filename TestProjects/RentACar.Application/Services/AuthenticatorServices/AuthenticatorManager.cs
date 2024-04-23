@@ -17,7 +17,9 @@ public class AuthenticatorManager : IAuthenticatorService
     private readonly IOtpAuthenticatorHelper _otpAuthenticatorHelper;
     private readonly IOtpAuthenticatorRepository _otpAuthenticatorRepository;
 
-    public AuthenticatorManager(IEmailAuthenticatorHelper emailAuthenticatorHelper, IEmailAuthenticatorRepository emailAuthenticatorRepository, IMailService mailService, IOtpAuthenticatorHelper otpAuthenticatorHelper, IOtpAuthenticatorRepository otpAuthenticatorRepository)
+    public AuthenticatorManager(IEmailAuthenticatorHelper emailAuthenticatorHelper,
+        IEmailAuthenticatorRepository emailAuthenticatorRepository, IMailService mailService,
+        IOtpAuthenticatorHelper otpAuthenticatorHelper, IOtpAuthenticatorRepository otpAuthenticatorRepository)
     {
         _emailAuthenticatorHelper = emailAuthenticatorHelper;
         _emailAuthenticatorRepository = emailAuthenticatorRepository;
@@ -55,7 +57,7 @@ public class AuthenticatorManager : IAuthenticatorService
     // Bir byte dizisini bir dizeye dönüştürür
     public async Task<string> ConvertSecretKeyToString(byte[] secretKey)
     {
-        string result = await _otpAuthenticatorHelper.ConvertSecretKeyToString(secretKey);
+        var result = await _otpAuthenticatorHelper.ConvertSecretKeyToString(secretKey);
         return result;
     }
 
@@ -78,17 +80,17 @@ public class AuthenticatorManager : IAuthenticatorService
     // Kullanıcıya e-posta ile doğrulayıcı kod gönderir
     private async Task SendAuthenticatorCodeWithEmail(User user)
     {
-        EmailAuthenticator? emailAuthenticator = await _emailAuthenticatorRepository.GetAsync(e => e.UserId == user.Id);
+        var emailAuthenticator = await _emailAuthenticatorRepository.GetAsync(e => e.UserId == user.Id);
         if (emailAuthenticator is null)
             throw new NotFoundException("Email Authenticator not found.");
         if (!emailAuthenticator.IsVerified)
             throw new BusinessException("Email Authenticator must be is verified.");
 
-        string authenticatorCode = await _emailAuthenticatorHelper.CreateEmailActivationCode();
+        var authenticatorCode = await _emailAuthenticatorHelper.CreateEmailActivationCode();
         emailAuthenticator.ActivationKey = authenticatorCode;
         await _emailAuthenticatorRepository.UpdateAsync(emailAuthenticator);
 
-        var toEmailList = new List<MailboxAddress> { new(name: $"{user.FirstName} {user.LastName}", user.Email) };
+        var toEmailList = new List<MailboxAddress> { new($"{user.FirstName} {user.LastName}", user.Email) };
 
         _mailService.SendMail(
             new Mail
@@ -103,7 +105,7 @@ public class AuthenticatorManager : IAuthenticatorService
     // Kullanıcının e-posta ile doğrulayıcı kodunu doğrular
     private async Task VerifyAuthenticatorCodeWithEmail(User user, string authenticatorCode)
     {
-        EmailAuthenticator? emailAuthenticator = await _emailAuthenticatorRepository.GetAsync(e => e.UserId == user.Id);
+        var emailAuthenticator = await _emailAuthenticatorRepository.GetAsync(e => e.UserId == user.Id);
         if (emailAuthenticator is null)
             throw new NotFoundException("Email Authenticator not found.");
         if (emailAuthenticator.ActivationKey != authenticatorCode)
@@ -115,10 +117,10 @@ public class AuthenticatorManager : IAuthenticatorService
     // Kullanıcının OTP ile doğrulayıcı kodunu doğrular
     private async Task VerifyAuthenticatorCodeWithOtp(User user, string authenticatorCode)
     {
-        OtpAuthenticator? otpAuthenticator = await _otpAuthenticatorRepository.GetAsync(e => e.UserId == user.Id);
+        var otpAuthenticator = await _otpAuthenticatorRepository.GetAsync(e => e.UserId == user.Id);
         if (otpAuthenticator is null)
             throw new NotFoundException("Otp Authenticator not found.");
-        bool result = await _otpAuthenticatorHelper.VerifyCode(otpAuthenticator.SecretKey, authenticatorCode);
+        var result = await _otpAuthenticatorHelper.VerifyCode(otpAuthenticator.SecretKey, authenticatorCode);
         if (!result)
             throw new BusinessException("Authenticator code is invalid.");
     }

@@ -1,11 +1,21 @@
 ﻿namespace MenCore.Persistence.Paging;
 
 #region Paginate
+
 // Bu sınıf, sayfalama (pagination) işlevselliğini sağlar.
 // Sayfalama işlemleri için gerekli olan özellikleri ve davranışları içerir.
+
 #endregion
+
 public class Paginate<T>
 {
+    // Sınıfın yapılandırıcı metodu.
+    // Sayfa koleksiyonunu başlangıçta boş bir koleksiyonla başlatır.
+    public Paginate()
+    {
+        Items = Array.Empty<T>();
+    }
+
     // Her sayfa boyutunu (kaç öğe gösterileceği) belirten özellik.
     public int Size { get; set; }
 
@@ -26,11 +36,4 @@ public class Paginate<T>
 
     // Sonraki sayfa var mı kontrol eden özellik.
     public bool HasNext => Index + 1 < Pages;
-
-    // Sınıfın yapılandırıcı metodu.
-    // Sayfa koleksiyonunu başlangıçta boş bir koleksiyonla başlatır.
-    public Paginate ()
-    {
-        Items = Array.Empty<T>();
-    }
 }

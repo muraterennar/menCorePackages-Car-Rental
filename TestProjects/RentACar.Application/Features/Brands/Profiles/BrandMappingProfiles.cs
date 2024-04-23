@@ -12,7 +12,7 @@ namespace RentACar.Application.Features.Brands.Profiles;
 
 public class BrandMappingProfiles : Profile
 {
-    public BrandMappingProfiles ()
+    public BrandMappingProfiles()
     {
         CreateMap<Brand, CreateBrandCommand>().ReverseMap();
         CreateMap<Brand, CreateBrandResposne>().ReverseMap();

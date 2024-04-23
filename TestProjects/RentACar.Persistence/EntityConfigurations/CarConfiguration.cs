@@ -6,7 +6,7 @@ namespace RentACar.Persistence.EntityConfigurations;
 
 public class CarConfiguration : IEntityTypeConfiguration<Car>
 {
-    public void Configure (EntityTypeBuilder<Car> builder)
+    public void Configure(EntityTypeBuilder<Car> builder)
     {
         builder.ToTable("Cars").HasKey(b => b.Id);
 

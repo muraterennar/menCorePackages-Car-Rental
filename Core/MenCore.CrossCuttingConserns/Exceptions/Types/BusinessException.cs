@@ -4,17 +4,17 @@
 public class BusinessException : Exception
 {
     // Parametresiz kurucu metod
-    public BusinessException ()
+    public BusinessException()
     {
     }
 
     // Bir mesajla kurucu metod
-    public BusinessException (string? message) : base(message)
+    public BusinessException(string? message) : base(message)
     {
     }
 
     // Bir mesaj ve iç istisna ile kurucu metod
-    public BusinessException (string? message, Exception? innerException) : base(message, innerException)
+    public BusinessException(string? message, Exception? innerException) : base(message, innerException)
     {
     }
 }

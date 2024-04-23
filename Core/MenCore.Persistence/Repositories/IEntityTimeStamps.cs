@@ -6,4 +6,3 @@ public interface IEntityTimeStamps
     public DateTime? UpdatedDate { get; set; }
     public DateTime? DeletedDate { get; set; }
 }
-

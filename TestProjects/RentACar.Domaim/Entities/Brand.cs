@@ -4,23 +4,18 @@ namespace RentACar.Domaim.Entities;
 
 public class Brand : Entity<Guid>
 {
-
-    public string BrandName { get; set; }
-
-    public virtual ICollection<Model> Models { get; set; }
-
-    public Brand ()
+    public Brand()
     {
         Models = new HashSet<Model>();
     }
 
-    public Brand (string name) : this()
+    public Brand(string name) : this()
     {
         Id = Guid.NewGuid();
         BrandName = name;
     }
 
-    public Brand (Guid id, string name, DateTime createdDate, DateTime updatedDate, DateTime deletedDate) : this()
+    public Brand(Guid id, string name, DateTime createdDate, DateTime updatedDate, DateTime deletedDate) : this()
     {
         Id = id;
         BrandName = name;
@@ -28,4 +23,8 @@ public class Brand : Entity<Guid>
         UpdatedDate = updatedDate;
         DeletedDate = deletedDate;
     }
+
+    public string BrandName { get; set; }
+
+    public virtual ICollection<Model> Models { get; set; }
 }

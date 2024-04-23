@@ -11,21 +11,21 @@ public class UsersController : BaseController
     [HttpPost("add")]
     public async Task<IActionResult> AddUser([FromBody] CreatedUserCommand createdUserCommand)
     {
-        CreatedUserResponse response = await Mediator.Send(createdUserCommand);
+        var response = await Mediator.Send(createdUserCommand);
         return Ok(response);
     }
 
     [HttpPut("update")]
     public async Task<IActionResult> UpdateUser([FromBody] UpdatedUserCommand updatedUserCommand)
     {
-        UpdatedUserResponse? response = await Mediator.Send(updatedUserCommand);
+        var response = await Mediator.Send(updatedUserCommand);
         return Ok(response);
     }
 
     [HttpDelete("delete")]
     public async Task<IActionResult> DeleteUser([FromBody] DeletedUserCommand deletedUserCommand)
     {
-        DeletedUserResponse? response = await Mediator.Send(deletedUserCommand);
+        var response = await Mediator.Send(deletedUserCommand);
         return Ok(response);
     }
 }

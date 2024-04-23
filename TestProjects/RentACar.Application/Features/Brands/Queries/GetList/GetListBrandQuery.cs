@@ -4,9 +4,7 @@ using MenCore.Application.Pipelines.Caching;
 using MenCore.Application.Pipelines.Logging;
 using MenCore.Application.Request;
 using MenCore.Application.Responses;
-using MenCore.Persistence.Paging;
 using RentACar.Application.Services.Repositories;
-using RentACar.Domaim.Entities;
 
 namespace RentACar.Application.Features.Brands.Queries.GetList;
 
@@ -33,15 +31,16 @@ public class GetListBrandQuery : IRequest<GetListResponse<GetListBrandListItemDt
             _mapper = mapper;
         }
 
-        public async Task<GetListResponse<GetListBrandListItemDto>> Handle(GetListBrandQuery request, CancellationToken cancellationToken)
+        public async Task<GetListResponse<GetListBrandListItemDto>> Handle(GetListBrandQuery request,
+            CancellationToken cancellationToken)
         {
-            Paginate<Brand> brands = await _brandRepository.GetListAsync(
-                 index: request.PageRequest.PageIndex,
-                 size: request.PageRequest.PageSize,
-                 cancellationToken: cancellationToken
-                 );
+            var brands = await _brandRepository.GetListAsync(
+                index: request.PageRequest.PageIndex,
+                size: request.PageRequest.PageSize,
+                cancellationToken: cancellationToken
+            );
 
-            GetListResponse<GetListBrandListItemDto> response = _mapper.Map<GetListResponse<GetListBrandListItemDto>>(brands);
+            var response = _mapper.Map<GetListResponse<GetListBrandListItemDto>>(brands);
 
             return response;
         }

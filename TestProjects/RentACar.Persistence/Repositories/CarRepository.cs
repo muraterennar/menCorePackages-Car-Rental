@@ -7,7 +7,7 @@ namespace RentACar.Persistence.Repositories;
 
 public class CarRepository : EfRepositoryBase<Car, Guid, BaseDatabaseContext>, ICarRepository
 {
-    public CarRepository (BaseDatabaseContext context) : base(context)
+    public CarRepository(BaseDatabaseContext context) : base(context)
     {
     }
 }

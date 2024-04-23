@@ -16,42 +16,50 @@ public class HttpExceptionHandler : ExceptionHandler
         set => _response = value; // HTTP yanıt nesnesi atanır
     }
 
+    #region Genel Exception tipindeki istisnaları işleyen metot
+
+    protected override Task HandleException(Exception exception)
+    {
+        Response.StatusCode = StatusCodes.Status500InternalServerError; // HTTP yanıt kodu atanır
+        var details =
+            new InternalServerErrorProblemDetails(exception.Message)
+                .AsJson(); // İstisna detayları JSON formatına dönüştürülür
+        return Response.WriteAsync(details); // İstisna detayları HTTP yanıta yazılır
+    }
+
+    #endregion
+
     #region Tiplere göre istisnaları işleyen metot
+
     protected override Task HandleException(BusinessException businessException)
     {
         Response.StatusCode = StatusCodes.Status400BadRequest; // HTTP yanıt kodu atanır
-        string details = new BusinessProblemDetails(businessException.Message).AsJson(); // İstisna detayları JSON formatına dönüştürülür
+        var details =
+            new BusinessProblemDetails(businessException.Message)
+                .AsJson(); // İstisna detayları JSON formatına dönüştürülür
         return Response.WriteAsync(details); // İstisna detayları HTTP yanıta yazılır
     }
 
     protected override Task HandleException(ValidationException validationException)
     {
         Response.StatusCode = StatusCodes.Status400BadRequest;
-        string details = new ValidationProblemDetails(validationException.Errors).AsJson();
+        var details = new ValidationProblemDetails(validationException.Errors).AsJson();
         return Response.WriteAsync(details);
     }
 
     protected override Task HandleException(NotFoundException notFoundException)
     {
         Response.StatusCode = StatusCodes.Status404NotFound;
-        string details = new NotFoundProblemDetails(notFoundException.Message).AsJson();
+        var details = new NotFoundProblemDetails(notFoundException.Message).AsJson();
         return Response.WriteAsync(details);
     }
 
     protected override Task HandleException(AuthorizationException authorizationException)
     {
         Response.StatusCode = StatusCodes.Status401Unauthorized;
-        string details = new AuthorizationProblemDetails(authorizationException.Message).AsJson();
+        var details = new AuthorizationProblemDetails(authorizationException.Message).AsJson();
         return Response.WriteAsync(details);
     }
-    #endregion
 
-    #region Genel Exception tipindeki istisnaları işleyen metot
-    protected override Task HandleException(Exception exception)
-    {
-        Response.StatusCode = StatusCodes.Status500InternalServerError; // HTTP yanıt kodu atanır
-        string details = new InternalServerErrorProblemDetails(exception.Message).AsJson(); // İstisna detayları JSON formatına dönüştürülür
-        return Response.WriteAsync(details); // İstisna detayları HTTP yanıta yazılır
-    }
     #endregion
 }

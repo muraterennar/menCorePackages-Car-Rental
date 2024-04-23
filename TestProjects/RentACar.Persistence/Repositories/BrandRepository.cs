@@ -7,7 +7,7 @@ namespace RentACar.Persistence.Repositories;
 
 public class BrandRepository : EfRepositoryBase<Brand, Guid, BaseDatabaseContext>, IBrandRepository
 {
-    public BrandRepository (BaseDatabaseContext context) : base(context)
+    public BrandRepository(BaseDatabaseContext context) : base(context)
     {
     }
 }

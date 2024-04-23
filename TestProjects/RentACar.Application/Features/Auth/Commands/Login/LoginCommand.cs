@@ -1,8 +1,6 @@
 ﻿using MediatR;
 using MenCore.Application.Dtos;
-using MenCore.Security.Entities;
 using MenCore.Security.Enums;
-using MenCore.Security.JWT;
 using RentACar.Application.Features.Auth.Rules;
 using RentACar.Application.Services.AuthenticatorServices;
 using RentACar.Application.Services.AuthServices;
@@ -17,12 +15,13 @@ public class LoginCommand : IRequest<LoginResponse>
 
     public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginResponse>
     {
-        private readonly IUserService _userService;
-        private readonly IAuthService _authService;
         private readonly AuthBusinessRules _authBusinessRules;
         private readonly IAuthenticatorService _authenticatorService;
+        private readonly IAuthService _authService;
+        private readonly IUserService _userService;
 
-        public LoginCommandHandler(IUserService userService, IAuthService authService, AuthBusinessRules authBusinessRules, IAuthenticatorService authenticatorService)
+        public LoginCommandHandler(IUserService userService, IAuthService authService,
+            AuthBusinessRules authBusinessRules, IAuthenticatorService authenticatorService)
         {
             _userService = userService;
             _authService = authService;
@@ -34,13 +33,10 @@ public class LoginCommand : IRequest<LoginResponse>
         public async Task<LoginResponse> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
             // Kullanıcıyı e-posta veya kullanıcı adına göre alır
-            User? user = await _userService.GetByEmail(request.UserForLoginDto.EmailOrUsername);
+            var user = await _userService.GetByEmailAsync(request.UserForLoginDto.EmailOrUsername);
 
             // Eğer kullanıcı e-posta ile bulunamazsa, kullanıcı adına göre tekrar arar
-            if (user == null)
-            {
-                user = await _userService.GetByUsername(request.UserForLoginDto.EmailOrUsername);
-            }
+            if (user == null) user = await _userService.GetByUsernameAsync(request.UserForLoginDto.EmailOrUsername);
 
             // Kullanıcının varlığını kontrol eder
             await _authBusinessRules.UserShouldBeExists(user);
@@ -68,11 +64,11 @@ public class LoginCommand : IRequest<LoginResponse>
             }
 
             // Kullanıcı için erişim belirteci oluşturur
-            AccessToken? createdAccessToken = await _authService.CreateAccessToken(user);
+            var createdAccessToken = await _authService.CreateAccessToken(user);
 
             // Kullanıcı için yenileme belirteci oluşturur ve ekler
-            RefreshToken? createdRefreshToken = await _authService.CreateRefreshToken(user, request.IPAddress);
-            RefreshToken? addedRefreshToken = await _authService.AddRefreshToken(createdRefreshToken);
+            var createdRefreshToken = await _authService.CreateRefreshToken(user, request.IPAddress);
+            var addedRefreshToken = await _authService.AddRefreshToken(createdRefreshToken);
 
             // Kullanıcının eski yenileme belirtecini siler
             await _authService.DeleteOldRefreshTokens(user.Id);
@@ -82,7 +78,5 @@ public class LoginCommand : IRequest<LoginResponse>
             loginResponse.RefreshToken = addedRefreshToken;
             return loginResponse;
         }
-
     }
 }
-

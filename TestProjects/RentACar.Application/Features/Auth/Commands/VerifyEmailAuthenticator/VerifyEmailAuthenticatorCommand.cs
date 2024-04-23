@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using MenCore.Security.Entities;
 using RentACar.Application.Features.Auth.Rules;
 using RentACar.Application.Services.Repositories;
 
@@ -16,7 +15,8 @@ public class VerifyEmailAuthenticatorCommand : IRequest
         private readonly IEmailAuthenticatorRepository _emailAuthenticatorRepository;
 
         // Bağımlılıkları enjekte ederek VerifyEmailAuthenticatorCommandHandler sınıfını oluşturur
-        public VerifyEmailAuthenticatorCommandHandler(AuthBusinessRules authBusinessRules, IEmailAuthenticatorRepository emailAuthenticatorRepository)
+        public VerifyEmailAuthenticatorCommandHandler(AuthBusinessRules authBusinessRules,
+            IEmailAuthenticatorRepository emailAuthenticatorRepository)
         {
             _authBusinessRules = authBusinessRules;
             _emailAuthenticatorRepository = emailAuthenticatorRepository;
@@ -26,7 +26,8 @@ public class VerifyEmailAuthenticatorCommand : IRequest
         public async Task Handle(VerifyEmailAuthenticatorCommand request, CancellationToken cancellationToken)
         {
             // Doğrulama anahtarına göre e-posta doğrulayıcıyı alır
-            EmailAuthenticator? emailAuthenticator = await _emailAuthenticatorRepository.GetAsync(e => e.ActivationKey == request.ActivationKey);
+            var emailAuthenticator =
+                await _emailAuthenticatorRepository.GetAsync(e => e.ActivationKey == request.ActivationKey);
 
             // E-posta doğrulayıcıyı doğrulama anahtarı olmalıdır kuralını uygular
             await _authBusinessRules.EmailAuthenticatorActivationKeyShouldBeExists(emailAuthenticator);

@@ -4,8 +4,10 @@ namespace RentACar.Application.Services.UserServices;
 
 public interface IUserService
 {
-    public Task<User?> GetByEmail(string email);
-    public Task<User?> GetByUsername(string username);
-    public Task<User> GetById(int id);
-    public Task<User> Update(User user);
+    public Task<User?> GetByEmailAsync(string email);
+    public Task<User?> GetByUsernameAsync(string username);
+    public Task<User> GetByIdAsync(int id);
+    public Task<User> CreateAsync(User user);
+    public Task<User> UpdateAsync(User user);
+    public Task<User> DeleteAsync(User user);
 }

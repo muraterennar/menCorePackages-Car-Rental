@@ -3,12 +3,14 @@
 namespace MenCore.CrossCuttingConserns.Exceptions.Handlers;
 
 #region Genel bir istisna işleyicisinin soyut temsilini sağlar.
+
 public abstract class ExceptionHandler
 {
     // Asenkron olarak bir istisnayı işler.
-    public Task HandleExceptionAsync(Exception exception) =>
+    public Task HandleExceptionAsync(Exception exception)
+    {
         // Gelen istisna türüne göre uygun işleme metodu çağrılır.
-        exception switch
+        return exception switch
         {
             // Eğer gelen istisna bir BusinessException ise,
             // HandleException metodu ile işlenir.
@@ -27,6 +29,7 @@ public abstract class ExceptionHandler
             // metodu ile işlenir.
             _ => HandleException(exception)
         };
+    }
 
     // Türetilmiş sınıflar tarafından uygulanmalıdır. Bir ValidationException
     // istisnasını işler.
@@ -44,4 +47,5 @@ public abstract class ExceptionHandler
     // istisnasını işler.
     protected abstract Task HandleException(Exception exception);
 }
+
 #endregion

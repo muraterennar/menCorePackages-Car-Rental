@@ -8,7 +8,7 @@ public class EmailAuthenticatorHelper : IEmailAuthenticatorHelper
     public Task<string> CreateEmailActivationKey()
     {
         // Rastgele bir 64 bayt uzunluğunda anahtar oluşturur
-        string key = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
+        var key = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
         return Task.FromResult(key);
     }
 
@@ -16,7 +16,7 @@ public class EmailAuthenticatorHelper : IEmailAuthenticatorHelper
     public Task<string> CreateEmailActivationCode()
     {
         // Rastgele bir 6 haneli aktivasyon kodu oluşturur
-        string code = RandomNumberGenerator
+        var code = RandomNumberGenerator
             .GetInt32(Convert.ToInt32(Math.Pow(10, 6)))
             .ToString()
             .PadLeft(6, '0');

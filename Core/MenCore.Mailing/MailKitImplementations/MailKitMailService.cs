@@ -25,7 +25,7 @@ public class MailKitMailService : IMailService
             return;
 
         // E-posta hazırlığı yapar
-        EmailPrepare(mail, out MimeMessage email, out SmtpClient smtp);
+        EmailPrepare(mail, out var email, out var smtp);
 
         // E-postayı gönderir
         smtp.Send(email);
@@ -45,7 +45,7 @@ public class MailKitMailService : IMailService
             return;
 
         // E-posta hazırlığı yapar
-        EmailPrepare(mail, out MimeMessage email, out SmtpClient smtp);
+        EmailPrepare(mail, out var email, out var smtp);
 
         // E-postayı asenkron olarak gönderir
         await smtp.SendAsync(email);
@@ -71,12 +71,12 @@ public class MailKitMailService : IMailService
 
         email.Subject = mail.Subject;
         if (mail.UnscribeLink != null)
-            email.Headers.Add(field: "List-Unsubscribe", value: $"<{mail.UnscribeLink}>");
+            email.Headers.Add("List-Unsubscribe", $"<{mail.UnscribeLink}>");
         BodyBuilder bodyBuilder = new() { TextBody = mail.TextBody, HtmlBody = mail.HtmlBody };
 
         // E-postaya ek dosyaları ekler
         if (mail.Attachments != null)
-            foreach (MimeEntity? attachment in mail.Attachments)
+            foreach (var attachment in mail.Attachments)
                 if (attachment != null)
                     bodyBuilder.Attachments.Add(attachment);
 
@@ -84,9 +84,11 @@ public class MailKitMailService : IMailService
         email.Prepare(EncodingConstraint.SevenBit);
 
         // DKIM imzalaması gerekiyorsa imzalar
-        if (_mailSettings.DkimPrivateKey != null && _mailSettings.DkimSelector != null && _mailSettings.DomainName != null)
+        if (_mailSettings.DkimPrivateKey != null && _mailSettings.DkimSelector != null &&
+            _mailSettings.DomainName != null)
         {
-            _signer = new DkimSigner(key: ReadPrivateKeyFromPemEncodedString(), _mailSettings.DomainName, _mailSettings.DkimSelector)
+            _signer = new DkimSigner(ReadPrivateKeyFromPemEncodedString(), _mailSettings.DomainName,
+                _mailSettings.DkimSelector)
             {
                 HeaderCanonicalizationAlgorithm = DkimCanonicalizationAlgorithm.Simple,
                 BodyCanonicalizationAlgorithm = DkimCanonicalizationAlgorithm.Simple,
@@ -110,7 +112,8 @@ public class MailKitMailService : IMailService
         AsymmetricKeyParameter result;
 
         // PEM kodlanmış özel anahtarın tamamını içeren bir dize oluşturur
-        string pemEncodedKey = "-----BEGIN RSA PRIVATE KEY-----\n" + _mailSettings.DkimPrivateKey + "\n-----END RSA PRIVATE KEY-----";
+        var pemEncodedKey = "-----BEGIN RSA PRIVATE KEY-----\n" + _mailSettings.DkimPrivateKey +
+                            "\n-----END RSA PRIVATE KEY-----";
 
         // PEM kodlanmış özel anahtarın StringReader üzerinden okunmasını sağlar
         using (StringReader stringReader = new(pemEncodedKey))
@@ -118,7 +121,7 @@ public class MailKitMailService : IMailService
             PemReader pemReader = new(stringReader);
 
             // PEM dosyasından bir nesne okur
-            object? pemObject = pemReader.ReadObject();
+            var pemObject = pemReader.ReadObject();
 
             // Okunan nesnenin bir AsymmetricCipherKeyPair olduğunu varsayarak özel anahtarın değerini alır
             result = ((AsymmetricCipherKeyPair)pemObject).Private;

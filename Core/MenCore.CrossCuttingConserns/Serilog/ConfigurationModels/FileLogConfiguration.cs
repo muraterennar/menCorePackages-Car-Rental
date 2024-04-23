@@ -3,8 +3,6 @@
 // FileLogConfiguration sınıfı, dosya tabanlı günlük oluşturma yapılandırmasını temsil eder
 public class FileLogConfiguration
 {
-    public string FolderPath { get; set; } // Dosyaların kaydedileceği klasör yolu
-
     // Parametresiz kurucu metot, varsayılan değerler atanır
     public FileLogConfiguration()
     {
@@ -16,4 +14,6 @@ public class FileLogConfiguration
     {
         FolderPath = folderPath; // Klasör yoluna değer atanır
     }
+
+    public string FolderPath { get; set; } // Dosyaların kaydedileceği klasör yolu
 }

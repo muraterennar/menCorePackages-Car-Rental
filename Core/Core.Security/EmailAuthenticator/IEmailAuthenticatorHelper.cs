@@ -9,5 +9,4 @@ public interface IEmailAuthenticatorHelper
     // E-posta etkinleştirme kodu oluşturur
     // Döndürülen kod genellikle belirli bir uzunlukta rastgele bir sayıdır
     Task<string> CreateEmailActivationCode();
-
 }

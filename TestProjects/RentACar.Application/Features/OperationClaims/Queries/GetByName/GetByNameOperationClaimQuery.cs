@@ -1,15 +1,12 @@
 ﻿using AutoMapper;
 using MediatR;
 using MenCore.Application.Pipelines.Logging;
-using MenCore.Security.Entities;
-using RentACar.Application.Services.Repositories;
+using RentACar.Application.Services.OperationClaimServices;
 
 namespace RentACar.Application.Features.OperationClaims.Queries.GetByName;
 
 public class GetByNameOperationClaimQuery : IRequest<GetByNameOperationClaimResponse>, ILoggableRequest
 {
-    public string Name { get; set; }
-
     public GetByNameOperationClaimQuery()
     {
         Name = string.Empty;
@@ -20,22 +17,27 @@ public class GetByNameOperationClaimQuery : IRequest<GetByNameOperationClaimResp
         Name = name;
     }
 
-    public class GetByNameOperationClaimQueryHandler : IRequestHandler<GetByNameOperationClaimQuery, GetByNameOperationClaimResponse>
-    {
-        private readonly IOperationClaimRepository _operationClaimRepository;
-        private readonly IMapper _mapper;
+    public string Name { get; set; }
 
-        public GetByNameOperationClaimQueryHandler(IOperationClaimRepository operationClaimRepository, IMapper mapper)
+    public class
+        GetByNameOperationClaimQueryHandler : IRequestHandler<GetByNameOperationClaimQuery,
+        GetByNameOperationClaimResponse>
+    {
+        private readonly IMapper _mapper;
+        private readonly IOperationClaimService _operationClaimService;
+
+        public GetByNameOperationClaimQueryHandler(IOperationClaimService operationClaimService, IMapper mapper)
         {
-            _operationClaimRepository = operationClaimRepository;
+            _operationClaimService = operationClaimService;
             _mapper = mapper;
         }
 
-        public async Task<GetByNameOperationClaimResponse> Handle(GetByNameOperationClaimQuery request, CancellationToken cancellationToken)
+        public async Task<GetByNameOperationClaimResponse> Handle(GetByNameOperationClaimQuery request,
+            CancellationToken cancellationToken)
         {
-            OperationClaim? operationClaim = await _operationClaimRepository.GetAsync(o => o.Name == request.Name);
+            var operationClaim = await _operationClaimService.GetByNameAsync(request.Name);
 
-            GetByNameOperationClaimResponse response = _mapper.Map<GetByNameOperationClaimResponse>(operationClaim);
+            var response = _mapper.Map<GetByNameOperationClaimResponse>(operationClaim);
 
             return response;
         }

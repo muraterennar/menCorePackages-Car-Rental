@@ -2,7 +2,7 @@
 
 namespace RentACar.Application.Features.Auth.Commands.Login;
 
-public class LoginCommandValidator:AbstractValidator<LoginCommand>
+public class LoginCommandValidator : AbstractValidator<LoginCommand>
 {
     public LoginCommandValidator()
     {

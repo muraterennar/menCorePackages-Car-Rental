@@ -5,5 +5,4 @@ namespace RentACar.Application.Services.Repositories;
 
 public interface IModelRepository : IAsyncRepository<Model, Guid>, IRepository<Model, Guid>
 {
-
 }

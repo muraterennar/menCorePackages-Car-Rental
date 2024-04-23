@@ -11,6 +11,8 @@ using MenCore.CrossCuttingConserns.Serilog.Loggers;
 using Microsoft.Extensions.DependencyInjection;
 using RentACar.Application.Services.AuthenticatorServices;
 using RentACar.Application.Services.AuthServices;
+using RentACar.Application.Services.OperationClaimServices;
+using RentACar.Application.Services.UserOperationClaimServices;
 using RentACar.Application.Services.UserServices;
 
 namespace RentACar.Application;
@@ -32,6 +34,8 @@ public static class ApplicationServiceRegistration
         services.AddScoped<IAuthService, AuthManager>();
         services.AddScoped<IUserService, UserManager>();
         services.AddScoped<IAuthenticatorService, AuthenticatorManager>();
+        services.AddScoped<IOperationClaimService, OperationClaimManager>();
+        services.AddScoped<IUserOperationClaimService, UserOperationClaimManager>();
 
         services.AddMediatR(configuration =>
         {
@@ -48,14 +52,15 @@ public static class ApplicationServiceRegistration
     }
 
     #region Tipi Verilen Türde Olan Herşeyi IoC ye Ekleyen Method
-    public static IServiceCollection AddSubClassessOfType(this IServiceCollection services, Assembly assembly, Type type, Func<IServiceCollection, Type, IServiceCollection>? addWithLifeCycle = null)
+
+    public static IServiceCollection AddSubClassessOfType(this IServiceCollection services, Assembly assembly,
+        Type type, Func<IServiceCollection, Type, IServiceCollection>? addWithLifeCycle = null)
     {
         // Verilen derleme içindeki tüm tipleri alır
         var types = assembly.GetTypes().Where(t => t.IsSubclassOf(type) && type != t).ToList();
 
         // Her bir alt tür için döngü
         foreach (var typ in types)
-        {
             // Belirtilen yaşam döngüsü işlevi varsa
             if (addWithLifeCycle == null)
                 // Geçici olarak hizmet ekler
@@ -63,8 +68,8 @@ public static class ApplicationServiceRegistration
             else
                 // Belirtilen yaşam döngüsü işlevini çağırır
                 addWithLifeCycle(services, typ);
-        }
         return services;
     }
+
     #endregion
 }

@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using MenCore.Security.Entities;
 using RentACar.Application.Features.Auth.Rules;
 using RentACar.Application.Services.AuthenticatorServices;
 using RentACar.Application.Services.Repositories;
@@ -12,7 +11,9 @@ public class EnableOtpAuthenticatorCommand : IRequest<EnabledOtpAuthenticatorRes
     public int UserId { get; set; }
 
     // Otp doğrulayıcıyı etkinleştirmek için komut işleyicisini uygular
-    public class EnableOtpAuthenticatorCommandHandler : IRequestHandler<EnableOtpAuthenticatorCommand, EnabledOtpAuthenticatorResponse>
+    public class
+        EnableOtpAuthenticatorCommandHandler : IRequestHandler<EnableOtpAuthenticatorCommand,
+        EnabledOtpAuthenticatorResponse>
     {
         private readonly AuthBusinessRules _authBusinessRules;
         private readonly IAuthenticatorService _authenticatorService;
@@ -20,7 +21,9 @@ public class EnableOtpAuthenticatorCommand : IRequest<EnabledOtpAuthenticatorRes
         private readonly IUserService _userService;
 
         // Bağımlılıkları enjekte ederek EnableOtpAuthenticatorCommandHandler sınıfını oluşturur
-        public EnableOtpAuthenticatorCommandHandler(AuthBusinessRules authBusinessRules, IAuthenticatorService authenticatorService, IOtpAuthenticatorRepository otpAuthenticatorRepository, IUserService userService)
+        public EnableOtpAuthenticatorCommandHandler(AuthBusinessRules authBusinessRules,
+            IAuthenticatorService authenticatorService, IOtpAuthenticatorRepository otpAuthenticatorRepository,
+            IUserService userService)
         {
             _authBusinessRules = authBusinessRules;
             _authenticatorService = authenticatorService;
@@ -29,10 +32,11 @@ public class EnableOtpAuthenticatorCommand : IRequest<EnabledOtpAuthenticatorRes
         }
 
         // Otp doğrulayıcıyı etkinleştirir
-        public async Task<EnabledOtpAuthenticatorResponse> Handle(EnableOtpAuthenticatorCommand request, CancellationToken cancellationToken)
+        public async Task<EnabledOtpAuthenticatorResponse> Handle(EnableOtpAuthenticatorCommand request,
+            CancellationToken cancellationToken)
         {
             // Kullanıcıyı kimlik numarasına göre alır
-            User? user = await _userService.GetById(request.UserId);
+            var user = await _userService.GetByIdAsync(request.UserId);
 
             // Kullanıcının varlığını kontrol eder
             await _authBusinessRules.UserShouldBeExists(user);
@@ -41,7 +45,7 @@ public class EnableOtpAuthenticatorCommand : IRequest<EnabledOtpAuthenticatorRes
             await _authBusinessRules.UserShouldNotBeHaveAuthenticator(user);
 
             // Kullanıcının zaten doğrulanmış bir Otp doğrulayıcısının olmadığını kontrol eder
-            OtpAuthenticator? isExistsOtpAuthenticator = await _otpAuthenticatorRepository.GetAsync(o => o.UserId == request.UserId);
+            var isExistsOtpAuthenticator = await _otpAuthenticatorRepository.GetAsync(o => o.UserId == request.UserId);
             await _authBusinessRules.OtpAuthenticatorThatVerifiedShouldNotBeExists(isExistsOtpAuthenticator);
 
             // Eğer mevcut bir Otp doğrulayıcı varsa, silinir
@@ -49,11 +53,11 @@ public class EnableOtpAuthenticatorCommand : IRequest<EnabledOtpAuthenticatorRes
                 await _otpAuthenticatorRepository.DeleteAsync(isExistsOtpAuthenticator);
 
             // Yeni bir Otp doğrulayıcı oluşturur
-            OtpAuthenticator? newOtpAuthenticator = await _authenticatorService.CreateOtpAuthenticator(user);
-            OtpAuthenticator? addedAuthenticator = await _otpAuthenticatorRepository.AddAsync(newOtpAuthenticator);
+            var newOtpAuthenticator = await _authenticatorService.CreateOtpAuthenticator(user);
+            var addedAuthenticator = await _otpAuthenticatorRepository.AddAsync(newOtpAuthenticator);
 
             // Otp doğrulayıcının gizli anahtarını dizeye dönüştürür
-            string secretKey = await _authenticatorService.ConvertSecretKeyToString(addedAuthenticator.SecretKey);
+            var secretKey = await _authenticatorService.ConvertSecretKeyToString(addedAuthenticator.SecretKey);
 
             // Etkinleştirilmiş Otp doğrulayıcı yanıtını oluşturur ve döndürür
             EnabledOtpAuthenticatorResponse enabledOtpAuthenticatorDto = new()
@@ -64,5 +68,4 @@ public class EnableOtpAuthenticatorCommand : IRequest<EnabledOtpAuthenticatorRes
             return enabledOtpAuthenticatorDto;
         }
     }
-
 }

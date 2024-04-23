@@ -7,7 +7,7 @@ namespace RentACar.Persistence.Repositories;
 
 public class FuelRepository : EfRepositoryBase<Fuel, Guid, BaseDatabaseContext>, IFuelRepository
 {
-    public FuelRepository (BaseDatabaseContext context) : base(context)
+    public FuelRepository(BaseDatabaseContext context) : base(context)
     {
     }
 }

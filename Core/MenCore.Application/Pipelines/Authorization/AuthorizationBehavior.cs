@@ -1,5 +1,4 @@
-﻿using System.Security.Claims;
-using MediatR;
+﻿using MediatR;
 using MenCore.CrossCuttingConserns.Exceptions.Types;
 using MenCore.Security.Constants;
 using MenCore.Security.Extensions;
@@ -19,26 +18,28 @@ public class AuthorizationBehavior<TRequest, TResponse> : IPipelineBehavior<TReq
     }
 
     // İşlenen isteği denetler ve yetkilendirme sağlar.
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
+        CancellationToken cancellationToken)
     {
         // Kullanıcının rol taleplerini alır.
-        List<string>? userRoleClaims = _httpContextAccessor.HttpContext.User.ClaimRoles();
+        var userRoleClaims = _httpContextAccessor.HttpContext.User.ClaimRoles();
 
         // Eğer kullanıcı rol talepleri yoksa yetkilendirme istisnası fırlatılır.
         if (userRoleClaims == null || userRoleClaims.Count == 0)
             throw new AuthorizationException("You are not authenticated.");
 
         // Kullanıcı taleplerinin, istek rolleri ile eşleşip eşleşmediğini kontrol eder.
-        bool isNotMatchAUserRoleClaimWithRequestRoles = userRoleClaims.FirstOrDefault(
-                userRoleClaim => userRoleClaim == GeneralOperationClaims.Admin || request.Roles.Any(role => role == userRoleClaim)
-            ).IsNullOrEmpty();
+        var isNotMatchAUserRoleClaimWithRequestRoles = userRoleClaims.FirstOrDefault(
+            userRoleClaim => userRoleClaim == GeneralOperationClaims.Admin ||
+                             request.Roles.Any(role => role == userRoleClaim)
+        ).IsNullOrEmpty();
 
         // Eğer kullanıcının talepleri isteğin rolleri ile eşleşmiyorsa yetkilendirme istisnası fırlatılır.
         if (isNotMatchAUserRoleClaimWithRequestRoles)
             throw new AuthorizationException("You are not authorized");
 
         // Bir sonraki adımı (istek işleyicisini) çağırır ve işlenen yanıtı döndürür.
-        TResponse response = await next();
+        var response = await next();
 
         return response;
     }

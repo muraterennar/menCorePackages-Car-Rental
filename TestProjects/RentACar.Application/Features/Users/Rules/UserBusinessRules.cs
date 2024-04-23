@@ -28,7 +28,7 @@ public class UserBusinessRules : BaseBusinessRules
     // Belirtilen kullanıcı kimliğinin varlığını kontrol eder.
     public async Task UserIdShouldBeExistWhenSelected(int id)
     {
-        bool doesExist = await _userRepository.AnyAsync(predicate: u => u.Id == id, enableTracking: false);
+        var doesExist = await _userRepository.AnyAsync(u => u.Id == id, enableTracking: false);
         if (!doesExist)
             throw new BusinessException(AuthMessages.UserDontExists);
     }
@@ -44,7 +44,7 @@ public class UserBusinessRules : BaseBusinessRules
     // E-posta adresinin veritabanında olmadığını kontrol eder.
     public async Task UserEmailShouldNotExistWhenInsert(string email)
     {
-        bool doesExist = await _userRepository.AnyAsync(predicate: u => u.Email == email, enableTracking: false);
+        var doesExist = await _userRepository.AnyAsync(u => u.Email == email, enableTracking: false);
         if (doesExist)
             throw new BusinessException(AuthMessages.UserMailAlreadyExists);
     }

@@ -6,7 +6,7 @@ namespace RentACar.Persistence.EntityConfigurations;
 
 public class FuelConfiguration : IEntityTypeConfiguration<Fuel>
 {
-    public void Configure (EntityTypeBuilder<Fuel> builder)
+    public void Configure(EntityTypeBuilder<Fuel> builder)
     {
         builder.ToTable("Fuels").HasKey(b => b.Id);
         builder.Property(b => b.Id).HasColumnName("Id").IsRequired();
@@ -15,7 +15,7 @@ public class FuelConfiguration : IEntityTypeConfiguration<Fuel>
         builder.Property(b => b.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(b => b.DeletedDate).HasColumnName("DeletedDate");
 
-        builder.HasIndex(indexExpression: b => b.FuelName, name: "UK_Fuels_Name").IsUnique();
+        builder.HasIndex(b => b.FuelName, "UK_Fuels_Name").IsUnique();
 
         builder.HasMany(f => f.Models);
 

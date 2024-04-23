@@ -5,7 +5,7 @@ namespace MenCore.CrossCuttingConserns.Exceptions.HttpProblemDetails;
 
 public class InternalServerErrorProblemDetails : ProblemDetails
 {
-    public InternalServerErrorProblemDetails (string detail)
+    public InternalServerErrorProblemDetails(string detail)
     {
         Title = "Internal Server Error";
         Detail = detail;

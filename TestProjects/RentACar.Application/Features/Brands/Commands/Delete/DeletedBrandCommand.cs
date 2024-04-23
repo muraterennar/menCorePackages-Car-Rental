@@ -3,7 +3,6 @@ using MediatR;
 using MenCore.Application.Pipelines.Caching;
 using MenCore.Application.Pipelines.Transaction;
 using RentACar.Application.Services.Repositories;
-using RentACar.Domaim.Entities;
 
 namespace RentACar.Application.Features.Brands.Commands.Delete;
 
@@ -19,8 +18,8 @@ public class DeletedBrandCommand : IRequest<DeletedBrandResponse>, ICacheRemover
 
     public class DeletedBrandCommandHandler : IRequestHandler<DeletedBrandCommand, DeletedBrandResponse>
     {
-        private readonly IMapper _mapper;
         private readonly IBrandRepository _brandRepository;
+        private readonly IMapper _mapper;
 
         public DeletedBrandCommandHandler(IMapper mapper, IBrandRepository brandRepository)
         {
@@ -36,13 +35,13 @@ public class DeletedBrandCommand : IRequest<DeletedBrandResponse>, ICacheRemover
 
         public async Task<DeletedBrandResponse> Handle(DeletedBrandCommand request, CancellationToken cancellationToken)
         {
-            Brand? brand = await _brandRepository.GetAsync(b => b.Id == request.Id);
+            var brand = await _brandRepository.GetAsync(b => b.Id == request.Id);
 
             brand = _mapper.Map(request, brand);
 
             await _brandRepository.DeleteAsync(brand);
 
-            DeletedBrandResponse? deletedBrandCommand = _mapper.Map<DeletedBrandResponse>(brand);
+            var deletedBrandCommand = _mapper.Map<DeletedBrandResponse>(brand);
 
             return deletedBrandCommand;
         }

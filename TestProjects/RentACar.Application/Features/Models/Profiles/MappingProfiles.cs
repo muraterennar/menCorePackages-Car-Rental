@@ -9,18 +9,18 @@ namespace RentACar.Application.Features.Models.Profiles;
 
 public class MappingProfiles : Profile
 {
-    public MappingProfiles ()
+    public MappingProfiles()
     {
         CreateMap<Model, GetListModelListItemDto>()
-            .ForMember(destinationMember: b => b.BrandName, memberOptions: opt => opt.MapFrom(b => b.Brand.BrandName))
-            .ForMember(destinationMember: b => b.FuelName, memberOptions: opt => opt.MapFrom(b => b.Fuel.FuelName))
-            .ForMember(destinationMember: b => b.TransmissionName, memberOptions: opt => opt.MapFrom(b => b.Transmission.TransmissionName))
+            .ForMember(b => b.BrandName, opt => opt.MapFrom(b => b.Brand.BrandName))
+            .ForMember(b => b.FuelName, opt => opt.MapFrom(b => b.Fuel.FuelName))
+            .ForMember(b => b.TransmissionName, opt => opt.MapFrom(b => b.Transmission.TransmissionName))
             .ReverseMap();
 
         CreateMap<Model, GetListByDynamicModelListItemDto>()
-            .ForMember(destinationMember: b => b.BrandName, memberOptions: opt => opt.MapFrom(b => b.Brand.BrandName))
-            .ForMember(destinationMember: b => b.FuelName, memberOptions: opt => opt.MapFrom(b => b.Fuel.FuelName))
-            .ForMember(destinationMember: b => b.TransmissionName, memberOptions: opt => opt.MapFrom(b => b.Transmission.TransmissionName))
+            .ForMember(b => b.BrandName, opt => opt.MapFrom(b => b.Brand.BrandName))
+            .ForMember(b => b.FuelName, opt => opt.MapFrom(b => b.Fuel.FuelName))
+            .ForMember(b => b.TransmissionName, opt => opt.MapFrom(b => b.Transmission.TransmissionName))
             .ReverseMap();
 
         CreateMap<Paginate<Model>, GetListResponse<GetListModelListItemDto>>().ReverseMap();

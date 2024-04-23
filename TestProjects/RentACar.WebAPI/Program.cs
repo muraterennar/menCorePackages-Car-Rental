@@ -1,12 +1,12 @@
 ﻿using MenCore.CrossCuttingConserns.Exceptions.Extensions;
-using MenCore.Security;
-using RentACar.Application;
-using RentACar.Persistence;
 using MenCore.Mailing;
+using MenCore.Security;
+using MenCore.Security.Encryption;
 using MenCore.Security.JWT;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using MenCore.Security.Encryption;
+using RentACar.Application;
+using RentACar.Persistence;
 using RentACar.WebAPI;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,7 +18,7 @@ builder.Services.AddSecurityService();
 builder.Services.AddMailingService();
 builder.Services.AddHttpContextAccessor();
 
-TokenOptions? tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
+var tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -51,14 +51,14 @@ builder.Services.AddCors(options =>
     options.AddPolicy("DevelopmentPolicy", builder =>
     {
         builder.AllowAnyOrigin()
-               .AllowAnyHeader()
-               .AllowAnyMethod();
+            .AllowAnyHeader()
+            .AllowAnyMethod();
     });
     options.AddPolicy("ProductionPolicy", builder =>
     {
         builder.WithOrigins(originUrls) // Üretim sunucusunun URL'sini ekleyin
-               .AllowAnyHeader()
-               .AllowAnyMethod();
+            .AllowAnyHeader()
+            .AllowAnyMethod();
     });
 });
 
@@ -87,4 +87,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-

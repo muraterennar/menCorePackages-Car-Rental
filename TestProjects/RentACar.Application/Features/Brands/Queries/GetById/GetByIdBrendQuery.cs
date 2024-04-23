@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
 using RentACar.Application.Services.Repositories;
-using RentACar.Domaim.Entities;
 
 namespace RentACar.Application.Features.Brands.Queries.GetById;
 
@@ -14,23 +13,22 @@ public class GetByIdBrendQuery : IRequest<GetByIdBrandResponse>
         private readonly IBrandRepository _brandRepository;
         private readonly IMapper _mapper;
 
-        public GetByIdQueryHandler (IBrandRepository brandRepository, IMapper mapper)
+        public GetByIdQueryHandler(IBrandRepository brandRepository, IMapper mapper)
         {
             _brandRepository = brandRepository;
             _mapper = mapper;
         }
 
-        public async Task<GetByIdBrandResponse> Handle (GetByIdBrendQuery request, CancellationToken cancellationToken)
+        public async Task<GetByIdBrandResponse> Handle(GetByIdBrendQuery request, CancellationToken cancellationToken)
         {
-            Brand? brand = await _brandRepository.GetAsync(
-                    predicate: b => b.Id == request.Id,
-                    cancellationToken: cancellationToken
-                 );
+            var brand = await _brandRepository.GetAsync(
+                b => b.Id == request.Id,
+                cancellationToken: cancellationToken
+            );
 
-            GetByIdBrandResponse response = _mapper.Map<GetByIdBrandResponse>(brand);
+            var response = _mapper.Map<GetByIdBrandResponse>(brand);
 
             return response;
         }
     }
 }
-

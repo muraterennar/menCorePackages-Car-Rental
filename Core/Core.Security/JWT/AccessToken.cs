@@ -2,9 +2,6 @@
 
 public class AccessToken
 {
-    public string Token { get; set; }
-    public DateTime Expiration { get; set; }
-
     public AccessToken()
     {
         Token = string.Empty;
@@ -15,4 +12,7 @@ public class AccessToken
         Token = token;
         Expiration = expiration;
     }
+
+    public string Token { get; set; }
+    public DateTime Expiration { get; set; }
 }

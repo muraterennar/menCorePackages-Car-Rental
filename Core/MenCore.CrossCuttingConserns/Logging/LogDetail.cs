@@ -3,11 +3,6 @@
 // LogDetail sınıfı, bir log detayının tamamını temsil eder
 public class LogDetail
 {
-    public string FullName { get; set; } // Tam isim
-    public string MethodName { get; set; } // Metodun adı
-    public string User { get; set; } // Kullanıcı
-    public List<LogParameter> Parameters { get; set; } // Parametrelerin listesi
-
     // Parametresiz kurucu metot, varsayılan değerler atanır
     public LogDetail()
     {
@@ -25,4 +20,9 @@ public class LogDetail
         User = user; // Kullanıcı atanır
         Parameters = parameters; // Parametreler atanır
     }
+
+    public string FullName { get; set; } // Tam isim
+    public string MethodName { get; set; } // Metodun adı
+    public string User { get; set; } // Kullanıcı
+    public List<LogParameter> Parameters { get; set; } // Parametrelerin listesi
 }

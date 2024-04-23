@@ -5,5 +5,4 @@ namespace RentACar.Application.Services.Repositories;
 
 public interface IOperationClaimRepository : IAsyncRepository<OperationClaim, int>, IRepository<OperationClaim, int>
 {
-
 }

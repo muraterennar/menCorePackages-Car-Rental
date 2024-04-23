@@ -10,8 +10,8 @@ namespace RentACar.Application.Features.Auth.Rules;
 
 public class AuthBusinessRules : BaseBusinessRules
 {
-    private readonly IUserRepository _userRepository;
     private readonly IEmailAuthenticatorRepository _emailAuthenticatorRepository;
+    private readonly IUserRepository _userRepository;
 
     public AuthBusinessRules(IUserRepository userRepository, IEmailAuthenticatorRepository emailAuthenticatorRepository)
     {
@@ -86,7 +86,7 @@ public class AuthBusinessRules : BaseBusinessRules
     // Verilen e-posta adresine sahip bir kullanıcının olup olmadığını kontrol eder
     public async Task UserEmailShouldBeNotExists(string email)
     {
-        User? user = await _userRepository.GetAsync(predicate: u => u.Email == email, enableTracking: false);
+        var user = await _userRepository.GetAsync(u => u.Email == email, enableTracking: false);
         if (user != null)
             throw new BusinessException(AuthMessages.UserMailAlreadyExists);
     }
@@ -94,9 +94,8 @@ public class AuthBusinessRules : BaseBusinessRules
     // Kullanıcının verilen parolasının eşleşip eşleşmediğini kontrol eder
     public async Task UserPasswordShouldBeMatch(int id, string password)
     {
-        User? user = await _userRepository.GetAsync(predicate: u => u.Id == id, enableTracking: false);
+        var user = await _userRepository.GetAsync(u => u.Id == id, enableTracking: false);
         if (!HashingHelper.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
             throw new BusinessException(AuthMessages.PasswordDontMatch);
     }
-
 }

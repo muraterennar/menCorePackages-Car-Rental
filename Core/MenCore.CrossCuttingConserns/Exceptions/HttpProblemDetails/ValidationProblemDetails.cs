@@ -6,9 +6,7 @@ namespace MenCore.CrossCuttingConserns.Exceptions.HttpProblemDetails;
 
 public class ValidationProblemDetails : ProblemDetails
 {
-    public IEnumerable<ValidationExceptionModel> Errors { get; init; }
-
-    public ValidationProblemDetails (IEnumerable<ValidationExceptionModel> errors)
+    public ValidationProblemDetails(IEnumerable<ValidationExceptionModel> errors)
     {
         Title = "Validation Error(s)";
         Detail = "One or more validation errors occured.";
@@ -16,4 +14,6 @@ public class ValidationProblemDetails : ProblemDetails
         Status = StatusCodes.Status400BadRequest;
         Type = "https://example.com/propbs/validaiton";
     }
+
+    public IEnumerable<ValidationExceptionModel> Errors { get; init; }
 }

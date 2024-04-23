@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MediatR;
-using MenCore.Security.Entities;
 using RentACar.Application.Features.Auth.Rules;
 using RentACar.Application.Services.AuthServices;
 
@@ -13,8 +12,8 @@ public class RevokeTokenCommand : IRequest<RevokedTokenResponse>
 
     public class RevokeTokenCommandHandler : IRequestHandler<RevokeTokenCommand, RevokedTokenResponse>
     {
-        private readonly IAuthService _authService;
         private readonly AuthBusinessRules _authBusinessRules;
+        private readonly IAuthService _authService;
         private readonly IMapper _mapper;
 
         public RevokeTokenCommandHandler(IAuthService authService, AuthBusinessRules authBusinessRules, IMapper mapper)
@@ -27,7 +26,7 @@ public class RevokeTokenCommand : IRequest<RevokedTokenResponse>
         public async Task<RevokedTokenResponse> Handle(RevokeTokenCommand request, CancellationToken cancellationToken)
         {
             // Yenileme tokenını alır
-            RefreshToken? refreshToken = await _authService.GetRefreshTokenByToken(request.Token);
+            var refreshToken = await _authService.GetRefreshTokenByToken(request.Token);
 
             // Yenileme tokenının varlığını kontrol eder
             await _authBusinessRules.RefreshTokenShouldBeExists(refreshToken);
@@ -36,13 +35,12 @@ public class RevokeTokenCommand : IRequest<RevokedTokenResponse>
             await _authBusinessRules.RefreshTokenShouldBeActive(refreshToken);
 
             // Yenileme tokenını iptal eder
-            await _authService.RevokeRefreshToken(refreshToken, request.IPAddress, reason: "Revoked without replacement.");
+            await _authService.RevokeRefreshToken(refreshToken, request.IPAddress, "Revoked without replacement.");
 
             // İptal edilmiş token cevabını oluşturur
-            RevokedTokenResponse revokedTokenResponse = _mapper.Map<RevokedTokenResponse>(refreshToken);
+            var revokedTokenResponse = _mapper.Map<RevokedTokenResponse>(refreshToken);
 
             return revokedTokenResponse;
         }
-
     }
 }

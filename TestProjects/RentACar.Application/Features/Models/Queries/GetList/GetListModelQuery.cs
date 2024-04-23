@@ -2,11 +2,8 @@
 using MediatR;
 using MenCore.Application.Request;
 using MenCore.Application.Responses;
-using MenCore.Persistence.Paging;
 using Microsoft.EntityFrameworkCore;
-using RentACar.Application.Features.Brands.Queries.GetList;
 using RentACar.Application.Services.Repositories;
-using RentACar.Domaim.Entities;
 
 namespace RentACar.Application.Features.Models.Queries.GetList;
 
@@ -16,22 +13,23 @@ public class GetListModelQuery : IRequest<GetListResponse<GetListModelListItemDt
 
     public class GetLisModelQueryHandler : IRequestHandler<GetListModelQuery, GetListResponse<GetListModelListItemDto>>
     {
-        private readonly IModelRepository _modelRepository;
         private readonly IMapper _mapper;
+        private readonly IModelRepository _modelRepository;
 
-        public GetLisModelQueryHandler (IModelRepository modelRepository, IMapper mapper)
+        public GetLisModelQueryHandler(IModelRepository modelRepository, IMapper mapper)
         {
             _modelRepository = modelRepository;
             _mapper = mapper;
         }
 
-        public async Task<GetListResponse<GetListModelListItemDto>> Handle (GetListModelQuery request, CancellationToken cancellationToken)
+        public async Task<GetListResponse<GetListModelListItemDto>> Handle(GetListModelQuery request,
+            CancellationToken cancellationToken)
         {
-            Paginate<Model> models = await _modelRepository.GetListAsync(
-                  include: m => m.Include(m => m.Brand).Include(m => m.Transmission).Include(m => m.Fuel),
-                  index: request.PageRequest.PageIndex,
-                  size: request.PageRequest.PageSize
-                  );
+            var models = await _modelRepository.GetListAsync(
+                include: m => m.Include(m => m.Brand).Include(m => m.Transmission).Include(m => m.Fuel),
+                index: request.PageRequest.PageIndex,
+                size: request.PageRequest.PageSize
+            );
 
             var response = _mapper.Map<GetListResponse<GetListModelListItemDto>>(models);
 

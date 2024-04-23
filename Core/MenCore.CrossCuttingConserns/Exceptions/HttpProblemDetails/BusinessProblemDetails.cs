@@ -5,7 +5,7 @@ namespace MenCore.CrossCuttingConserns.Exceptions.HttpProblemDetails;
 
 public class BusinessProblemDetails : ProblemDetails
 {
-    public BusinessProblemDetails (string detail)
+    public BusinessProblemDetails(string detail)
     {
         Title = "Rule Violation";
         Detail = detail;

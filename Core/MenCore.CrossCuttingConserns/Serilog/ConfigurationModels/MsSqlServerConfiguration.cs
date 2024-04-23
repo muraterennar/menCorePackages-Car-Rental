@@ -2,10 +2,6 @@
 
 public class MsSqlServerConfiguration
 {
-    public string ConnectionString { get; set; } // SQL Server bağlantı dizesi
-    public string TableName { get; set; } // Günlük tablosunun adı
-    public bool AutoCreateSqlTable { get; set; } // Otomatik olarak SQL tablosu oluşturulacak mı?
-
     // Parametresiz kurucu metot, varsayılan değerler atanır
     public MsSqlServerConfiguration()
     {
@@ -21,4 +17,8 @@ public class MsSqlServerConfiguration
         TableName = tableName; // Tablo adı atanır
         AutoCreateSqlTable = autoCreateSqlTable; // Otomatik tablo oluşturma durumu atanır
     }
+
+    public string ConnectionString { get; set; } // SQL Server bağlantı dizesi
+    public string TableName { get; set; } // Günlük tablosunun adı
+    public bool AutoCreateSqlTable { get; set; } // Otomatik olarak SQL tablosu oluşturulacak mı?
 }

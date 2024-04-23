@@ -3,8 +3,6 @@
 // LogDetailWithException sınıfı, istisna mesajı ile birlikte bir log detayını temsil eder
 public class LogDetailWithException : LogDetail
 {
-    public string ExceptionMessage { get; set; } // İstisna mesajı
-
     // Parametresiz kurucu metot, varsayılan değerler atanır
     public LogDetailWithException()
     {
@@ -18,7 +16,8 @@ public class LogDetailWithException : LogDetail
     }
 
     // Tam isim, metod adı, kullanıcı, istisna mesajı ve parametrelerle kurucu metot
-    public LogDetailWithException(string fullName, string methodName, string user, string exceptionMessage, List<LogParameter> parameters)
+    public LogDetailWithException(string fullName, string methodName, string user, string exceptionMessage,
+        List<LogParameter> parameters)
     {
         FullName = fullName; // Tam isim atanır
         MethodName = methodName; // Metod adı atanır
@@ -26,4 +25,6 @@ public class LogDetailWithException : LogDetail
         ExceptionMessage = exceptionMessage; // İstisna mesajı atanır
         Parameters = parameters; // Parametreler atanır
     }
+
+    public string ExceptionMessage { get; set; } // İstisna mesajı
 }
