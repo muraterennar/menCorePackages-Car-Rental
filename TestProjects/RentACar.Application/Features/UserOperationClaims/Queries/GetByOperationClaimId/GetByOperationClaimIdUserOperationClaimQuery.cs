@@ -1,6 +1,5 @@
 using AutoMapper;
 using MediatR;
-using MenCore.Security.Entities;
 using RentACar.Application.Features.UserOperationClaims.Rules;
 using RentACar.Application.Services.UserOperationClaimServices;
 
@@ -30,10 +29,9 @@ public class GetByOperationClaimIdUserOperationClaimQuery : IRequest<GetByOperat
             GetByOperationClaimIdUserOperationClaimQuery request, CancellationToken cancellationToken)
         {
             await _userOperationClaimBusinessRules.IsUserOperationClaimExistForOperationClaim(request.OperationClaimId);
-            
-            UserOperationClaim userOperationClaim =
+            var userOperationClaim =
                 await _userOperationClaimService.GetByOperationClaimIdAsync(request.OperationClaimId);
-            GetByOperationClaimIdUserOperationClaimResponse response = _mapper.Map<GetByOperationClaimIdUserOperationClaimResponse>(userOperationClaim);
+            var response = _mapper.Map<GetByOperationClaimIdUserOperationClaimResponse>(userOperationClaim);
             return response;
         }
     }
