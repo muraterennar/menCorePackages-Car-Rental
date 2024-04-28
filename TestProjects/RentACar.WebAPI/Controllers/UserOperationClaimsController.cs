@@ -1,5 +1,8 @@
 using MenCore.Application.Request;
 using Microsoft.AspNetCore.Mvc;
+using RentACar.Application.Features.UserOperationClaims.Commands.Create;
+using RentACar.Application.Features.UserOperationClaims.Commands.Delete;
+using RentACar.Application.Features.UserOperationClaims.Commands.Update;
 using RentACar.Application.Features.UserOperationClaims.Queries.GetById;
 using RentACar.Application.Features.UserOperationClaims.Queries.GetByOperationClaimId;
 using RentACar.Application.Features.UserOperationClaims.Queries.GetByUserId;
@@ -39,6 +42,27 @@ public class UserOperationClaimsController : BaseController
     {
         GetByOperationClaimIdUserOperationClaimQuery query = new() { OperationClaimId = operationClaimId };
         GetByOperationClaimIdUserOperationClaimResponse response = await Mediator.Send(query);
+        return Ok(response);
+    }
+
+    [HttpPost("Create")]
+    public async Task<IActionResult> CreateAsync([FromBody] CreatedUserOperationClaimCommand command)
+    {
+        CreateUserOperationClaimResponse response = await Mediator.Send(command);
+        return Ok(response);
+    }
+
+    [HttpPut("Update")]
+    public async Task<IActionResult> UpdateAsync([FromBody] UpdatedUserOperationClaimCommand command)
+    {
+        UpdateUserOperationClaimResponse response = await Mediator.Send(command);
+        return Ok(response);
+    }
+
+    [HttpDelete("Delete")]
+    public async Task<IActionResult> DeleteAsync([FromBody] DeletedUserOperationClaimCommand command)
+    {
+        DeleteUserOperationClaimResponse response = await Mediator.Send(command);
         return Ok(response);
     }
 }

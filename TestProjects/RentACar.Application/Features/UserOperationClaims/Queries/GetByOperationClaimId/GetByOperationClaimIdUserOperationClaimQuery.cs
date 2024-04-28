@@ -1,11 +1,12 @@
 using AutoMapper;
 using MediatR;
+using MenCore.Application.Pipelines.Logging;
 using RentACar.Application.Features.UserOperationClaims.Rules;
 using RentACar.Application.Services.UserOperationClaimServices;
 
 namespace RentACar.Application.Features.UserOperationClaims.Queries.GetByOperationClaimId;
 
-public class GetByOperationClaimIdUserOperationClaimQuery : IRequest<GetByOperationClaimIdUserOperationClaimResponse>
+public class GetByOperationClaimIdUserOperationClaimQuery : IRequest<GetByOperationClaimIdUserOperationClaimResponse>, ILoggableRequest
 {
     public int OperationClaimId { get; set; }
 

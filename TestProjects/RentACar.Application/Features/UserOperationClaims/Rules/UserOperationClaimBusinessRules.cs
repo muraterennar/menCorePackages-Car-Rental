@@ -16,7 +16,7 @@ public class UserOperationClaimBusinessRules : BaseBusinessRules
 
     public async Task IsUserOperationClaimExist(int id)
     {
-        var userOperationClaim = await _userOperationClaimRepository.GetAsync(u => u.Id == id);
+        var userOperationClaim = await _userOperationClaimRepository.GetAsync(u => u.Id == id, enableTracking:false);
         if (userOperationClaim == null)
             throw new BusinessException(UserOperationClaimMessages.IsUserOperationClaimNotFound);
     }

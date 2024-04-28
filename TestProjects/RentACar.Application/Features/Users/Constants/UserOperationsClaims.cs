@@ -1,13 +1,11 @@
-﻿namespace RentACar.Application.Features.Users.Constants;
+﻿using MenCore.Security.Constants;
 
-public static class UserOperationClaims
+namespace RentACar.Application.Features.Users.Constants;
+
+public abstract class UserOperationsClaims : GeneralOperationClaims
 {
-    public const string Admin = "users.admin";
+    public const string UserAdmin = "users.admin";
 
-    public const string Read = "users.read";
-    public const string Write = "users.write";
-
-    public const string Add = "users.add";
-    public const string Update = "users.update";
-    public const string Delete = "users.delete";
+    public const string UserRead = "users.read";
+    public const string UserWrite = "users.write";
 }

@@ -7,7 +7,7 @@ using MenCore.Security.Hashing;
 using RentACar.Application.Features.Users.Rules;
 using RentACar.Application.Services.Repositories;
 using RentACar.Application.Services.UserServices;
-using static RentACar.Application.Features.Users.Constants.UserOperationClaims;
+using static MenCore.Security.Constants.GeneralOperationClaims;
 
 namespace RentACar.Application.Features.Users.Commands.Create;
 
@@ -40,13 +40,11 @@ public class CreatedUserCommand : IRequest<CreatedUserResponse>, ISecuredRequest
     {
         private readonly IMapper _mapper;
         private readonly UserBusinessRules _userBusinessRules;
-        private readonly IUserRepository _userRepository;
         private readonly IUserService _userService;
 
-        public CreateUserCommandHandler(IUserRepository userRepository, IMapper mapper,
+        public CreateUserCommandHandler(IMapper mapper,
             UserBusinessRules userBusinessRules, IUserService userService)
         {
-            _userRepository = userRepository;
             _mapper = mapper;
             _userBusinessRules = userBusinessRules;
             _userService = userService;

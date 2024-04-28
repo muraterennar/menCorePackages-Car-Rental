@@ -7,7 +7,7 @@ using MenCore.Security.Entities;
 using MenCore.Security.Enums;
 using RentACar.Application.Features.Users.Rules;
 using RentACar.Application.Services.Repositories;
-using static RentACar.Application.Features.Users.Constants.UserOperationClaims;
+using RentACar.Application.Features.Users.Constants;
 
 namespace RentACar.Application.Features.Users.Commands.Update;
 
@@ -50,7 +50,7 @@ public class UpdatedUserCommand : IRequest<UpdatedUserResponse>, ITransactionalR
     public bool Status { get; set; }
     public AuthenticatorType AuthenticatorType { get; set; }
 
-    public string[] Roles => new[] { Admin, Write };
+    public string[] Roles => new[] {UserOperationsClaims.Admin, UserOperationsClaims.Write, UserOperationsClaims.UserWrite };
 
     public class UpdateUserCommandHandler : IRequestHandler<UpdatedUserCommand, UpdatedUserResponse>
     {

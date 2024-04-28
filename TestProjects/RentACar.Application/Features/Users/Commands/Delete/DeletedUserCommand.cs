@@ -3,9 +3,10 @@ using MediatR;
 using MenCore.Application.Pipelines.Authorization;
 using MenCore.Application.Pipelines.Logging;
 using MenCore.Application.Pipelines.Transaction;
+using RentACar.Application.Features.UserOperationClaims.Constants;
 using RentACar.Application.Features.Users.Rules;
 using RentACar.Application.Services.UserServices;
-using static RentACar.Application.Features.Users.Constants.UserOperationClaims;
+using RentACar.Application.Features.Users.Constants;
 
 namespace RentACar.Application.Features.Users.Commands.Delete;
 
@@ -19,7 +20,7 @@ public class DeletedUserCommand : IRequest<DeletedUserResponse>, ITransactionalR
 
     public int Id { get; set; }
 
-    public string[] Roles => new[] { Admin, Write };
+    public string[] Roles => new[] { UserOperationClaimsOperationClaims.Admin, UserOperationClaimsOperationClaims.Write, UserOperationClaimsOperationClaims.UserOperationWrite};
 
     public class DeleteUserCommandHandler : IRequestHandler<DeletedUserCommand, DeletedUserResponse>
     {

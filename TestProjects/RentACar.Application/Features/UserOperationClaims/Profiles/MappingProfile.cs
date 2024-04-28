@@ -2,6 +2,9 @@ using AutoMapper;
 using MenCore.Application.Responses;
 using MenCore.Persistence.Paging;
 using MenCore.Security.Entities;
+using RentACar.Application.Features.UserOperationClaims.Commands.Create;
+using RentACar.Application.Features.UserOperationClaims.Commands.Delete;
+using RentACar.Application.Features.UserOperationClaims.Commands.Update;
 using RentACar.Application.Features.UserOperationClaims.Queries.GetById;
 using RentACar.Application.Features.UserOperationClaims.Queries.GetByOperationClaimId;
 using RentACar.Application.Features.UserOperationClaims.Queries.GetByUserId;
@@ -22,6 +25,15 @@ public class MappingProfile : Profile
         ConfigureMapping(CreateMap<UserOperationClaim, GetByUserIdUserOperationClaimResponse>()).ReverseMap();
 
         ConfigureMapping(CreateMap<UserOperationClaim, GetByOperationClaimIdUserOperationClaimResponse>()).ReverseMap();
+
+        CreateMap<UserOperationClaim, CreatedUserOperationClaimCommand>().ReverseMap();
+        CreateMap<UserOperationClaim, CreateUserOperationClaimResponse>().ReverseMap();
+
+        CreateMap<UserOperationClaim, UpdatedUserOperationClaimCommand>().ReverseMap();
+        CreateMap<UserOperationClaim, UpdateUserOperationClaimResponse>().ReverseMap();
+        
+        CreateMap<UserOperationClaim, DeletedUserOperationClaimCommand>().ReverseMap();
+        CreateMap<UserOperationClaim, DeleteUserOperationClaimResponse>().ReverseMap();
     }
 
     // GetListUserOperationClaimResponse
