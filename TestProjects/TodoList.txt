@@ -1,0 +1,4 @@
+- TODO Eksiklikler
+- [ ] Enable Email Authentication bug fix
+- [ ] Enable Email Authentication HttpContext GetUserId bug fix
+- [ ] PEM file for SSL Generation

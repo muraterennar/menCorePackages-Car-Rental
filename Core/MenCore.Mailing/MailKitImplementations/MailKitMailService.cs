@@ -1,9 +1,13 @@
-﻿using MailKit.Net.Smtp;
+﻿using System.Security.Cryptography;
+using System.Text;
+using MailKit.Net.Smtp;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
 using MimeKit.Cryptography;
 using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.OpenSsl;
+using Org.BouncyCastle.Security;
 
 namespace MenCore.Mailing.MailKitImplementations;
 
@@ -11,11 +15,13 @@ public class MailKitMailService : IMailService
 {
     private readonly MailSettings _mailSettings;
     private DkimSigner? _signer;
+    private IConfiguration _configuration;
 
     public MailKitMailService(IConfiguration configuration)
     {
         _mailSettings = configuration.GetSection("MailSettings").Get<MailSettings>();
         _signer = null;
+        _configuration = configuration;
     }
 
     public void SendMail(Mail mail)
@@ -110,24 +116,45 @@ public class MailKitMailService : IMailService
     private AsymmetricKeyParameter ReadPrivateKeyFromPemEncodedString()
     {
         AsymmetricKeyParameter result;
-
-        // PEM kodlanmış özel anahtarın tamamını içeren bir dize oluşturur
-        var pemEncodedKey = "-----BEGIN RSA PRIVATE KEY-----\n" + _mailSettings.DkimPrivateKey +
-                            "\n-----END RSA PRIVATE KEY-----";
-
-        // PEM kodlanmış özel anahtarın StringReader üzerinden okunmasını sağlar
+        AsymmetricCipherKeyPair keyCode = GenerateRSAKeyPair();
+        string pemEncodedKey = ExportPrivateKeyToPEM(keyCode.Private);
         using (StringReader stringReader = new(pemEncodedKey))
         {
             PemReader pemReader = new(stringReader);
-
-            // PEM dosyasından bir nesne okur
-            var pemObject = pemReader.ReadObject();
-
-            // Okunan nesnenin bir AsymmetricCipherKeyPair olduğunu varsayarak özel anahtarın değerini alır
-            result = ((AsymmetricCipherKeyPair)pemObject).Private;
+            object? pemObject = pemReader.ReadObject();
+            if (pemObject is AsymmetricCipherKeyPair keyPair)
+            {
+                result = keyPair.Private;
+            }
+            else if (pemObject is AsymmetricKeyParameter keyParameter)
+            {
+                result = keyParameter;
+            }
+            else
+            {
+                throw new InvalidOperationException("Invalid PEM object.");
+            }
         }
 
-        // Özel anahtarı döndürür
         return result;
+    }
+    
+    public static AsymmetricCipherKeyPair GenerateRSAKeyPair(int keySize = 2048)
+    {
+        var keyGenerationParameters = new KeyGenerationParameters(new SecureRandom(), keySize);
+        var keyPairGenerator = new RsaKeyPairGenerator();
+        keyPairGenerator.Init(keyGenerationParameters);
+        return keyPairGenerator.GenerateKeyPair();
+    }
+    
+    public static string ExportPrivateKeyToPEM(AsymmetricKeyParameter privateKey)
+    {
+        using (var stringWriter = new StringWriter())
+        {
+            var pemWriter = new PemWriter(stringWriter);
+            pemWriter.WriteObject(privateKey);
+            pemWriter.Writer.Flush();
+            return stringWriter.ToString();
+        }
     }
 }

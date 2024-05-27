@@ -70,7 +70,7 @@ public class AuthController : BaseController
         EnableEmailAuthenticatorCommand enableEmailAuthenticatorCommand =
             new()
             {
-                UserId = getUserIdFromRequest(),
+                UserId = 1,
                 VerifyEmailUrlPrefix = $"{_configuration.APIDomain}/Auth/VerifyEmailAuthenticator"
             };
         await Mediator.Send(enableEmailAuthenticatorCommand);
@@ -91,6 +91,7 @@ public class AuthController : BaseController
     public async Task<IActionResult> VerifyEmailAuthenticator(
         [FromQuery] VerifyEmailAuthenticatorCommand verifyEmailAuthenticatorCommand)
     {
+        
         await Mediator.Send(verifyEmailAuthenticatorCommand);
         return Ok();
     }

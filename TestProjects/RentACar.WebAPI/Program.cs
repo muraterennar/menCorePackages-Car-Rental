@@ -10,13 +10,12 @@ using RentACar.Persistence;
 using RentACar.WebAPI;
 
 var builder = WebApplication.CreateBuilder(args);
-
 // Add services
 builder.Services.AddApplicationServices();
 builder.Services.AddPersistenceServices(builder.Configuration);
 builder.Services.AddSecurityService();
 builder.Services.AddMailingService();
-builder.Services.AddHttpContextAccessor();
+
 
 var tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
 builder.Services
@@ -34,7 +33,6 @@ builder.Services
             IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey)
         };
     });
-
 // --> InMemoryCache
 //builder.Services.AddDistributedMemoryCache();
 
@@ -62,6 +60,7 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -79,6 +78,10 @@ if (app.Environment.IsDevelopment())
     app.UseCors("DevelopmentPolicy");
 else
     app.UseCors("ProductionPolicy");
+
+app.UseStaticFiles();
+
+app.UseRouting();
 
 app.UseAuthentication();
 

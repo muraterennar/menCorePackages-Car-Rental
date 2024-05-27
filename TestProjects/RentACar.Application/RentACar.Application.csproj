@@ -109,11 +109,11 @@
         <Folder Include="Features\Auth\Commands\VerifyOtpAuthenticator\"/>
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\..\Core\MenCore.Persistence\MenCore.Persistence.csproj"/>
+        <ProjectReference Include="..\..\Core\Core.Security\MenCore.Security.csproj" />
+        <ProjectReference Include="..\..\Core\MenCore.CrossCuttingConserns\MenCore.CrossCuttingConserns.csproj" />
+        <ProjectReference Include="..\..\Core\MenCore.Mailing\MenCore.Mailing.csproj" />
         <ProjectReference Include="..\RentACar.Domaim\RentACar.Domaim.csproj"/>
         <ProjectReference Include="..\..\Core\MenCore.Application\MenCore.Application.csproj"/>
-        <ProjectReference Include="..\..\Core\MenCore.CrossCuttingConserns\MenCore.CrossCuttingConserns.csproj"/>
-        <ProjectReference Include="..\..\Core\MenCore.Mailing\MenCore.Mailing.csproj"/>
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="MediatR" Version="12.2.0"/>

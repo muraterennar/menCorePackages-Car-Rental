@@ -8,6 +8,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MenCore.Persistence", "Core\MenCore.Persistence\MenCore.Persistence.csproj", "{EF82C3E1-BCCE-41C3-8D1D-5F6CC7FA8789}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestProjects", "TestProjects", "{B04F9DA4-D632-4B56-8D01-87958E1D92BA}"
+	ProjectSection(SolutionItems) = preProject
+		TestProjects\TodoList.txt = TestProjects\TodoList.txt
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentACar.Domaim", "TestProjects\RentACar.Domaim\RentACar.Domaim.csproj", "{98B542F4-F205-426D-ADED-A9FF8320EEE3}"
 EndProject

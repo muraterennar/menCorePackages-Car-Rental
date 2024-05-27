@@ -18,7 +18,8 @@ public class BaseController : ControllerBase
 
     protected int getUserIdFromRequest() //todo authentication behavior?
     {
-        var userId = HttpContext.User.GetUserId();
+        var user = HttpContext.User;
+        var userId = user.GetUserId();
         return userId;
     }
 }

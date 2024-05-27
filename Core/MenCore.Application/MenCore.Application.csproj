@@ -4,40 +4,44 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>disable</Nullable>
+        <Title>MenCore.Application</Title>
+        <Authors>Murat Eren nar</Authors>
+        <Description>Application Layer</Description>
+        <Copyright>2024</Copyright>
     </PropertyGroup>
 
     <ItemGroup>
-        <None Remove="Request\"/>
-        <None Remove="Responses\"/>
-        <None Remove="Rules\"/>
-        <None Remove="Pipelines\"/>
-        <None Remove="Pipelines\Validation\"/>
-        <None Remove="Pipelines\Transaction\"/>
-        <None Remove="Pipelines\Caching\"/>
-        <None Remove="Pipelines\Logging\"/>
-        <None Remove="Pipelines\Authorization\"/>
-        <None Remove="Dtos\"/>
+        <None Remove="Request\" />
+        <None Remove="Responses\" />
+        <None Remove="Rules\" />
+        <None Remove="Pipelines\" />
+        <None Remove="Pipelines\Validation\" />
+        <None Remove="Pipelines\Transaction\" />
+        <None Remove="Pipelines\Caching\" />
+        <None Remove="Pipelines\Logging\" />
+        <None Remove="Pipelines\Authorization\" />
+        <None Remove="Dtos\" />
     </ItemGroup>
     <ItemGroup>
-        <Folder Include="Request\"/>
-        <Folder Include="Responses\"/>
-        <Folder Include="Rules\"/>
-        <Folder Include="Pipelines\"/>
-        <Folder Include="Pipelines\Validation\"/>
-        <Folder Include="Pipelines\Transaction\"/>
-        <Folder Include="Pipelines\Caching\"/>
-        <Folder Include="Pipelines\Logging\"/>
-        <Folder Include="Pipelines\Authorization\"/>
-        <Folder Include="Dtos\"/>
+        <Folder Include="Request\" />
+        <Folder Include="Responses\" />
+        <Folder Include="Rules\" />
+        <Folder Include="Pipelines\" />
+        <Folder Include="Pipelines\Validation\" />
+        <Folder Include="Pipelines\Transaction\" />
+        <Folder Include="Pipelines\Caching\" />
+        <Folder Include="Pipelines\Logging\" />
+        <Folder Include="Pipelines\Authorization\" />
+        <Folder Include="Dtos\" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\MenCore.Persistence\MenCore.Persistence.csproj"/>
-        <ProjectReference Include="..\MenCore.CrossCuttingConserns\MenCore.CrossCuttingConserns.csproj"/>
-        <ProjectReference Include="..\Core.Security\MenCore.Security.csproj"/>
+        <ProjectReference Include="..\MenCore.Persistence\MenCore.Persistence.csproj" />
+        <ProjectReference Include="..\MenCore.CrossCuttingConserns\MenCore.CrossCuttingConserns.csproj" />
+        <ProjectReference Include="..\Core.Security\MenCore.Security.csproj" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="MediatR" Version="12.2.0"/>
-        <PackageReference Include="FluentValidation" Version="11.9.0"/>
-        <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.1"/>
+        <PackageReference Include="MediatR" Version="12.2.0" />
+        <PackageReference Include="FluentValidation" Version="11.9.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.1" />
     </ItemGroup>
 </Project>
