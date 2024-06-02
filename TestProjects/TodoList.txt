@@ -1,4 +1,9 @@
 - TODO Eksiklikler
-- [ ] Enable Email Authentication bug fix
-- [ ] Enable Email Authentication HttpContext GetUserId bug fix
-- [ ] PEM file for SSL Generation
+- [ x] Enable Email Authentication bug fix
+- [x] Enable Email Authentication HttpContext GetUserId bug fix
+- [x] PEM file for SSL Generation
+- [x] MailKit.Net.Smtp.SmtpCommandException: Syntax error in parameters or arguments
+
+- TODO Yapılacaklar
+- [ ] OTP Authentication yapısına bakılıp düzenleme yapılacak
+- [ ] Şifre yenileme işlemi yapılacak

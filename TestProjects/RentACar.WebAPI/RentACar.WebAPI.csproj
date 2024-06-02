@@ -41,6 +41,7 @@
         <ProjectReference Include="..\RentACar.Application\RentACar.Application.csproj">
             <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
         </ProjectReference>
+        <ProjectReference Include="..\RentACar.Infrastructure\RentACar.Infrastructure.csproj" />
         <ProjectReference Include="..\RentACar.Persistence\RentACar.Persistence.csproj">
             <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
         </ProjectReference>

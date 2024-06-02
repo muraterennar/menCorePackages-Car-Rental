@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using RentACar.Application.Features.Auth.Rules;
 using RentACar.Application.Services.Repositories;
+using RentACar.Infrastructure.Mail;
 
 namespace RentACar.Application.Features.Auth.Commands.VerifyEmailAuthenticator;
 
@@ -13,13 +14,15 @@ public class VerifyEmailAuthenticatorCommand : IRequest
     {
         private readonly AuthBusinessRules _authBusinessRules;
         private readonly IEmailAuthenticatorRepository _emailAuthenticatorRepository;
+        private readonly IMailTemplateGeneratorService _mailTemplateGeneratorService;
 
         // Bağımlılıkları enjekte ederek VerifyEmailAuthenticatorCommandHandler sınıfını oluşturur
         public VerifyEmailAuthenticatorCommandHandler(AuthBusinessRules authBusinessRules,
-            IEmailAuthenticatorRepository emailAuthenticatorRepository)
+            IEmailAuthenticatorRepository emailAuthenticatorRepository, IMailTemplateGeneratorService mailTemplateGeneratorService)
         {
             _authBusinessRules = authBusinessRules;
             _emailAuthenticatorRepository = emailAuthenticatorRepository;
+            _mailTemplateGeneratorService = mailTemplateGeneratorService;
         }
 
         // E-posta doğrulayıcıyı doğrular

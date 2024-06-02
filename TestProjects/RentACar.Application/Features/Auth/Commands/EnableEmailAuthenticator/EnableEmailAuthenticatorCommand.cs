@@ -2,11 +2,13 @@
 using MediatR;
 using MenCore.Mailing;
 using MenCore.Security.Enums;
+using Microsoft.AspNetCore.Hosting;
 using MimeKit;
 using RentACar.Application.Features.Auth.Rules;
 using RentACar.Application.Services.AuthenticatorServices;
 using RentACar.Application.Services.Repositories;
 using RentACar.Application.Services.UserServices;
+using RentACar.Infrastructure.Mail;
 
 namespace RentACar.Application.Features.Auth.Commands.EnableEmailAuthenticator;
 
@@ -23,17 +25,20 @@ public class EnableEmailAuthenticatorCommand : IRequest
         private readonly IEmailAuthenticatorRepository _emailAuthenticatorRepository;
         private readonly IMailService _mailService;
         private readonly IUserService _userService;
+        private readonly IMailTemplateGeneratorService _mailTemplateGeneratorService;
 
         // Bağımlılıkları enjekte ederek EnableEmailAuthenticatorCommandHandler sınıfını oluşturur
         public EnableEmailAuthenticatorCommandHandler(IMailService mailService, IUserService userService,
             IEmailAuthenticatorRepository emailAuthenticatorRepository, AuthBusinessRules authBusinessRules,
-            IAuthenticatorService authenticatorService)
+            IAuthenticatorService authenticatorService,
+            IMailTemplateGeneratorService mailTemplateGeneratorService)
         {
             _mailService = mailService;
             _userService = userService;
             _emailAuthenticatorRepository = emailAuthenticatorRepository;
             _authBusinessRules = authBusinessRules;
             _authenticatorService = authenticatorService;
+            _mailTemplateGeneratorService = mailTemplateGeneratorService;
         }
 
         // E-posta doğrulayıcıyı etkinleştirir
@@ -50,16 +55,25 @@ public class EnableEmailAuthenticatorCommand : IRequest
 
             // Kullanıcının doğrulayıcı türünü e-posta olarak ayarlar ve günceller
             user.AuthenticatorType = AuthenticatorType.Email;
-            await _userService.UpdateAsync(user);
+            var updatedUser = await _userService.UpdateAsync(user);
 
             // Kullanıcı için e-posta doğrulayıcı oluşturur
-            var emailAuthenticator = await _authenticatorService.CreateEmailAuthenticator(user);
+            var emailAuthenticator = await _authenticatorService.CreateEmailAuthenticator(updatedUser);
 
             // Oluşturulan e-posta doğrulayıcıyı kaydeder
             var addedEmailAuthenticator = await _emailAuthenticatorRepository.AddAsync(emailAuthenticator);
 
             // E-posta göndermek için alıcı adresini oluşturur
-            var toEmailList = new List<MailboxAddress> { new($"{user.FirstName} {user.LastName}", user.Email) };
+            var toEmailList = new List<MailboxAddress>
+                { new($"{updatedUser.FirstName} {updatedUser.LastName}", updatedUser.Email) };
+
+
+            string activatedlink =
+                $"{request.VerifyEmailUrlPrefix}?ActivationKey={HttpUtility.UrlEncode(addedEmailAuthenticator.ActivationKey)}";
+
+            string mailTemplate =
+                _mailTemplateGeneratorService.GenerateBody(activatedlink, MailTemplateNames.ConfirmYourMailTemplate);
+
 
             // E-posta ile kullanıcıya doğrulama bağlantısı gönderir
             await _mailService.SendEmailAsync(
@@ -67,8 +81,7 @@ public class EnableEmailAuthenticatorCommand : IRequest
                 {
                     ToList = toEmailList,
                     Subject = "Verify Your Email - MenTech",
-                    TextBody =
-                        $"Click on the link to verify your email: {request.VerifyEmailUrlPrefix}?ActivationKey={HttpUtility.UrlEncode(addedEmailAuthenticator.ActivationKey)}"
+                    HtmlBody = mailTemplate
                 }
             );
         }

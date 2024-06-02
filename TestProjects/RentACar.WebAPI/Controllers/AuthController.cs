@@ -17,9 +17,11 @@ namespace RentACar.WebAPI.Controllers;
 public class AuthController : BaseController
 {
     private readonly WebAPIConfiguration _configuration;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public AuthController(IConfiguration configuration)
+    public AuthController(IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
     {
+        _httpContextAccessor = httpContextAccessor;
         _configuration = configuration.GetSection("WebAPIConfiguration").Get<WebAPIConfiguration>();
     }
 
@@ -56,7 +58,8 @@ public class AuthController : BaseController
 
     [HttpPut("RevokeToken")]
     public async Task<IActionResult> RevokeToken(
-        [FromBody(EmptyBodyBehavior = EmptyBodyBehavior.Allow)] string? refreshToken)
+        [FromBody(EmptyBodyBehavior = EmptyBodyBehavior.Allow)]
+        string? refreshToken)
     {
         RevokeTokenCommand revokeTokenCommand = new()
             { Token = refreshToken ?? getRefreshTokenFromCookies(), IPAddress = getIpAddress() };
@@ -70,7 +73,7 @@ public class AuthController : BaseController
         EnableEmailAuthenticatorCommand enableEmailAuthenticatorCommand =
             new()
             {
-                UserId = 1,
+                UserId = getUserIdFromRequest(_httpContextAccessor),
                 VerifyEmailUrlPrefix = $"{_configuration.APIDomain}/Auth/VerifyEmailAuthenticator"
             };
         await Mediator.Send(enableEmailAuthenticatorCommand);
@@ -81,17 +84,18 @@ public class AuthController : BaseController
     [HttpGet("EnableOtpAuthenticator")]
     public async Task<IActionResult> EnableOtpAuthenticator()
     {
-        EnableOtpAuthenticatorCommand enableOtpAuthenticatorCommand = new() { UserId = getUserIdFromRequest() };
+        EnableOtpAuthenticatorCommand enableOtpAuthenticatorCommand =
+            new() { UserId = getUserIdFromRequest(_httpContextAccessor) };
         var result = await Mediator.Send(enableOtpAuthenticatorCommand);
 
         return Ok(result);
     }
 
+
     [HttpGet("VerifyEmailAuthenticator")]
     public async Task<IActionResult> VerifyEmailAuthenticator(
         [FromQuery] VerifyEmailAuthenticatorCommand verifyEmailAuthenticatorCommand)
     {
-        
         await Mediator.Send(verifyEmailAuthenticatorCommand);
         return Ok();
     }
@@ -100,7 +104,7 @@ public class AuthController : BaseController
     public async Task<IActionResult> VerifyOtpAuthenticator([FromBody] string authenticatorCode)
     {
         VerifyOtpAuthenticatorCommand verifyEmailAuthenticatorCommand =
-            new() { UserId = getUserIdFromRequest(), ActivationCode = authenticatorCode };
+            new() { UserId = getUserIdFromRequest(_httpContextAccessor), ActivationCode = authenticatorCode };
 
         await Mediator.Send(verifyEmailAuthenticatorCommand);
         return Ok();

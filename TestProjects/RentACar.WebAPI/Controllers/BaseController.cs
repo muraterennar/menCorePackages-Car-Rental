@@ -8,6 +8,7 @@ public class BaseController : ControllerBase
 {
     private IMediator? _mediator;
     protected IMediator? Mediator => _mediator ??= HttpContext?.RequestServices?.GetService<IMediator>();
+    
 
     protected string? getIpAddress()
     {
@@ -16,10 +17,9 @@ public class BaseController : ControllerBase
         return HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString();
     }
 
-    protected int getUserIdFromRequest() //todo authentication behavior?
+    protected int getUserIdFromRequest(IHttpContextAccessor httpContextAccessor) //todo authentication behavior?
     {
-        var user = HttpContext.User;
-        var userId = user.GetUserId();
+        var userId = httpContextAccessor.HttpContext.User.GetUserId();
         return userId;
     }
 }

@@ -6,6 +6,7 @@ using MenCore.Security.Enums;
 using MenCore.Security.OtpAuthenticator;
 using MimeKit;
 using RentACar.Application.Services.Repositories;
+using RentACar.Infrastructure.Mail;
 
 namespace RentACar.Application.Services.AuthenticatorServices;
 
@@ -16,16 +17,19 @@ public class AuthenticatorManager : IAuthenticatorService
     private readonly IMailService _mailService;
     private readonly IOtpAuthenticatorHelper _otpAuthenticatorHelper;
     private readonly IOtpAuthenticatorRepository _otpAuthenticatorRepository;
+    private readonly IMailTemplateGeneratorService _mailTemplateGeneratorService;
 
     public AuthenticatorManager(IEmailAuthenticatorHelper emailAuthenticatorHelper,
         IEmailAuthenticatorRepository emailAuthenticatorRepository, IMailService mailService,
-        IOtpAuthenticatorHelper otpAuthenticatorHelper, IOtpAuthenticatorRepository otpAuthenticatorRepository)
+        IOtpAuthenticatorHelper otpAuthenticatorHelper, IOtpAuthenticatorRepository otpAuthenticatorRepository,
+        IMailTemplateGeneratorService mailTemplateGeneratorService)
     {
         _emailAuthenticatorHelper = emailAuthenticatorHelper;
         _emailAuthenticatorRepository = emailAuthenticatorRepository;
         _mailService = mailService;
         _otpAuthenticatorHelper = otpAuthenticatorHelper;
         _otpAuthenticatorRepository = otpAuthenticatorRepository;
+        _mailTemplateGeneratorService = mailTemplateGeneratorService;
     }
 
     // Kullanıcı için bir e-posta doğrulayıcı oluşturur
@@ -92,12 +96,15 @@ public class AuthenticatorManager : IAuthenticatorService
 
         var toEmailList = new List<MailboxAddress> { new($"{user.FirstName} {user.LastName}", user.Email) };
 
+        string mailTemplate =
+            _mailTemplateGeneratorService.GenerateBody(authenticatorCode, MailTemplateNames.VerifyToEmail);
+
         _mailService.SendMail(
             new Mail
             {
                 ToList = toEmailList,
                 Subject = "Authenticator Code - RentACar",
-                TextBody = $"Enter your authenticator code: {authenticatorCode}"
+                HtmlBody = mailTemplate
             }
         );
     }

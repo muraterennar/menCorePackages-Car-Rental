@@ -114,6 +114,7 @@
         <ProjectReference Include="..\..\Core\MenCore.Mailing\MenCore.Mailing.csproj" />
         <ProjectReference Include="..\RentACar.Domaim\RentACar.Domaim.csproj"/>
         <ProjectReference Include="..\..\Core\MenCore.Application\MenCore.Application.csproj"/>
+        <ProjectReference Include="..\RentACar.Infrastructure\RentACar.Infrastructure.csproj" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="MediatR" Version="12.2.0"/>
