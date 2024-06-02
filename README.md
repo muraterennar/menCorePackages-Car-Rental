@@ -43,12 +43,16 @@ dotnet ef database update
 - ASP.NET Core 8.0
 - Entity Framework Core 8.0
 - MSSQL
-- Autofac
 - FluentValidation
 - MailKit
 - AOP
 - JWT
-- Log4Net
+- Serilog
+- OTP.NET
+- Syetem.Linq.Dynamic.Core
+- MediatR
+- RedisCache
+- AutoMapper
 - Swagger
 
 ## Katkıda Bulunma
