@@ -1,4 +1,6 @@
 ﻿using MediatR;
+using MenCore.Application.Pipelines.Logging;
+using MenCore.Application.Pipelines.Transaction;
 using MenCore.Security.Enums;
 using RentACar.Application.Features.Auth.Rules;
 using RentACar.Application.Services.AuthenticatorServices;
@@ -7,7 +9,7 @@ using RentACar.Application.Services.UserServices;
 
 namespace RentACar.Application.Features.Auth.Commands.VerifyOtpAuthenticator;
 
-public class VerifyOtpAuthenticatorCommand : IRequest
+public class VerifyOtpAuthenticatorCommand : IRequest, ILoggableRequest, ITransactionalRequest
 {
     public int UserId { get; set; }
     public string ActivationCode { get; set; }

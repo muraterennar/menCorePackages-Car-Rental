@@ -58,11 +58,13 @@ public class EnableOtpAuthenticatorCommand : IRequest<EnabledOtpAuthenticatorRes
 
             // Otp doğrulayıcının gizli anahtarını dizeye dönüştürür
             var secretKey = await _authenticatorService.ConvertSecretKeyToString(addedAuthenticator.SecretKey);
+            var otp = await _authenticatorService.CreateOtpCode(addedAuthenticator.SecretKey);
 
             // Etkinleştirilmiş Otp doğrulayıcı yanıtını oluşturur ve döndürür
             EnabledOtpAuthenticatorResponse enabledOtpAuthenticatorDto = new()
             {
-                SecretKey = secretKey
+                SecretKey = secretKey,
+                Otp = otp
             };
 
             return enabledOtpAuthenticatorDto;

@@ -9,7 +9,6 @@ public class BaseController : ControllerBase
     private IMediator? _mediator;
     protected IMediator? Mediator => _mediator ??= HttpContext?.RequestServices?.GetService<IMediator>();
     
-
     protected string? getIpAddress()
     {
         if (Request.Headers.ContainsKey("X-Forwarded-For"))
@@ -17,7 +16,7 @@ public class BaseController : ControllerBase
         return HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString();
     }
 
-    protected int getUserIdFromRequest(IHttpContextAccessor httpContextAccessor) //todo authentication behavior?
+    protected int getUserIdFromRequest(IHttpContextAccessor httpContextAccessor)
     {
         var userId = httpContextAccessor.HttpContext.User.GetUserId();
         return userId;

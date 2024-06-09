@@ -3,6 +3,8 @@
 - [x] Enable Email Authentication HttpContext GetUserId bug fix
 - [x] PEM file for SSL Generation
 - [x] MailKit.Net.Smtp.SmtpCommandException: Syntax error in parameters or arguments
+- [x] The OTP Authentication structure will be reviewed and edited.
+- [] If there is a code in the OTP Authentication process, a soft delete error is received when the deletion is performed. This error will be fixed.
 
 - TODO Yapılacaklar
 - [ ] OTP Authentication yapısına bakılıp düzenleme yapılacak

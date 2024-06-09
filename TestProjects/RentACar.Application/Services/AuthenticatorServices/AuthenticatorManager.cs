@@ -58,6 +58,12 @@ public class AuthenticatorManager : IAuthenticatorService
         return otpAuthenticator;
     }
 
+    public async Task<string> CreateOtpCode(byte[] secretKey)
+    {
+        string otp = await _otpAuthenticatorHelper.GenerateOtpCode(secretKey);
+        return otp;
+    }
+
     // Bir byte dizisini bir dizeye dönüştürür
     public async Task<string> ConvertSecretKeyToString(byte[] secretKey)
     {
@@ -127,7 +133,7 @@ public class AuthenticatorManager : IAuthenticatorService
         var otpAuthenticator = await _otpAuthenticatorRepository.GetAsync(e => e.UserId == user.Id);
         if (otpAuthenticator is null)
             throw new NotFoundException("Otp Authenticator not found.");
-        var result = await _otpAuthenticatorHelper.VerifyCode(otpAuthenticator.SecretKey, authenticatorCode);
+        var result = await _otpAuthenticatorHelper.VerifyOtpCode(otpAuthenticator.SecretKey, authenticatorCode);
         if (!result)
             throw new BusinessException("Authenticator code is invalid.");
     }

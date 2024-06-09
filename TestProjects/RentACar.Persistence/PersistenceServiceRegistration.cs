@@ -30,10 +30,8 @@ public static class PersistenceServiceRegistration
         services.AddScoped<IEmailAuthenticatorRepository, EmailAuthenticatorRepository>();
         services.AddScoped<IOtpAuthenticatorRepository, OtpAuthenticatorRepository>();
 
-
         // --- Data Seeding -----
         // Servis sağlayıcısını oluştur
-        //TODO: Bu kısım hata verebilir. Çözüm bulunmalı.
         var serviceProvider = services.BuildServiceProvider();
 
         // DbContext nesnesini al
