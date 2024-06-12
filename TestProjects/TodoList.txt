@@ -7,5 +7,7 @@
 - [] If there is a code in the OTP Authentication process, a soft delete error is received when the deletion is performed. This error will be fixed.
 
 - TODO Yapılacaklar
-- [ ] OTP Authentication yapısına bakılıp düzenleme yapılacak
+- [x] OTP Authentication yapısına bakılıp düzenleme yapılacak
+- [x] OTP Authentication QR Code yapısı eklenecek
+- [x] OTP Authentication Anlık Code Değişimi İşlemi Yapılacak
 - [ ] Şifre yenileme işlemi yapılacak

@@ -2,6 +2,6 @@
 
 public class EnabledOtpAuthenticatorResponse
 {
-    public string SecretKey { get; set; }
     public string? Otp { get; set; }
+    public string? OtpQrCode { get; set; }
 }

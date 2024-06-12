@@ -59,15 +59,31 @@ public class EnableOtpAuthenticatorCommand : IRequest<EnabledOtpAuthenticatorRes
             // Otp doğrulayıcının gizli anahtarını dizeye dönüştürür
             var secretKey = await _authenticatorService.ConvertSecretKeyToString(addedAuthenticator.SecretKey);
             var otp = await _authenticatorService.CreateOtpCode(addedAuthenticator.SecretKey);
+            var otpQrCode =
+                await _authenticatorService.GenerateOtpQrCode(addedAuthenticator.SecretKey, user.Email, "RentACar",
+                    $"otps/otp-{Guid.NewGuid()}.png");
 
             // Etkinleştirilmiş Otp doğrulayıcı yanıtını oluşturur ve döndürür
             EnabledOtpAuthenticatorResponse enabledOtpAuthenticatorDto = new()
             {
-                SecretKey = secretKey,
-                Otp = otp
+                Otp = otp,
+                OtpQrCode = otpQrCode
             };
 
             return enabledOtpAuthenticatorDto;
         }
+    }
+
+    public static string GetRoot(string folderName)
+    {
+        // var path = Path.Combine(Directory.GetCurrentDirectory(), "~/TestProjects/RentACar.WebAPI/wwwroot/Templates")
+        var path = Path.Combine(Directory.GetCurrentDirectory(),
+            $"{folderName}");
+        if (!Directory.Exists(path))
+        {
+            Directory.CreateDirectory(path);
+        }
+
+        return path;
     }
 }

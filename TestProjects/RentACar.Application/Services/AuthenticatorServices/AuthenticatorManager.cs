@@ -58,6 +58,12 @@ public class AuthenticatorManager : IAuthenticatorService
         return otpAuthenticator;
     }
 
+    public async Task<string> GenerateOtpQrCode(byte[] secretKey, string email, string issuer, string filePath)
+    {
+        var result = await _otpAuthenticatorHelper.GenerateQrCode(secretKey, email, issuer, filePath);
+        return result;
+    }
+
     public async Task<string> CreateOtpCode(byte[] secretKey)
     {
         string otp = await _otpAuthenticatorHelper.GenerateOtpCode(secretKey);

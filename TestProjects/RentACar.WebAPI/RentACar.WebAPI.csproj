@@ -36,6 +36,7 @@
         <Folder Include="Areas\controller\Models\"/>
         <Folder Include="Areas\controller\Views\"/>
         <Folder Include="logs\"/>
+        <Folder Include="otps\" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\RentACar.Application\RentACar.Application.csproj">
