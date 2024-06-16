@@ -9,5 +9,6 @@
 - TODO Yapılacaklar
 - [x] OTP Authentication yapısına bakılıp düzenleme yapılacak
 - [x] OTP Authentication QR Code yapısı eklenecek
-- [] OTP Authentication Anlık Code Değişimi İşlemi Yapılacak
+- [x] OTP Authentication Anlık Code Değişimi İşlemi Yapılacak
+- [] OTP Authentication İlk oluştuğunda mila | ilk barkod oluşturup ordan dönen kodu girme işlemi yapılacak
 - [ ] Şifre yenileme işlemi yapılacak

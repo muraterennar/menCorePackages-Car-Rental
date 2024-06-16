@@ -9,13 +9,16 @@ using RentACar.Application.Services.UserServices;
 
 namespace RentACar.Application.Features.Auth.Commands.VerifyOtpAuthenticator;
 
-public class VerifyOtpAuthenticatorCommand : IRequest, ILoggableRequest, ITransactionalRequest
+public class VerifyOtpAuthenticatorCommand : IRequest<VerifyOtpAuthenticatorResponse>, ILoggableRequest,
+    ITransactionalRequest
 {
     public int UserId { get; set; }
     public string ActivationCode { get; set; }
 
     // OTP doğrulayıcıyı doğrulamak için komut işleyicisini uygular
-    public class VerifyOtpAuthenticatorCommandHandler : IRequestHandler<VerifyOtpAuthenticatorCommand>
+    public class
+        VerifyOtpAuthenticatorCommandHandler : IRequestHandler<VerifyOtpAuthenticatorCommand,
+        VerifyOtpAuthenticatorResponse>
     {
         private readonly AuthBusinessRules _authBusinessRules;
         private readonly IAuthenticatorService _authenticatorService;
@@ -34,7 +37,8 @@ public class VerifyOtpAuthenticatorCommand : IRequest, ILoggableRequest, ITransa
         }
 
         // OTP doğrulayıcıyı doğrular
-        public async Task Handle(VerifyOtpAuthenticatorCommand request, CancellationToken cancellationToken)
+        public async Task<VerifyOtpAuthenticatorResponse> Handle(VerifyOtpAuthenticatorCommand request,
+            CancellationToken cancellationToken)
         {
             // OTP doğrulayıcıyı kullanıcı kimliğine göre alır
             var otpAuthenticator = await _otpAuthenticatorRepository.GetAsync(e => e.UserId == request.UserId);
@@ -59,6 +63,11 @@ public class VerifyOtpAuthenticatorCommand : IRequest, ILoggableRequest, ITransa
 
             // Kullanıcıyı günceller
             await _userService.UpdateAsync(user);
+
+            return new VerifyOtpAuthenticatorResponse()
+            {
+                Message = "The OTP verifier has been successfully verified."
+            };
         }
     }
 }

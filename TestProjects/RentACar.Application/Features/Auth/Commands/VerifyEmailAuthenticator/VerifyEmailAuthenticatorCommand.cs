@@ -5,12 +5,14 @@ using RentACar.Infrastructure.Mail;
 
 namespace RentACar.Application.Features.Auth.Commands.VerifyEmailAuthenticator;
 
-public class VerifyEmailAuthenticatorCommand : IRequest
+public class VerifyEmailAuthenticatorCommand : IRequest<VerifyEmailAuthenticatorResponse>
 {
     public string ActivationKey { get; set; }
 
     // E-posta doğrulayıcıyı doğrulamak için komut işleyicisini uygular
-    public class VerifyEmailAuthenticatorCommandHandler : IRequestHandler<VerifyEmailAuthenticatorCommand>
+    public class
+        VerifyEmailAuthenticatorCommandHandler : IRequestHandler<VerifyEmailAuthenticatorCommand,
+        VerifyEmailAuthenticatorResponse>
     {
         private readonly AuthBusinessRules _authBusinessRules;
         private readonly IEmailAuthenticatorRepository _emailAuthenticatorRepository;
@@ -18,7 +20,8 @@ public class VerifyEmailAuthenticatorCommand : IRequest
 
         // Bağımlılıkları enjekte ederek VerifyEmailAuthenticatorCommandHandler sınıfını oluşturur
         public VerifyEmailAuthenticatorCommandHandler(AuthBusinessRules authBusinessRules,
-            IEmailAuthenticatorRepository emailAuthenticatorRepository, IMailTemplateGeneratorService mailTemplateGeneratorService)
+            IEmailAuthenticatorRepository emailAuthenticatorRepository,
+            IMailTemplateGeneratorService mailTemplateGeneratorService)
         {
             _authBusinessRules = authBusinessRules;
             _emailAuthenticatorRepository = emailAuthenticatorRepository;
@@ -26,7 +29,8 @@ public class VerifyEmailAuthenticatorCommand : IRequest
         }
 
         // E-posta doğrulayıcıyı doğrular
-        public async Task Handle(VerifyEmailAuthenticatorCommand request, CancellationToken cancellationToken)
+        public async Task<VerifyEmailAuthenticatorResponse> Handle(VerifyEmailAuthenticatorCommand request,
+            CancellationToken cancellationToken)
         {
             // Doğrulama anahtarına göre e-posta doğrulayıcıyı alır
             var emailAuthenticator =
@@ -44,6 +48,11 @@ public class VerifyEmailAuthenticatorCommand : IRequest
 
             // E-posta doğrulayıcıyı günceller
             await _emailAuthenticatorRepository.UpdateAsync(emailAuthenticator);
+
+            return new VerifyEmailAuthenticatorResponse()
+            {
+                Message = "The email verifier has been successfully verified."
+            };
         }
     }
 }

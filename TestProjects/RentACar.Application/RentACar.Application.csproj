@@ -105,8 +105,6 @@
         <Folder Include="Services\AuthenticatorServices\"/>
         <Folder Include="Features\Auth\Commands\EnableEmailAuthenticator\"/>
         <Folder Include="Features\Auth\Commands\EnableOtpAuthenticator\"/>
-        <Folder Include="Features\Auth\Commands\VerifyEmailAuthenticator\"/>
-        <Folder Include="Features\Auth\Commands\VerifyOtpAuthenticator\"/>
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\..\Core\Core.Security\MenCore.Security.csproj" />

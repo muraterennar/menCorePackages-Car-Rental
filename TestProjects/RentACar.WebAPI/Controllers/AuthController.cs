@@ -96,8 +96,8 @@ public class AuthController : BaseController
     public async Task<IActionResult> VerifyEmailAuthenticator(
         [FromQuery] VerifyEmailAuthenticatorCommand verifyEmailAuthenticatorCommand)
     {
-        await Mediator.Send(verifyEmailAuthenticatorCommand);
-        return Ok();
+        VerifyEmailAuthenticatorResponse message = await Mediator.Send(verifyEmailAuthenticatorCommand);
+        return Ok(message);
     }
 
     [HttpPost("VerifyOtpAuthenticator")]
@@ -106,8 +106,8 @@ public class AuthController : BaseController
         VerifyOtpAuthenticatorCommand verifyEmailAuthenticatorCommand =
             new() { UserId = getUserIdFromRequest(_httpContextAccessor), ActivationCode = authenticatorCode };
 
-        await Mediator.Send(verifyEmailAuthenticatorCommand);
-        return Ok();
+        VerifyOtpAuthenticatorResponse message = await Mediator.Send(verifyEmailAuthenticatorCommand);
+        return Ok(message);
     }
 
     private string? getRefreshTokenFromCookies()
