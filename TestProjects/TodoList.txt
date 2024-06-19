@@ -4,11 +4,15 @@
 - [x] PEM file for SSL Generation
 - [x] MailKit.Net.Smtp.SmtpCommandException: Syntax error in parameters or arguments
 - [x] The OTP Authentication structure will be reviewed and edited.
-- [] If there is a code in the OTP Authentication process, a soft delete error is received when the deletion is performed. This error will be fixed.
+- [x] If there is a code in the OTP Authentication process, a soft delete error is received when the deletion is performed. This error will be fixed.
 
 - TODO Yapılacaklar
 - [x] OTP Authentication yapısına bakılıp düzenleme yapılacak
 - [x] OTP Authentication QR Code yapısı eklenecek
 - [x] OTP Authentication Anlık Code Değişimi İşlemi Yapılacak
-- [] OTP Authentication İlk oluştuğunda mila | ilk barkod oluşturup ordan dönen kodu girme işlemi yapılacak
+- [x] OTP Authentication İlk oluştuğunda mila | ilk barkod oluşturup ordan dönen kodu girme işlemi yapılacak
+- [ ] Şifre yenileme işlemi yapılacak
+- [ ] Google Auth Sistemi Eklenecek
+- [ ] Apple Auth Sistemi Eklenecek
+- [ ] Github Auth Sistemi Eklenecek
 - [ ] Şifre yenileme işlemi yapılacak

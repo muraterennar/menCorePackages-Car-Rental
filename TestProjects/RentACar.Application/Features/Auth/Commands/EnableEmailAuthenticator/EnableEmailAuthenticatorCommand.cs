@@ -2,13 +2,13 @@
 using MediatR;
 using MenCore.Mailing;
 using MenCore.Security.Enums;
-using Microsoft.AspNetCore.Hosting;
 using MimeKit;
 using RentACar.Application.Features.Auth.Rules;
 using RentACar.Application.Services.AuthenticatorServices;
 using RentACar.Application.Services.Repositories;
 using RentACar.Application.Services.UserServices;
 using RentACar.Infrastructure.Mail;
+using RentACar.Infrastructure.Mail.Constants;
 
 namespace RentACar.Application.Features.Auth.Commands.EnableEmailAuthenticator;
 
@@ -72,7 +72,7 @@ public class EnableEmailAuthenticatorCommand : IRequest
                 $"{request.VerifyEmailUrlPrefix}?ActivationKey={HttpUtility.UrlEncode(addedEmailAuthenticator.ActivationKey)}";
 
             string mailTemplate =
-                _mailTemplateGeneratorService.GenerateBody(activatedlink, MailTemplateNames.ConfirmYourMailTemplate);
+                await _mailTemplateGeneratorService.GenerateBodyAsync(activatedlink, MailTemplateUrl.CodeEmailAuthenticatorTemplate);
 
 
             // E-posta ile kullanıcıya doğrulama bağlantısı gönderir

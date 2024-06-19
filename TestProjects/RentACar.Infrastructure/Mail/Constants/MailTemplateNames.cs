@@ -1,4 +1,4 @@
-namespace RentACar.Infrastructure.Mail;
+namespace RentACar.Infrastructure.Mail.Constants;
 
 public static class MailTemplateNames
 {

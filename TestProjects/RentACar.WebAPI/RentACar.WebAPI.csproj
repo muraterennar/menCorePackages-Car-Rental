@@ -29,6 +29,10 @@
     <ItemGroup>
         <None Remove="Controllers\"/>
         <None Remove="logs\"/>
+        <None Include="wwwroot\otps\otp-0a0e003f-174a-43ea-bf14-dec1eef59456.png" />
+        <None Include="wwwroot\otps\otp-15bc6dc3-1181-49fd-a6bc-9a773778b229.png" />
+        <None Include="wwwroot\otps\otp-44dec121-bc44-4591-ab2a-5bcf73e8ce2f.png" />
+        <None Include="wwwroot\otps\otp-e60b2257-34e1-4fa3-bab9-ae88399a38f6.png" />
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Areas\controller\Controllers\"/>

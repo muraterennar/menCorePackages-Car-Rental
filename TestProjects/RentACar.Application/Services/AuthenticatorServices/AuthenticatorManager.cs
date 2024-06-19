@@ -10,6 +10,7 @@ using RentACar.Infrastructure.Mail;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using RentACar.Infrastructure.Mail.Constants;
 
 namespace RentACar.Application.Services.AuthenticatorServices
 {
@@ -112,7 +113,7 @@ namespace RentACar.Application.Services.AuthenticatorServices
             var toEmailList = new List<MailboxAddress> { new($"{user.FirstName} {user.LastName}", user.Email) };
 
             string mailTemplate =
-                _mailTemplateGeneratorService.GenerateBody(authenticatorCode, MailTemplateNames.VerifyToEmail);
+               await _mailTemplateGeneratorService.GenerateBodyAsync(authenticatorCode, MailTemplateUrl.VerifyEmailAuthenticatorTemplate);
 
             _mailService.SendMail(
                 new Mail
