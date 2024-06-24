@@ -78,12 +78,15 @@ public class User : Entity<int>
 
     // Kullanıcının e-posta adresi
     public string Email { get; set; }
+    
+    // Kullanıcının Avatar'ı
+    public string? PhotoUrl { get; set; }
 
     // Kullanıcının şifresinin tuzu
-    public byte[] PasswordSalt { get; set; }
+    public byte[]? PasswordSalt { get; set; }
 
     // Kullanıcının şifresinin hash değeri
-    public byte[] PasswordHash { get; set; }
+    public byte[]? PasswordHash { get; set; }
 
     // Kullanıcının durumu (aktif veya pasif)
     public bool Status { get; set; }

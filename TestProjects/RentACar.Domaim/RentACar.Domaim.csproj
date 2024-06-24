@@ -11,10 +11,10 @@
         <None Remove="Enums\"/>
     </ItemGroup>
     <ItemGroup>
-        <Folder Include="Entities\"/>
         <Folder Include="Enums\"/>
     </ItemGroup>
     <ItemGroup>
+        <ProjectReference Include="..\..\Core\Core.Security\MenCore.Security.csproj" />
         <ProjectReference Include="..\..\Core\MenCore.Persistence\MenCore.Persistence.csproj"/>
     </ItemGroup>
 </Project>

@@ -12,11 +12,14 @@ public class AuthBusinessRules : BaseBusinessRules
 {
     private readonly IEmailAuthenticatorRepository _emailAuthenticatorRepository;
     private readonly IUserRepository _userRepository;
+    private readonly IUserLoginRepository _userLoginRepository;
 
-    public AuthBusinessRules(IUserRepository userRepository, IEmailAuthenticatorRepository emailAuthenticatorRepository)
+    public AuthBusinessRules(IUserRepository userRepository, IEmailAuthenticatorRepository emailAuthenticatorRepository,
+        IUserLoginRepository userLoginRepository)
     {
         _userRepository = userRepository;
         _emailAuthenticatorRepository = emailAuthenticatorRepository;
+        _userLoginRepository = userLoginRepository;
     }
 
     // E-posta kimlik doğrulayıcısının var olup olmadığını kontrol eder
@@ -97,5 +100,38 @@ public class AuthBusinessRules : BaseBusinessRules
         var user = await _userRepository.GetAsync(u => u.Id == id, enableTracking: false);
         if (!HashingHelper.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
             throw new BusinessException(AuthMessages.PasswordDontMatch);
+    }
+
+    // User Login İşlemi Sırasında Aynı Kullanıcıcının Olup Olmadığını Kontrol Eder
+    public async Task EnsureExternalUserDoesNotExistAsync(string loginProvider, string providerKey)
+    {
+        var user = await _userLoginRepository.GetAsync(
+            u => u.LoginProvider == loginProvider && u.ProviderKey == providerKey, enableTracking: false);
+        if (user != null)
+            throw new BusinessException(AuthMessages.UserAlreadyExists);
+    }
+    
+    public async Task EnsureUserLoginExists(string loginProvider, string providerKey)
+    {
+        var userLogin =
+            await _userLoginRepository.GetAsync(u => u.LoginProvider == loginProvider && u.ProviderKey == providerKey,
+                enableTracking: false);
+        if (userLogin == null)
+            throw new BusinessException(AuthMessages.UserDontExists);
+    }
+
+    public async Task EnsureUserDoesNotExist(int userId)
+    {
+        var user = await _userRepository.GetAsync(u => u.Id == userId, enableTracking: false);
+        if (user != null)
+            throw new BusinessException(AuthMessages.UserAlreadyExists);
+    }
+
+    public async Task EnsureEmailDoesNotExist(string email)
+    {
+        var userWithEmail = await _userRepository.GetAsync(u => u.Email == email, enableTracking: false);
+        if (userWithEmail != null)
+            throw new BusinessException(AuthMessages.UserMailAlreadyExists);
+            
     }
 }

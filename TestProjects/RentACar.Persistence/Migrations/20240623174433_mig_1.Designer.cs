@@ -12,7 +12,7 @@ using RentACar.Persistence.Contexts;
 namespace RentACar.Persistence.Migrations
 {
     [DbContext(typeof(BaseDatabaseContext))]
-    [Migration("20240519150319_mig_1")]
+    [Migration("20240623174433_mig_1")]
     partial class mig_1
     {
         /// <inheritdoc />
@@ -244,14 +244,15 @@ namespace RentACar.Persistence.Migrations
                         .HasColumnName("LastName");
 
                     b.Property<byte[]>("PasswordHash")
-                        .IsRequired()
                         .HasColumnType("varbinary(max)")
                         .HasColumnName("PasswordHash");
 
                     b.Property<byte[]>("PasswordSalt")
-                        .IsRequired()
                         .HasColumnType("varbinary(max)")
                         .HasColumnName("PasswordSalt");
+
+                    b.Property<string>("PhotoUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Status")
                         .HasColumnType("bit")
@@ -510,6 +511,50 @@ namespace RentACar.Persistence.Migrations
                     b.ToTable("Transmissions", (string)null);
                 });
 
+            modelBuilder.Entity("RentACar.Domaim.Entities.UserLogin", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("Id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LoginProvider")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("LoginProvider");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ProviderDisplayName");
+
+                    b.Property<string>("ProviderKey")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ProviderKey");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int")
+                        .HasColumnName("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserLogins", (string)null);
+                });
+
             modelBuilder.Entity("MenCore.Security.Entities.EmailAuthenticator", b =>
                 {
                     b.HasOne("MenCore.Security.Entities.User", "User")
@@ -598,6 +643,17 @@ namespace RentACar.Persistence.Migrations
                     b.Navigation("Fuel");
 
                     b.Navigation("Transmission");
+                });
+
+            modelBuilder.Entity("RentACar.Domaim.Entities.UserLogin", b =>
+                {
+                    b.HasOne("MenCore.Security.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MenCore.Security.Entities.OperationClaim", b =>

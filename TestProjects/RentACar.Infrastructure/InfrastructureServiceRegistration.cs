@@ -1,5 +1,6 @@
 using MenCore.Mailing.MailKitImplementations;
 using Microsoft.Extensions.DependencyInjection;
+using RentACar.Infrastructure.Auths.GoogleLogin;
 using RentACar.Infrastructure.Mail;
 using RentACar.Infrastructure.Mail.GeneratedTemplates;
 using RentACar.Infrastructure.Mail.GeneratedTemplates.EnableMailAuthenticator;
@@ -11,6 +12,7 @@ public static class InfrastructureServiceRegistration
     public static IServiceCollection AddInfrastructureService(this IServiceCollection services)
     {
         services.AddScoped<IMailTemplateGeneratorService, EnableEmailAuthenticatorTemplate>();
+        services.AddScoped<IGoogleAuthService, GoogleAuthManager>();
 
         return services;
     }

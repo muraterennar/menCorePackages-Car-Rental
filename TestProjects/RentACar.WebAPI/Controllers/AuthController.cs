@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using RentACar.Application.Features.Auth.Commands.EnableEmailAuthenticator;
 using RentACar.Application.Features.Auth.Commands.EnableOtpAuthenticator;
+using RentACar.Application.Features.Auth.Commands.GoogleLogin;
 using RentACar.Application.Features.Auth.Commands.Login;
 using RentACar.Application.Features.Auth.Commands.RefleshToken;
 using RentACar.Application.Features.Auth.Commands.Register;
@@ -35,6 +36,25 @@ public class AuthController : BaseController
             setRefreshTokenToCookie(response.RefreshToken);
 
         return Ok(response.ToHttpResponse());
+    }
+    
+    [HttpPost("GoogleLogin")]
+    public async Task<IActionResult> GoogleLogin([FromBody] GoogleLoginCommand googleLoginCommand)
+    {
+        GoogleLoginCommand googleLoginCommandRequest = new GoogleLoginCommand()
+        {
+            Id = googleLoginCommand.Id,
+            IdToken = googleLoginCommand.IdToken,
+            Email = googleLoginCommand.Email,
+            Name = googleLoginCommand.Name,
+            PhotoUrl = googleLoginCommand.PhotoUrl,
+            FirstName = googleLoginCommand.FirstName,
+            LastName = googleLoginCommand.LastName,
+            Provider = googleLoginCommand.Provider,
+            IPAddress = getIpAddress()
+        };
+        GoogleLoginResponse response = await Mediator.Send(googleLoginCommandRequest);
+        return Ok(response);
     }
 
     [HttpPost("Register")]

@@ -67,7 +67,6 @@
         <Folder Include="Features\Brands\Profiles\"/>
         <Folder Include="Features\Brands\Queries\"/>
         <Folder Include="Features\Brands\Rules\"/>
-        <Folder Include="Services\Repositories\"/>
         <Folder Include="Features\Brands\Commands\Create\"/>
         <Folder Include="Features\Brands\Commands\Delete\"/>
         <Folder Include="Features\Brands\Queries\GetList\"/>
@@ -91,7 +90,6 @@
         <Folder Include="Features\Users\Commands\Delete\"/>
         <Folder Include="Features\Auth\"/>
         <Folder Include="Features\Auth\Constants\"/>
-        <Folder Include="Features\Auth\Commands\"/>
         <Folder Include="Features\Auth\Profiles\"/>
         <Folder Include="Features\Auth\Rules\"/>
         <Folder Include="Features\Auth\Commands\Register\"/>
@@ -115,6 +113,7 @@
         <ProjectReference Include="..\RentACar.Infrastructure\RentACar.Infrastructure.csproj" />
     </ItemGroup>
     <ItemGroup>
+        <PackageReference Include="Google.Apis.Auth" Version="1.68.0" />
         <PackageReference Include="MediatR" Version="12.2.0"/>
         <PackageReference Include="AutoMapper" Version="13.0.1"/>
         <PackageReference Include="FluentValidation" Version="11.9.0"/>
