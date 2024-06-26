@@ -6,6 +6,7 @@
 - [x] The OTP Authentication structure will be reviewed and edited.
 - [x] If there is a code in the OTP Authentication process, a soft delete error is received when the deletion is performed. This error will be fixed.
 - [] In the Google Auth system, the token is being created but there is an issue displaying it on the screen that needs to be fixed.
+- [] GoogleID and GoogleSecret are not being read from the Environment file. This error will be fixed.
 
 - TODO Yapılacaklar
 - [x] OTP Authentication yapısına bakılıp düzenleme yapılacak
