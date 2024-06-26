@@ -78,6 +78,7 @@ public class GoogleLoginCommand : IRequest<GoogleLoginResponse>, ITransactionalR
                 ProviderDisplayName = request.Provider,
                 UserId = user.Id
             };
+            
 
             await _authBusinessRules.EnsureExternalUserDoesNotExistAsync(userLogin.LoginProvider,
                 userLogin.ProviderKey);
