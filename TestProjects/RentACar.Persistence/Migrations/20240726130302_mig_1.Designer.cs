@@ -12,7 +12,7 @@ using RentACar.Persistence.Contexts;
 namespace RentACar.Persistence.Migrations
 {
     [DbContext(typeof(BaseDatabaseContext))]
-    [Migration("20240623174433_mig_1")]
+    [Migration("20240726130302_mig_1")]
     partial class mig_1
     {
         /// <inheritdoc />
@@ -253,6 +253,10 @@ namespace RentACar.Persistence.Migrations
 
                     b.Property<string>("PhotoUrl")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Provider")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Provider");
 
                     b.Property<bool>("Status")
                         .HasColumnType("bit")

@@ -251,6 +251,10 @@ namespace RentACar.Persistence.Migrations
                     b.Property<string>("PhotoUrl")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Provider")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Provider");
+
                     b.Property<bool>("Status")
                         .HasColumnType("bit")
                         .HasColumnName("Status");

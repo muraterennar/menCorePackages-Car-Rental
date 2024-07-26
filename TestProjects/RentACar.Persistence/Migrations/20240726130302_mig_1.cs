@@ -85,6 +85,7 @@ namespace RentACar.Persistence.Migrations
                     IdentityNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BirthYear = table.Column<short>(type: "smallint", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Provider = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PhotoUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     PasswordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: true),

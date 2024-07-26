@@ -78,6 +78,9 @@ public class User : Entity<int>
 
     // Kullanıcının e-posta adresi
     public string Email { get; set; }
+
+    // Kullanıcı doğrulama sağlayıcısı
+    public string? Provider { get; set; }
     
     // Kullanıcının Avatar'ı
     public string? PhotoUrl { get; set; }

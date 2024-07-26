@@ -21,6 +21,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.PasswordSalt).HasColumnName("PasswordSalt");
         builder.Property(u => u.BirthYear).HasColumnName("BirthYear");
         builder.Property(u => u.Status).HasColumnName("Status").IsRequired();
+        builder.Property(u => u.Provider).HasColumnName("Provider");
         builder.Property(u => u.AuthenticatorType).HasColumnName("AuthenticatorType");
         builder.Property(u => u.CreatedDate).HasColumnName("CreatedDate").IsRequired();
         builder.Property(u => u.UpdatedDate).HasColumnName("UpdatedDate");

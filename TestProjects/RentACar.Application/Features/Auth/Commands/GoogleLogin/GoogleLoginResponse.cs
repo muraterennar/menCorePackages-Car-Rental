@@ -7,5 +7,4 @@ public class GoogleLoginResponse
 {
     public string Token { get; set; }
     public DateTime Expiration { get; set; }
-    public RefreshToken RefreshToken { get; set; }
 }

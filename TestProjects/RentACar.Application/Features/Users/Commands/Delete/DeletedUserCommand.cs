@@ -41,6 +41,7 @@ public class DeletedUserCommand : IRequest<DeletedUserResponse>, ITransactionalR
 
             //User? user = await _userRepository.GetAsync(u => u.Id == request.Id);
             var user = await _userService.GetByIdAsync(request.Id);
+            user.Status = UserStatus.Passive;
             await _userBusinessRules.UserShouldBeExistWhenSelected(user);
 
             //User deletedUser = await _userRepository.DeleteAsync(user);

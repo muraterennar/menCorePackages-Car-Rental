@@ -5,6 +5,7 @@ using MenCore.Security.Entities;
 using MenCore.Security.Enums;
 using Microsoft.Extensions.Configuration;
 using RentACar.Application.Features.Auth.Commands.Login;
+using RentACar.Application.Features.Auth.Constants;
 using RentACar.Application.Features.Auth.Rules;
 using RentACar.Application.Services.AuthenticatorServices;
 using RentACar.Application.Services.AuthServices;
@@ -65,10 +66,11 @@ public class GoogleLoginCommand : IRequest<GoogleLoginResponse>, ITransactionalR
                 LastName = request.LastName,
                 PhotoUrl = request.PhotoUrl,
                 Username = request.Name,
+                Provider = AuthProvider.Google,
                 Status = true
             };
 
-           // await _authBusinessRules.EnsureEmailDoesNotExist(user.Email);
+            await _authBusinessRules.EnsureEmailDoesNotExist(request.Email);
             await _userService.CreateAsync(user);
 
             var userLogin = new UserLogin()
@@ -98,8 +100,7 @@ public class GoogleLoginCommand : IRequest<GoogleLoginResponse>, ITransactionalR
             return new GoogleLoginResponse()
             {
                 Token = createdAccessToken.Token,
-                Expiration = createdAccessToken.Expiration,
-                RefreshToken = addedRefreshToken,
+                Expiration = createdAccessToken.Expiration
             };
         }
     }

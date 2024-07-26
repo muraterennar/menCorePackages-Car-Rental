@@ -2,6 +2,7 @@
 using MenCore.Application.Dtos;
 using MenCore.Security.Entities;
 using MenCore.Security.Hashing;
+using RentACar.Application.Features.Auth.Constants;
 using RentACar.Application.Features.Auth.Rules;
 using RentACar.Application.Services.AuthServices;
 using RentACar.Application.Services.Repositories;
@@ -44,6 +45,7 @@ public class RegisterCommand : IRequest<RegisteredResponse>
                 LastName = request.UserForRegisterDto.LastName,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
+                Provider = AuthProvider.System,
                 Status = true
             };
 
