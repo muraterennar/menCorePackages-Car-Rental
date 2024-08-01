@@ -98,14 +98,17 @@ public class User : Entity<int>
     public AuthenticatorType AuthenticatorType { get; set; }
 
     // Kullanıcının işlem yetkileri
-    public virtual ICollection<UserOperationClaim> UserOperationClaims { get; set; } = null!;
+    public virtual ICollection<UserOperationClaim> UserOperationClaims { get; set; }
 
     // Yenileme token'ları
-    public virtual ICollection<RefreshToken> RefreshTokens { get; set; } = null!;
+    public virtual ICollection<RefreshToken> RefreshTokens { get; set; }
 
     // OTP kimlik doğrulayıcıları
-    public virtual ICollection<OtpAuthenticator> OtpAuthenticators { get; set; } = null!;
+    public virtual ICollection<OtpAuthenticator> OtpAuthenticators { get; set; }
 
     // E-posta doğrulayıcıları
-    public virtual ICollection<EmailAuthenticator> EmailAuthenticators { get; set; } = null!;
+    public virtual ICollection<EmailAuthenticator> EmailAuthenticators { get; set; }
+
+    // Şifre sıfırlama token'ları
+    public virtual ICollection<PasswordReset> PasswordResets { get; set; }
 }

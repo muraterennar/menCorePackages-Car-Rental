@@ -20,6 +20,7 @@ public class CarConfiguration : IEntityTypeConfiguration<Car>
         builder.Property(b => b.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(b => b.DeletedDate).HasColumnName("DeletedDate");
 
+        builder.HasIndex(b => b.ModelId, "UK_Cars_Id").IsUnique();
 
         builder.HasOne(b => b.Model);
 

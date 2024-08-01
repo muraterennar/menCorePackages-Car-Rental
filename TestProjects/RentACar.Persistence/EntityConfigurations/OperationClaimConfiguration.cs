@@ -8,7 +8,7 @@ public class OperationClaimConfiguration : IEntityTypeConfiguration<OperationCla
 {
     public void Configure(EntityTypeBuilder<OperationClaim> builder)
     {
-        builder.ToTable("OperationCliams").HasKey(o => o.Id);
+        builder.ToTable("OperationClaims").HasKey(o => o.Id);
 
         builder.Property(o => o.Id).HasColumnName("Id").IsRequired();
         builder.Property(o => o.Name).HasColumnName("Name").IsRequired().IsRequired();
@@ -17,6 +17,8 @@ public class OperationClaimConfiguration : IEntityTypeConfiguration<OperationCla
         builder.Property(o => o.DeletedDate).HasColumnName("DeletedDate");
 
         builder.HasQueryFilter(o => !o.DeletedDate.HasValue);
+        
+        builder.HasIndex(b => b.Name, "UK_OperationClaims_Id").IsUnique();
 
         builder.HasMany(o => o.UserOperationClaims);
     }

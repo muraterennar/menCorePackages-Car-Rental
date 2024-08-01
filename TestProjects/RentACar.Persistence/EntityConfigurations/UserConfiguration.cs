@@ -27,11 +27,15 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(u => u.DeletedDate).HasColumnName("DeletedDate");
 
+        builder.HasIndex(b => b.Id, "UK_Users_Id").IsUnique();
+        builder.HasIndex(b => b.FirstName, "UK_Users_Name");
+        
         builder.HasQueryFilter(u => !u.DeletedDate.HasValue);
 
         builder.HasMany(u => u.UserOperationClaims);
         builder.HasMany(u => u.RefreshTokens);
         builder.HasMany(u => u.EmailAuthenticators);
         builder.HasMany(u => u.OtpAuthenticators);
+        builder.HasMany(u => u.PasswordResets);
     }
 }

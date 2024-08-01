@@ -19,7 +19,6 @@
         <None Remove="EmailAuthenticator\"/>
     </ItemGroup>
     <ItemGroup>
-        <Folder Include="Entities\"/>
         <Folder Include="Encryption\"/>
         <Folder Include="Hashing\"/>
         <Folder Include="Extensions\"/>

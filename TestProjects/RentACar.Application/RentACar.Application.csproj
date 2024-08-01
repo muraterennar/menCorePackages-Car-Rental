@@ -61,6 +61,7 @@
         <None Remove="Features\Auth\Commands\VerifyOtpAuthenticator\"/>
     </ItemGroup>
     <ItemGroup>
+        <Folder Include="Features\Auth\Commands\PasswordReset\" />
         <Folder Include="Features\Brands\"/>
         <Folder Include="Features\Brands\Commands\"/>
         <Folder Include="Features\Brands\Constants\"/>

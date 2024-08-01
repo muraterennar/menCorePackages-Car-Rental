@@ -15,5 +15,7 @@ public class EmailAuthenticatorConfiguration : IEntityTypeConfiguration<EmailAut
         builder.HasOne(e => e.User);
 
         builder.HasQueryFilter(b => !b.DeletedDate.HasValue);
+        
+        builder.HasIndex(b => b.UserId, "UK_EmailAuthenticators_UserId").IsUnique();
     }
 }

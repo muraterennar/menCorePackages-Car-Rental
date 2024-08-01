@@ -7,7 +7,7 @@ TODO Pending Tasks
 • [x] If there is a code in the OTP Authentication process, a soft delete error is received when the deletion is performed. This error will be fixed.
 • [x] In the Google Auth system, the token is being created but there is an issue displaying it on the screen that needs to be fixed.
 • [x] When adding a user via Google Auth, check the email against existing users in the system. If a matching email is found, return an error message.
-• [ ] For users added to the system through both the regular and external user registration systems, a provider will be added. This provider will be used to determine the user's login method.
+• [x] For users added to the system through both the regular and external user registration systems, a provider will be added. This provider will be used to determine the user's login method.
 • [ ] GoogleID and GoogleSecret are not being read from the Environment file. This error will be fixed.
 • [ ] Logging problem will be fixed.
 
@@ -17,6 +17,14 @@ TODO Tasks
 • [x] Implement real-time OTP Authentication code changes.
 • [x] Handle OTP Authentication initial setup by generating the first barcode and inputting the code received.
 • [x] Integrate Google Authentication System.
-• [ ] Integrate Apple Authentication System.
-• [ ] Integrate GitHub Authentication System.
 • [ ] Implement password reset functionality.
+
+TODO Password Reset Procedures
+
+•	Token generation process will be implemented.
+•	After the token is generated, an email sending process will be executed.
+•	Code verification will be done via 2FA or Email (whichever is the user’s authentication method).
+•	After the email is sent, the token verification process will be performed.
+•	If the token verification is successful, the password reset process will be executed.
+•	If the password reset process is successful, the user will be notified.
+•	If the password reset process fails, the user will be notified.

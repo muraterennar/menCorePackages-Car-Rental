@@ -15,6 +15,8 @@ public class UserLoginConfiguration : IEntityTypeConfiguration<UserLogin>
         builder.Property(u => u.ProviderKey).HasColumnName("ProviderKey").IsRequired();
         builder.Property(u => u.ProviderDisplayName).HasColumnName("ProviderDisplayName");
         builder.Property(u => u.UserId).HasColumnName("UserId").IsRequired();
+        
+        builder.HasIndex(b => b.Id, "UK_UserLogins_Name").IsUnique();
 
         builder.HasOne(m => m.User);
         

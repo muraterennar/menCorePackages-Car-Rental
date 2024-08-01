@@ -8,6 +8,9 @@
         <Authors>Murat Eren nar</Authors>
         <Description>Application Layer</Description>
         <Copyright>2024</Copyright>
+        <Version>1.0.1</Version>
+        <PackageIcon>logo_128_128.jpeg</PackageIcon>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
 
     <ItemGroup>
@@ -21,6 +24,10 @@
         <None Remove="Pipelines\Logging\" />
         <None Remove="Pipelines\Authorization\" />
         <None Remove="Dtos\" />
+        <None Update="logo_128_128.jpeg">
+          <Pack>True</Pack>
+          <PackagePath></PackagePath>
+        </None>
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Request\" />

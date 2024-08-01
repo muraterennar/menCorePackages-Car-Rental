@@ -8,7 +8,7 @@ public class UserOperationClaimConfiguration : IEntityTypeConfiguration<UserOper
 {
     public void Configure(EntityTypeBuilder<UserOperationClaim> builder)
     {
-        builder.ToTable("UserOperationCliams").HasKey(u => u.Id);
+        builder.ToTable("UserOperationClaims").HasKey(u => u.Id);
 
         builder.Property(u => u.Id).HasColumnName("Id").IsRequired();
         builder.Property(u => u.OperationClaimId).HasColumnName("OperationClaimId").IsRequired();
@@ -16,6 +16,8 @@ public class UserOperationClaimConfiguration : IEntityTypeConfiguration<UserOper
         builder.Property(u => u.CreatedDate).HasColumnName("CreatedDate").IsRequired();
         builder.Property(u => u.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(u => u.DeletedDate).HasColumnName("DeletedDate");
+        
+        builder.HasIndex(b => b.Id, "UK_UserOperationClaims_Name").IsUnique();
 
         builder.HasQueryFilter(u => !u.DeletedDate.HasValue);
 
