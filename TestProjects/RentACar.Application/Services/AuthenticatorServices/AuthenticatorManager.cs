@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using RentACar.Infrastructure.Mail.Constants;
+using RentACar.Infrastructure.Mail.GeneratedTemplates.EnableMailAuthenticator;
 
 namespace RentACar.Application.Services.AuthenticatorServices
 {
@@ -21,12 +22,12 @@ namespace RentACar.Application.Services.AuthenticatorServices
         private readonly IMailService _mailService;
         private readonly IOtpAuthenticatorHelper _otpAuthenticatorHelper;
         private readonly IOtpAuthenticatorRepository _otpAuthenticatorRepository;
-        private readonly IMailTemplateGeneratorService _mailTemplateGeneratorService;
+        private readonly IEnableEmailAuthenticatorTemplate _mailTemplateGeneratorService;
 
         public AuthenticatorManager(IEmailAuthenticatorHelper emailAuthenticatorHelper,
             IEmailAuthenticatorRepository emailAuthenticatorRepository, IMailService mailService,
             IOtpAuthenticatorHelper otpAuthenticatorHelper, IOtpAuthenticatorRepository otpAuthenticatorRepository,
-            IMailTemplateGeneratorService mailTemplateGeneratorService)
+            IEnableEmailAuthenticatorTemplate mailTemplateGeneratorService)
         {
             _emailAuthenticatorHelper = emailAuthenticatorHelper;
             _emailAuthenticatorRepository = emailAuthenticatorRepository;

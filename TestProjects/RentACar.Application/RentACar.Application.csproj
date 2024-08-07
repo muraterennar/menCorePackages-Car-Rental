@@ -61,7 +61,6 @@
         <None Remove="Features\Auth\Commands\VerifyOtpAuthenticator\"/>
     </ItemGroup>
     <ItemGroup>
-        <Folder Include="Features\Auth\Commands\PasswordReset\" />
         <Folder Include="Features\Brands\"/>
         <Folder Include="Features\Brands\Commands\"/>
         <Folder Include="Features\Brands\Constants\"/>
@@ -90,14 +89,12 @@
         <Folder Include="Features\Users\Commands\Delete\"/>
         <Folder Include="Features\Auth\"/>
         <Folder Include="Features\Auth\Profiles\"/>
-        <Folder Include="Features\Auth\Rules\"/>
         <Folder Include="Features\Auth\Commands\Register\"/>
         <Folder Include="Features\Auth\Commands\Login\"/>
         <Folder Include="Features\OperationClaims\"/>
         <Folder Include="Features\OperationClaims\Rules\"/>
         <Folder Include="Services\AuthServices\"/>
         <Folder Include="Features\Auth\Commands\RevokeToken\"/>
-        <Folder Include="Features\Auth\Commands\RefleshToken\"/>
         <Folder Include="Services\UserServices\"/>
         <Folder Include="Services\AuthenticatorServices\"/>
         <Folder Include="Features\Auth\Commands\EnableEmailAuthenticator\"/>

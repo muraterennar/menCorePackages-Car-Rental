@@ -1,5 +1,7 @@
 ﻿using System.Web;
 using MediatR;
+using MenCore.Application.Pipelines.Logging;
+using MenCore.Application.Pipelines.Transaction;
 using MenCore.Mailing;
 using MenCore.Security.Enums;
 using MimeKit;
@@ -9,10 +11,11 @@ using RentACar.Application.Services.Repositories;
 using RentACar.Application.Services.UserServices;
 using RentACar.Infrastructure.Mail;
 using RentACar.Infrastructure.Mail.Constants;
+using RentACar.Infrastructure.Mail.GeneratedTemplates.EnableMailAuthenticator;
 
 namespace RentACar.Application.Features.Auth.Commands.EnableEmailAuthenticator;
 
-public class EnableEmailAuthenticatorCommand : IRequest
+public class EnableEmailAuthenticatorCommand : IRequest, ITransactionalRequest, ILoggableRequest
 {
     public int UserId { get; set; }
     public string VerifyEmailUrlPrefix { get; set; }
@@ -25,13 +28,13 @@ public class EnableEmailAuthenticatorCommand : IRequest
         private readonly IEmailAuthenticatorRepository _emailAuthenticatorRepository;
         private readonly IMailService _mailService;
         private readonly IUserService _userService;
-        private readonly IMailTemplateGeneratorService _mailTemplateGeneratorService;
+        private readonly IEnableEmailAuthenticatorTemplate _mailTemplateGeneratorService;
 
         // Bağımlılıkları enjekte ederek EnableEmailAuthenticatorCommandHandler sınıfını oluşturur
         public EnableEmailAuthenticatorCommandHandler(IMailService mailService, IUserService userService,
             IEmailAuthenticatorRepository emailAuthenticatorRepository, AuthBusinessRules authBusinessRules,
             IAuthenticatorService authenticatorService,
-            IMailTemplateGeneratorService mailTemplateGeneratorService)
+            IEnableEmailAuthenticatorTemplate mailTemplateGeneratorService)
         {
             _mailService = mailService;
             _userService = userService;

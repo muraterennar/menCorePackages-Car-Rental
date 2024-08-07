@@ -93,6 +93,13 @@ public class AuthBusinessRules : BaseBusinessRules
         if (user != null)
             throw new BusinessException(AuthMessages.UserMailAlreadyExists);
     }
+    
+    public async Task UserEmailShouldBeExists(string email)
+    {
+        var user = await _userRepository.GetAsync(u => u.Email == email, enableTracking: false);
+        if (user == null)
+            throw new BusinessException(AuthMessages.UserDontExists);
+    }
 
     // Kullanıcının verilen parolasının eşleşip eşleşmediğini kontrol eder
     public async Task UserPasswordShouldBeMatch(int id, string password)
@@ -132,6 +139,21 @@ public class AuthBusinessRules : BaseBusinessRules
         var userWithEmail = await _userRepository.GetAsync(u => u.Email == email, enableTracking: false);
         if (userWithEmail != null)
             throw new BusinessException(AuthMessages.UserMailAlreadyExists);
-            
+    }
+    
+    public async Task IsTokenValid(string token, string email)
+    {
+        var user = await _userRepository.GetAsync(u=>u.Email == email, enableTracking: false);
+        if (user == null)
+            throw new BusinessException(AuthMessages.UserDontExists);
+        if (user.SecurityStamp != token)
+            throw new BusinessException(AuthMessages.TokenIsInvalid);
+    }
+    
+    public async Task IsSystemUser(int userId)
+    {
+        var user = await _userRepository.GetAsync(u => u.Id == userId, enableTracking: false);
+        if (user?.Provider != AuthProvider.System && user?.PasswordHash == null && user?.PasswordSalt == null)
+            throw new BusinessException(AuthMessages.UserIsNotSystemUser);
     }
 }

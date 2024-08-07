@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using RentACar.Application.Services.AuthenticatorServices;
 using RentACar.Application.Services.AuthServices;
 using RentACar.Application.Services.OperationClaimServices;
+using RentACar.Application.Services.ResetPasswordServices;
 using RentACar.Application.Services.UserLoginServices;
 using RentACar.Application.Services.UserOperationClaimServices;
 using RentACar.Application.Services.UserServices;
@@ -38,6 +39,7 @@ public static class ApplicationServiceRegistration
         services.AddScoped<IOperationClaimService, OperationClaimManager>();
         services.AddScoped<IUserOperationClaimService, UserOperationClaimManager>();
         services.AddScoped<IUserLoginService, UserLoginManager>();
+        services.AddScoped<IResetPasswordService, ResetPasswordManager>();
 
         services.AddMediatR(configuration =>
         {

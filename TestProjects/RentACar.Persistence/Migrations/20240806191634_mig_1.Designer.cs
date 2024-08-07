@@ -12,7 +12,7 @@ using RentACar.Persistence.Contexts;
 namespace RentACar.Persistence.Migrations
 {
     [DbContext(typeof(BaseDatabaseContext))]
-    [Migration("20240726130302_mig_1")]
+    [Migration("20240806191634_mig_1")]
     partial class mig_1
     {
         /// <inheritdoc />
@@ -56,7 +56,8 @@ namespace RentACar.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex(new[] { "UserId" }, "UK_EmailAuthenticators_UserId")
+                        .IsUnique();
 
                     b.ToTable("EmailAuthenticators", (string)null);
                 });
@@ -80,7 +81,7 @@ namespace RentACar.Persistence.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                        .HasColumnType("nvarchar(450)")
                         .HasColumnName("Name");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -89,7 +90,10 @@ namespace RentACar.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OperationCliams", (string)null);
+                    b.HasIndex(new[] { "Name" }, "UK_OperationClaims_Id")
+                        .IsUnique();
+
+                    b.ToTable("OperationClaims", (string)null);
                 });
 
             modelBuilder.Entity("MenCore.Security.Entities.OtpAuthenticator", b =>
@@ -130,7 +134,10 @@ namespace RentACar.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("OtpAuthentiacators", (string)null);
+                    b.HasIndex(new[] { "Id" }, "UK_OtpAuthenticators_Id")
+                        .IsUnique();
+
+                    b.ToTable("OtpAuthenticators", (string)null);
                 });
 
             modelBuilder.Entity("MenCore.Security.Entities.RefreshToken", b =>
@@ -192,6 +199,9 @@ namespace RentACar.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
+                    b.HasIndex(new[] { "Id" }, "UK_RefreshTokens_Id")
+                        .IsUnique();
+
                     b.ToTable("RefreshTokens", (string)null);
                 });
 
@@ -222,16 +232,16 @@ namespace RentACar.Persistence.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                        .HasColumnType("nvarchar(450)")
                         .HasColumnName("Email");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                        .HasColumnType("nvarchar(450)")
                         .HasColumnName("FirstName");
 
                     b.Property<string>("FullName")
-                        .HasColumnType("nvarchar(max)")
+                        .HasColumnType("nvarchar(450)")
                         .HasColumnName("FullName");
 
                     b.Property<string>("IdentityNumber")
@@ -240,7 +250,7 @@ namespace RentACar.Persistence.Migrations
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                        .HasColumnType("nvarchar(450)")
                         .HasColumnName("LastName");
 
                     b.Property<byte[]>("PasswordHash")
@@ -258,6 +268,10 @@ namespace RentACar.Persistence.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Provider");
 
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("SecurityStamp");
+
                     b.Property<bool>("Status")
                         .HasColumnType("bit")
                         .HasColumnName("Status");
@@ -267,10 +281,23 @@ namespace RentACar.Persistence.Migrations
                         .HasColumnName("UpdatedDate");
 
                     b.Property<string>("Username")
-                        .HasColumnType("nvarchar(max)")
+                        .HasColumnType("nvarchar(450)")
                         .HasColumnName("Username");
 
                     b.HasKey("Id");
+
+                    b.HasIndex(new[] { "Email" }, "UK_Users_Email");
+
+                    b.HasIndex(new[] { "FullName" }, "UK_Users_FullName");
+
+                    b.HasIndex(new[] { "Id" }, "UK_Users_Id")
+                        .IsUnique();
+
+                    b.HasIndex(new[] { "LastName" }, "UK_Users_LastName");
+
+                    b.HasIndex(new[] { "FirstName" }, "UK_Users_Name");
+
+                    b.HasIndex(new[] { "Username" }, "UK_Users_Username");
 
                     b.ToTable("Users", (string)null);
                 });
@@ -310,7 +337,10 @@ namespace RentACar.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserOperationCliams", (string)null);
+                    b.HasIndex(new[] { "Id" }, "UK_UserOperationClaims_Name")
+                        .IsUnique();
+
+                    b.ToTable("UserOperationClaims", (string)null);
                 });
 
             modelBuilder.Entity("RentACar.Domaim.Entities.Brand", b =>
@@ -387,6 +417,9 @@ namespace RentACar.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ModelId");
+
+                    b.HasIndex(new[] { "Id" }, "UK_Cars_Id")
+                        .IsUnique();
 
                     b.ToTable("Cars", (string)null);
                 });
@@ -555,6 +588,9 @@ namespace RentACar.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
+
+                    b.HasIndex(new[] { "Id" }, "UK_UserLogins_Name")
+                        .IsUnique();
 
                     b.ToTable("UserLogins", (string)null);
                 });

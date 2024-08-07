@@ -30,7 +30,6 @@ public static class PersistenceServiceRegistration
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
         services.AddScoped<IEmailAuthenticatorRepository, EmailAuthenticatorRepository>();
         services.AddScoped<IOtpAuthenticatorRepository, OtpAuthenticatorRepository>();
-        services.AddScoped<IPasswordResetRepository, PasswordResetRepository>();
 
         // --- Data Seeding -----
         // Servis sağlayıcısını oluştur

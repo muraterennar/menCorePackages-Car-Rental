@@ -13,4 +13,7 @@ public class AuthMessages
     public const string UserMailAlreadyExists = "User mail already exists.";
     public const string PasswordDontMatch = "Password don't match.";
     public const string UserAlreadyExists = "User already exists.";
+    public const string TokenIsInvalid = "Token is invalid.";
+    public const string TokenIsExpired = "Token is expired.";
+    public const string UserIsNotSystemUser = "User is not system user.";
 }

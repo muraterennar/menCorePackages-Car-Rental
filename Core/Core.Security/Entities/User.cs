@@ -93,6 +93,9 @@ public class User : Entity<int>
 
     // Kullanıcının durumu (aktif veya pasif)
     public bool Status { get; set; }
+    
+    // Kullanıcının doğrulama kodu
+    public string? SecurityStamp { get; set; }
 
     // Kullanıcının Authentication tipi
     public AuthenticatorType AuthenticatorType { get; set; }
@@ -108,7 +111,5 @@ public class User : Entity<int>
 
     // E-posta doğrulayıcıları
     public virtual ICollection<EmailAuthenticator> EmailAuthenticators { get; set; }
-
-    // Şifre sıfırlama token'ları
-    public virtual ICollection<PasswordReset> PasswordResets { get; set; }
+    
 }

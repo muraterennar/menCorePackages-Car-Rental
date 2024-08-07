@@ -137,50 +137,6 @@ namespace RentACar.Persistence.Migrations
                     b.ToTable("OtpAuthenticators", (string)null);
                 });
 
-            modelBuilder.Entity("MenCore.Security.Entities.PasswordReset", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("Id");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("CreatedDate");
-
-                    b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("DeletedDate");
-
-                    b.Property<DateTime>("ExpiryDate")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("ExpiryDate");
-
-                    b.Property<string>("Token")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("Token");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("UpdatedDate");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int")
-                        .HasColumnName("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.HasIndex(new[] { "Id" }, "UK_PasswordResets_Id")
-                        .IsUnique();
-
-                    b.ToTable("PasswordResets", (string)null);
-                });
-
             modelBuilder.Entity("MenCore.Security.Entities.RefreshToken", b =>
                 {
                     b.Property<int>("Id")
@@ -273,7 +229,7 @@ namespace RentACar.Persistence.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                        .HasColumnType("nvarchar(450)")
                         .HasColumnName("Email");
 
                     b.Property<string>("FirstName")
@@ -282,7 +238,7 @@ namespace RentACar.Persistence.Migrations
                         .HasColumnName("FirstName");
 
                     b.Property<string>("FullName")
-                        .HasColumnType("nvarchar(max)")
+                        .HasColumnType("nvarchar(450)")
                         .HasColumnName("FullName");
 
                     b.Property<string>("IdentityNumber")
@@ -291,7 +247,7 @@ namespace RentACar.Persistence.Migrations
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                        .HasColumnType("nvarchar(450)")
                         .HasColumnName("LastName");
 
                     b.Property<byte[]>("PasswordHash")
@@ -309,6 +265,10 @@ namespace RentACar.Persistence.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Provider");
 
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("SecurityStamp");
+
                     b.Property<bool>("Status")
                         .HasColumnType("bit")
                         .HasColumnName("Status");
@@ -318,15 +278,23 @@ namespace RentACar.Persistence.Migrations
                         .HasColumnName("UpdatedDate");
 
                     b.Property<string>("Username")
-                        .HasColumnType("nvarchar(max)")
+                        .HasColumnType("nvarchar(450)")
                         .HasColumnName("Username");
 
                     b.HasKey("Id");
 
+                    b.HasIndex(new[] { "Email" }, "UK_Users_Email");
+
+                    b.HasIndex(new[] { "FullName" }, "UK_Users_FullName");
+
                     b.HasIndex(new[] { "Id" }, "UK_Users_Id")
                         .IsUnique();
 
+                    b.HasIndex(new[] { "LastName" }, "UK_Users_LastName");
+
                     b.HasIndex(new[] { "FirstName" }, "UK_Users_Name");
+
+                    b.HasIndex(new[] { "Username" }, "UK_Users_Username");
 
                     b.ToTable("Users", (string)null);
                 });
@@ -445,7 +413,9 @@ namespace RentACar.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex(new[] { "ModelId" }, "UK_Cars_Id")
+                    b.HasIndex("ModelId");
+
+                    b.HasIndex(new[] { "Id" }, "UK_Cars_Id")
                         .IsUnique();
 
                     b.ToTable("Cars", (string)null);
@@ -644,17 +614,6 @@ namespace RentACar.Persistence.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MenCore.Security.Entities.PasswordReset", b =>
-                {
-                    b.HasOne("MenCore.Security.Entities.User", "User")
-                        .WithMany("PasswordResets")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("MenCore.Security.Entities.RefreshToken", b =>
                 {
                     b.HasOne("MenCore.Security.Entities.User", "User")
@@ -744,8 +703,6 @@ namespace RentACar.Persistence.Migrations
                     b.Navigation("EmailAuthenticators");
 
                     b.Navigation("OtpAuthenticators");
-
-                    b.Navigation("PasswordResets");
 
                     b.Navigation("RefreshTokens");
 

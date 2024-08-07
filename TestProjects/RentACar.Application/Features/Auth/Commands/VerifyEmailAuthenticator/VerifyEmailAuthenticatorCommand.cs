@@ -16,16 +16,13 @@ public class VerifyEmailAuthenticatorCommand : IRequest<VerifyEmailAuthenticator
     {
         private readonly AuthBusinessRules _authBusinessRules;
         private readonly IEmailAuthenticatorRepository _emailAuthenticatorRepository;
-        private readonly IMailTemplateGeneratorService _mailTemplateGeneratorService;
 
         // Bağımlılıkları enjekte ederek VerifyEmailAuthenticatorCommandHandler sınıfını oluşturur
         public VerifyEmailAuthenticatorCommandHandler(AuthBusinessRules authBusinessRules,
-            IEmailAuthenticatorRepository emailAuthenticatorRepository,
-            IMailTemplateGeneratorService mailTemplateGeneratorService)
+            IEmailAuthenticatorRepository emailAuthenticatorRepository)
         {
             _authBusinessRules = authBusinessRules;
             _emailAuthenticatorRepository = emailAuthenticatorRepository;
-            _mailTemplateGeneratorService = mailTemplateGeneratorService;
         }
 
         // E-posta doğrulayıcıyı doğrular

@@ -3,7 +3,7 @@ using RentACar.Infrastructure.Mail.Constants;
 
 namespace RentACar.Infrastructure.Mail.GeneratedTemplates.EnableMailAuthenticator;
 
-public class EnableEmailAuthenticatorTemplate : IMailTemplateGeneratorService
+public class EnableEmailAuthenticatorTemplate : IEnableEmailAuthenticatorTemplate
 {
     private readonly MailTemplateSettings _mailTemplateSettings;
 
@@ -42,7 +42,7 @@ public class EnableEmailAuthenticatorTemplate : IMailTemplateGeneratorService
         MailTemplateSettings mailTemplateSettings)
     {
         string htmlContent = mailTemplate;
-        
+
         htmlContent = htmlContent.Replace("{{mail_title}}", mailTemplateSettings.Title);
         htmlContent = htmlContent.Replace("{{mail_logo_link}}", mailTemplateSettings.MailLogo);
 

@@ -22,6 +22,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.BirthYear).HasColumnName("BirthYear");
         builder.Property(u => u.Status).HasColumnName("Status").IsRequired();
         builder.Property(u => u.Provider).HasColumnName("Provider");
+        builder.Property(u=>u.SecurityStamp).HasColumnName("SecurityStamp");
         builder.Property(u => u.AuthenticatorType).HasColumnName("AuthenticatorType");
         builder.Property(u => u.CreatedDate).HasColumnName("CreatedDate").IsRequired();
         builder.Property(u => u.UpdatedDate).HasColumnName("UpdatedDate");
@@ -29,6 +30,10 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.HasIndex(b => b.Id, "UK_Users_Id").IsUnique();
         builder.HasIndex(b => b.FirstName, "UK_Users_Name");
+        builder.HasIndex(b => b.LastName, "UK_Users_LastName");
+        builder.HasIndex(b => b.FullName, "UK_Users_FullName");
+        builder.HasIndex(b => b.Username, "UK_Users_Username");
+        builder.HasIndex(b => b.Email, "UK_Users_Email");
         
         builder.HasQueryFilter(u => !u.DeletedDate.HasValue);
 
@@ -36,6 +41,5 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasMany(u => u.RefreshTokens);
         builder.HasMany(u => u.EmailAuthenticators);
         builder.HasMany(u => u.OtpAuthenticators);
-        builder.HasMany(u => u.PasswordResets);
     }
 }

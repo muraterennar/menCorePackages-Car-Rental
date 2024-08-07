@@ -27,7 +27,6 @@ public class BaseDatabaseContext : DbContext
     public DbSet<RefreshToken> RefreshTokens { get; set; }
     public DbSet<OtpAuthenticator> OtpAuthenticators { get; set; }
     public DbSet<EmailAuthenticator> EmailAuthenticators { get; set; }
-    public DbSet<PasswordReset> PasswordResets { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

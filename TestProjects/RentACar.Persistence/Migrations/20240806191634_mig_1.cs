@@ -42,19 +42,19 @@ namespace RentACar.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OperationCliams",
+                name: "OperationClaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OperationCliams", x => x.Id);
+                    table.PrimaryKey("PK_OperationClaims", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -78,18 +78,19 @@ namespace RentACar.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FirstName = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FullName = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Username = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     IdentityNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BirthYear = table.Column<short>(type: "smallint", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Provider = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PhotoUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     PasswordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     Status = table.Column<bool>(type: "bit", nullable: false),
+                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AuthenticatorType = table.Column<int>(type: "int", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -163,7 +164,7 @@ namespace RentACar.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OtpAuthentiacators",
+                name: "OtpAuthenticators",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -177,9 +178,9 @@ namespace RentACar.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OtpAuthentiacators", x => x.Id);
+                    table.PrimaryKey("PK_OtpAuthenticators", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OtpAuthentiacators_Users_UserId",
+                        name: "FK_OtpAuthenticators_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -241,7 +242,7 @@ namespace RentACar.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserOperationCliams",
+                name: "UserOperationClaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -254,15 +255,15 @@ namespace RentACar.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserOperationCliams", x => x.Id);
+                    table.PrimaryKey("PK_UserOperationClaims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserOperationCliams_OperationCliams_OperationClaimId",
+                        name: "FK_UserOperationClaims_OperationClaims_OperationClaimId",
                         column: x => x.OperationClaimId,
-                        principalTable: "OperationCliams",
+                        principalTable: "OperationClaims",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserOperationCliams_Users_UserId",
+                        name: "FK_UserOperationClaims_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -306,9 +307,16 @@ namespace RentACar.Persistence.Migrations
                 column: "ModelId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EmailAuthenticators_UserId",
+                name: "UK_Cars_Id",
+                table: "Cars",
+                column: "Id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "UK_EmailAuthenticators_UserId",
                 table: "EmailAuthenticators",
-                column: "UserId");
+                column: "UserId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "UK_Fuels_Name",
@@ -338,14 +346,32 @@ namespace RentACar.Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_OtpAuthentiacators_UserId",
-                table: "OtpAuthentiacators",
+                name: "UK_OperationClaims_Id",
+                table: "OperationClaims",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OtpAuthenticators_UserId",
+                table: "OtpAuthenticators",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "UK_OtpAuthenticators_Id",
+                table: "OtpAuthenticators",
+                column: "Id",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_RefreshTokens_UserId",
                 table: "RefreshTokens",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "UK_RefreshTokens_Id",
+                table: "RefreshTokens",
+                column: "Id",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "UK_Transmissions_Name",
@@ -359,14 +385,57 @@ namespace RentACar.Persistence.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserOperationCliams_OperationClaimId",
-                table: "UserOperationCliams",
+                name: "UK_UserLogins_Name",
+                table: "UserLogins",
+                column: "Id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserOperationClaims_OperationClaimId",
+                table: "UserOperationClaims",
                 column: "OperationClaimId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserOperationCliams_UserId",
-                table: "UserOperationCliams",
+                name: "IX_UserOperationClaims_UserId",
+                table: "UserOperationClaims",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "UK_UserOperationClaims_Name",
+                table: "UserOperationClaims",
+                column: "Id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "UK_Users_Email",
+                table: "Users",
+                column: "Email");
+
+            migrationBuilder.CreateIndex(
+                name: "UK_Users_FullName",
+                table: "Users",
+                column: "FullName");
+
+            migrationBuilder.CreateIndex(
+                name: "UK_Users_Id",
+                table: "Users",
+                column: "Id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "UK_Users_LastName",
+                table: "Users",
+                column: "LastName");
+
+            migrationBuilder.CreateIndex(
+                name: "UK_Users_Name",
+                table: "Users",
+                column: "FirstName");
+
+            migrationBuilder.CreateIndex(
+                name: "UK_Users_Username",
+                table: "Users",
+                column: "Username");
         }
 
         /// <inheritdoc />
@@ -379,7 +448,7 @@ namespace RentACar.Persistence.Migrations
                 name: "EmailAuthenticators");
 
             migrationBuilder.DropTable(
-                name: "OtpAuthentiacators");
+                name: "OtpAuthenticators");
 
             migrationBuilder.DropTable(
                 name: "RefreshTokens");
@@ -388,13 +457,13 @@ namespace RentACar.Persistence.Migrations
                 name: "UserLogins");
 
             migrationBuilder.DropTable(
-                name: "UserOperationCliams");
+                name: "UserOperationClaims");
 
             migrationBuilder.DropTable(
                 name: "Models");
 
             migrationBuilder.DropTable(
-                name: "OperationCliams");
+                name: "OperationClaims");
 
             migrationBuilder.DropTable(
                 name: "Users");

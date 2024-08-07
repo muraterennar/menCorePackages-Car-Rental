@@ -6,11 +6,14 @@ using RentACar.Application.Features.Auth.Commands.EnableEmailAuthenticator;
 using RentACar.Application.Features.Auth.Commands.EnableOtpAuthenticator;
 using RentACar.Application.Features.Auth.Commands.GoogleLogin;
 using RentACar.Application.Features.Auth.Commands.Login;
+using RentACar.Application.Features.Auth.Commands.PasswordReset;
 using RentACar.Application.Features.Auth.Commands.RefleshToken;
 using RentACar.Application.Features.Auth.Commands.Register;
 using RentACar.Application.Features.Auth.Commands.RevokeToken;
+using RentACar.Application.Features.Auth.Commands.SendPasswordResetLink;
 using RentACar.Application.Features.Auth.Commands.VerifyEmailAuthenticator;
 using RentACar.Application.Features.Auth.Commands.VerifyOtpAuthenticator;
+using RentACar.Application.Features.Auth.Commands.VerifyPasswordReset;
 
 namespace RentACar.WebAPI.Controllers;
 
@@ -128,6 +131,30 @@ public class AuthController : BaseController
 
         VerifyOtpAuthenticatorResponse message = await Mediator.Send(verifyEmailAuthenticatorCommand);
         return Ok(message);
+    }
+    
+    [HttpPost("SendPasswordResetLink")]
+    public async Task<IActionResult> SendPasswordResetLink([FromBody] SendPasswordResetLinkCommand userForPasswordResetDto)
+    {
+        SendPasswordResetLinkCommand sendPasswordResetLinkCommand = new() { Email = userForPasswordResetDto.Email };
+        SendPasswordResetLinkResponse response = await Mediator.Send(sendPasswordResetLinkCommand);
+        return Ok(response);
+    }
+    
+    [HttpPost("VerifyPasswordReset")]
+    public async Task<IActionResult> VerifyPasswordReset([FromBody] VerifyPasswordResetCommand verifyPasswordReset)
+    {
+        VerifyPasswordResetCommand verifyPasswordResetCommand = new() { UserId = verifyPasswordReset.UserId, Token = verifyPasswordReset.Token };
+        VerifyPasswordResetResponse response = await Mediator.Send(verifyPasswordResetCommand);
+        return Ok(response);
+    }
+    
+    [HttpPost("PasswordReset")]
+    public async Task<IActionResult> PasswordReset([FromBody] PasswordResetCommand passwordReset)
+    {
+        PasswordResetCommand passwordResetCommand = new() { UserId = passwordReset.UserId, Token = passwordReset.Token, NewPassword = passwordReset.NewPassword };
+        PasswordResetResponse response = await Mediator.Send(passwordResetCommand);
+        return Ok(response);
     }
 
     private string? getRefreshTokenFromCookies()
